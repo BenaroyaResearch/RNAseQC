@@ -7,14 +7,14 @@
 \code{
 plot_metrics(metrics, metrics.libID_col="lib.id",
              design=NULL, design.libID_col="lib.id",
-             threshold.percent_aligned=0.8,
-             threshold.total_reads=5.0,
-             threshold.median_cv=1.0,
+             threshold.perc_aligned=0.8, column.perc_aligned="mapped_reads_w_dups",
+             threshold.total_reads=5.0, column.total_reads="fastq_total_reads",
+             threshold.median_cv_coverage=1.0, column.median_cv_coverage="median_cv_coverage",
              by_var=NULL, by_var_levels=NULL, by_var_lab=NULL,
              my_cols=c("blue","red"), na_col="grey50",
+             point_names="thresholded",
              point_size=1, plot_outlier_lines=TRUE,
-             file_prefix=NULL, plotdims=c(9,9)
-             )}
+             file_prefix=NULL, plotdims=c(9,9))}
 }
 \arguments{
 \item{metrics}{matrix or data frame containing values of metrics. Should have metrics in columns and libraries in rows.}
@@ -25,11 +25,15 @@ plot_metrics(metrics, metrics.libID_col="lib.id",
 
 \item{design.libID_col}{name or number of the column in \code{design} containing the library identifiers.}
 
-\item{threshold.percent_aligned}{numeric, the threshold for percent of reads aligned. Libraries with values below this threshold are flagged. Defaults to 0.8.}
+\item{threshold.perc_aligned}{numeric, the threshold for percent of reads aligned. Libraries with values below this threshold are flagged. Defaults to 0.8. Set to NULL to remove threshold.}
 
-\item{threshold.total_reads}{numeric, the threshold for total, reads, in millions. Libraries with values below this threshold are flagged. Defaults to 5.}
+\item{column.perc_aligned}{the name or number of the column in \code{metrics} containing the percent of reads aligned. Defaults to "mapped_reads_w_dups".}
 
-\item{threshold.median_cv}{numeric, the threshold for median CV coverage. Libraries with values above this threshold are flagged. Defaults to 1.}
+\item{threshold.total_reads}{numeric, the threshold for total reads, in millions. Libraries with values below this threshold are flagged. Defaults to 5. Set to NULL to remove threshold.}
+
+\item{column.total_reads}{the name or number of the column in \code{metrics} containing the total reads, assumed to be in millions of reads. Defaults to columnn.total_reads.}
+
+\item{threshold.median_cv_coverage}{numeric, the threshold for median CV coverage. Libraries with values above this threshold are flagged. Defaults to 1. Set to NULL to remove threshold.}
 
 \item{by_var}{(optional) character string or integer identifying the column in design to color points by. If not provided, points are plotted in black.}
 
@@ -41,6 +45,8 @@ plot_metrics(metrics, metrics.libID_col="lib.id",
 
 \item{na_col}{color to use for NA values of \code{by_var}.}
 
+\item{point_names}{the points to label in the plot. Defaults to "thresholded", which selects the points outside the thresholds. Can be a character vector of library IDs to plot. Set to NULL to remove all point labels.}
+
 \item{point_size}{numeric, the size of the points to be plotted. Defaults to 1.}
 
 \item{plot_outlier_lines}{logical, whether to plot the lines where points would be considered outliers, based on the Q1-1.5*IQR / Q3+1.5*IQR threshold. Defaults to TRUE.}
@@ -48,6 +54,8 @@ plot_metrics(metrics, metrics.libID_col="lib.id",
 \item{file_prefix}{a character string. If provided, the function outputs pdfs of the plots, named "{file_prefix}_{plot_name}.pdf". If not provided, the function prints to a plotting window.}
 
 \item{plotdims}{a numeric vector, the size (in inches) of the plotting object. Either the size of the pdfs, or the size of the plotting windows.}
+
+\item{column.median_cv}{the name or number of the column in \code{metrics} containing the median_CV_coverage. Defaults to column.median_cv_coverage.}
 }
 \description{
 This function generates plots of several common metrics (total reads, % reads aligned, median CV
