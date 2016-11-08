@@ -64,10 +64,11 @@ plot_metrics <-
     if (!((column.median_cv_coverage %in% colnames(metrics)) |
           (column.median_cv_coverage %in% (1:ncol(metrics)))))
       stop(paste0("Column '", column.median_cv_coverage, "' specified by column.median_cv_coverage not found in metrics object."))
-    if (!is.null(design) &
-        !((design.libID_col %in% colnames(design)) | (design.libID_col %in% (1:ncol(design)))))
-      stop("Column '", design.libID_col, "' specified by design.libID_col not found in design object.")
-    
+    if (!is.null(design)) {
+      if (!((design.libID_col %in% colnames(design)) | (design.libID_col %in% (1:ncol(design)))))
+        stop("Column '", design.libID_col, "' specified by design.libID_col not found in design object.")
+    }
+        
     metrics[,column.total_reads] <- metrics[,column.total_reads] / 1e6
     
     if (!is.null(by_var)) {plot_by_var <- TRUE
