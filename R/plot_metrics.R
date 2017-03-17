@@ -180,9 +180,9 @@ plot_metrics <-
     if (!is.null(file_prefix)) {
       pdf(file=paste(file_prefix, "perc_aligned_vs_total_reads", file_suffix, sep="."),
           w=plotdims[1], h=plotdims[2])
+      on.exit(dev.off(), add=TRUE) # close plotting device on exit
     } else quartz(w=plotdims[1], h=plotdims[2])
     print(perc_aligned_vs_total_reads)
-    if (!is.null(file_prefix)) dev.off()
     
     
     ## Plot median_cv_coverage vs fastq_total_reads
@@ -251,9 +251,9 @@ plot_metrics <-
     if (!is.null(file_prefix)) {
       pdf(file=paste(file_prefix, "median_cv_coverage_vs_total_reads", file_suffix, sep="."),
           w=plotdims[1], h=plotdims[2])
+      on.exit(dev.off(), add=TRUE) # close plotting device on exit
     } else quartz(w=plotdims[1], h=plotdims[2])
     print(median_cv_coverage_vs_total_reads)
-    if (!is.null(file_prefix)) dev.off()
     
     
     ## Plot percent_aligned vs median_cv_coverage
@@ -323,7 +323,7 @@ plot_metrics <-
     if (!is.null(file_prefix)) {
       pdf(file=paste(file_prefix, "perc_aligned_vs_median_cv_coverage", file_suffix, sep="."),
           w=plotdims[1], h=plotdims[2])
+      on.exit(dev.off(), add=TRUE) # close plotting device on exit
     } else quartz(w=plotdims[1], h=plotdims[2])
     print(perc_aligned_vs_median_cv_coverage)
-    if (!is.null(file_prefix)) dev.off()
   }

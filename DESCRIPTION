@@ -3,12 +3,16 @@ Title: Helper functions for conducting quality control of RNAseq data.
 Version: 0.0.0.9000
 Authors@R: person("Matthew", "Dufort", email = "matt.dufort@gmail.com", role = c("aut", "cre"))
 Description: This package includes functions to assist with quality control of
-    RNAseq data. It includes functions for running PCA
+    RNAseq data. It includes functions for running PCA, plotting PCA output,
+    plotting quality metrics, estimating and plotting read saturation, inferring
+    the sex of a sample source from X- and Y-chromosome reads, determining and
+    plotting correlations between clinical/quality variables and PCs.
 Imports:
     reshape2,
     ggplot2,
     biomaRt,
-    dplyr
+    dplyr,
+    ICC
 Depends:
     R (>= 3.2.2)
 Suggests:
