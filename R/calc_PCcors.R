@@ -42,7 +42,7 @@ calc_PCcors <-
     }
     
     ## check that PCs specified are in PCA_result
-    if (any(PCs %nin% 1:ncol(PCA_result)))
+    if (!any(PCs %in% 1:ncol(PCA_result)))
       stop("Some specified PC axes were not found in PCA_result.")
     
     ### drop columns from annotation object
@@ -88,8 +88,9 @@ calc_PCcors <-
             data.frame(
               annotation[,i], PCA_result[,j])
           colnames(data.tmp) <- c(i,j)
-          PCcors[j,i] <-
-            ICC::ICCbare(data=data.tmp, x=i, y=j)
+          capture.output(suppressWarnings(  # suppress output from ICCbare
+            PCcors[j,i] <-
+              ICC::ICCbare(data=data.tmp, x=i, y=j)))
         }
       }
     }

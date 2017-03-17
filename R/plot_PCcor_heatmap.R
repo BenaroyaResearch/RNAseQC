@@ -1,7 +1,7 @@
 #' Plot a heatmap of correlations between PCs and other sample variables
 #'
 #' This is a wrapper for \code{heatmap.2}, designed to make plotting of PC correlations more
-#' automated. It also provides a nicer default color palette than the heatmap.2 default.
+#' automated. It also provides a nicer default color palette than the \code{heatmap.2} default.
 #' 
 #' @param PCcor_result a numeric matrix or data.frame, generally the result of \code{calc_PCcors}. Should have annotation variables as columns and PCs as rows.
 #' @param filename a character string. If provided, the function outputs a pdf of the plot, named "{filename}.pdf". If not provided, the function prints to a plotting window.
