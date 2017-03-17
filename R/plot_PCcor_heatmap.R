@@ -12,18 +12,18 @@
 #' @param ... (optional) additional arguments passed to \code{heatmap.2}.
 #' @export
 #' @usage \code{
-#' plot_PCcor_heatmap(PCcor_result, filename=NULL, plotdims=c(9,9),
-#'                    my_heatmap_cols=colorRampPalette(rev(brewer.pal(9, "RdBu")))(100),
-#'                    key=TRUE, keysize=0.8, density.info="none", trace="none",
-#'                    row_dendro=FALSE, col_dendro=FALSE,
-#'                    ...)}
+#' plot_PCcor_heatmap(
+#'      PCcor_result, filename=NULL, plotdims=c(9,9),
+#'      my_heatmap_cols=colorRampPalette(rev(brewer.pal(9, "RdBu")))(100),
+#'      key=TRUE, keysize=0.8, density.info="none", trace="none",
+#'      row_dendro=FALSE, col_dendro=FALSE,
+#'      ...)}
 plot_PCcor_heatmap <-
-  function(
-    PCcor_result, filename=NULL, plotdims=c(9,9),
-    my_heatmap_cols=colorRampPalette(rev(brewer.pal(9, "RdBu")))(100),
-    key=TRUE, keysize=0.8, density.info="none", trace="none",
-    row_dendro=FALSE, col_dendro=FALSE,
-    ...) {
+  function(PCcor_result, filename=NULL, plotdims=c(9,9),
+           my_heatmap_cols=colorRampPalette(rev(brewer.pal(9, "RdBu")))(100),
+           key=TRUE, keysize=0.8, density.info="none", trace="none",
+           row_dendro=FALSE, col_dendro=FALSE,
+           ...) {
     
     # open plotting device
     if (!is.null(filename)) {

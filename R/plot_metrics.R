@@ -30,28 +30,28 @@
 #' @import ggplot2
 #' @export
 #' @usage \code{
-#' plot_metrics(metrics, metrics.libID_col="lib.id",
-#'              design=NULL, design.libID_col="lib.id",
-#'              threshold.perc_aligned=0.8, column.perc_aligned="mapped_reads_w_dups",
-#'              threshold.total_reads=5.0, column.total_reads="fastq_total_reads",
-#'              threshold.median_cv_coverage=1.0, column.median_cv_coverage="median_cv_coverage",
-#'              by_var=NULL, by_var_levels=NULL, by_var_lab=NULL,
-#'              my_cols=c("blue","red"), na_col="grey50",
-#'              point_names="thresholded",
-#'              point_size=1, plot_outlier_lines=TRUE,
-#'              file_prefix=NULL, plotdims=c(9,9))}
+#' plot_metrics(
+#'      metrics, metrics.libID_col="lib.id",
+#'      design=NULL, design.libID_col="lib.id",
+#'      threshold.perc_aligned=0.8, column.perc_aligned="mapped_reads_w_dups",
+#'      threshold.total_reads=5.0, column.total_reads="fastq_total_reads",
+#'      threshold.median_cv_coverage=1.0, column.median_cv_coverage="median_cv_coverage",
+#'      by_var=NULL, by_var_levels=NULL, by_var_lab=NULL,
+#'      my_cols=c("blue","red"), na_col="grey50",
+#'      point_names="thresholded",
+#'      point_size=1, plot_outlier_lines=TRUE,
+#'      file_prefix=NULL, plotdims=c(9,9))}
 plot_metrics <-
-  function(
-    metrics, metrics.libID_col="lib.id",
-    design=NULL, design.libID_col="lib.id",
-    threshold.perc_aligned=0.8, column.perc_aligned="mapped_reads_w_dups",
-    threshold.total_reads=5.0, column.total_reads="fastq_total_reads",
-    threshold.median_cv_coverage=1.0, column.median_cv_coverage="median_cv_coverage",
-    by_var=NULL, by_var_levels=NULL, by_var_lab=NULL,
-    my_cols=c("blue","red"), na_col="grey50",
-    point_names="thresholded",
-    point_size=1, plot_outlier_lines=TRUE,
-    file_prefix=NULL, plotdims=c(9,9)) {
+  function(metrics, metrics.libID_col="lib.id",
+           design=NULL, design.libID_col="lib.id",
+           threshold.perc_aligned=0.8, column.perc_aligned="mapped_reads_w_dups",
+           threshold.total_reads=5.0, column.total_reads="fastq_total_reads",
+           threshold.median_cv_coverage=1.0, column.median_cv_coverage="median_cv_coverage",
+           by_var=NULL, by_var_levels=NULL, by_var_lab=NULL,
+           my_cols=c("blue","red"), na_col="grey50",
+           point_names="thresholded",
+           point_size=1, plot_outlier_lines=TRUE,
+           file_prefix=NULL, plotdims=c(9,9)) {
     if (!((metrics.libID_col %in% colnames(metrics)) |
           (metrics.libID_col %in% (1:ncol(metrics)))))
       stop(paste0("Column '", metrics.libID_col, "' specified by metrics.libID_col not found in metrics object."))
@@ -68,7 +68,7 @@ plot_metrics <-
       if (!((design.libID_col %in% colnames(design)) | (design.libID_col %in% (1:ncol(design)))))
         stop("Column '", design.libID_col, "' specified by design.libID_col not found in design object.")
     }
-        
+    
     metrics[,column.total_reads] <- metrics[,column.total_reads] / 1e6
     
     if (!is.null(by_var)) {plot_by_var <- TRUE

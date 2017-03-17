@@ -12,39 +12,41 @@
 #' @import dplyr
 #' @export
 #' @usage \code{
-#' plot_saturation_curve(saturation,
-#'                       plot_points=TRUE,
-#'                       plot_lines=TRUE,
-#'                       plot_terminal_points=TRUE,
-#'                       plot_smooth=FALSE,
-#'                       color_points_by_var=NULL, my_point_cols=NULL
-#'                       color_lines_by_var=NULL, my_line_cols=NULL
-#'                       color_terminal_points_by_var=NULL, my_terminal_point_cols=NULL
-#'                       color_smooths_by_var=NULL, my_smooth_cols=NULL)}
-plot_saturation_curve <- function(saturation,
-                                  plot_points=TRUE,
-                                  plot_lines=TRUE,
-                                  plot_terminal_points=TRUE,
-                                  plot_smooth=FALSE) {
-  satplot <- ggplot(data=saturation, mapping=aes(x=depth, y=sat, group=sample, color=sample)) +
-    labs(x="Reads", y="Genes above threshold") +
-    guides(color=FALSE)
-  
-  if (plot_points) satplot <- satplot + geom_point()
-  if (plot_lines) satplot <- satplot + geom_line()
-  if (plot_smooth) satplot <- satplot + geom_smooth(se=FALSE)
-  
-  if (plot_terminal_points) {
-    saturation.maxdepth <- saturation %>%
-      filter(!is.na(sat)) %>%
-      group_by(sample) %>%
-      summarise(max.depth=max(depth))
-    saturation.terminal <- saturation[sapply(1:nrow(saturation.maxdepth), function(x) {
-      which((saturation$sample==saturation.maxdepth$sample[x]) &
-              (saturation$depth == saturation.maxdepth$max.depth[x]))
-      }),]
-    satplot <- satplot + geom_point(data=saturation.terminal, mapping=aes(x=depth, y=sat),
-                                    color="black")
+#' plot_saturation_curve(
+#'      saturation,
+#'      plot_points=TRUE,
+#'      plot_lines=TRUE,
+#'      plot_terminal_points=TRUE,
+#'      plot_smooth=FALSE,
+#'      color_points_by_var=NULL, my_point_cols=NULL
+#'      color_lines_by_var=NULL, my_line_cols=NULL
+#'      color_terminal_points_by_var=NULL, my_terminal_point_cols=NULL
+#'      color_smooths_by_var=NULL, my_smooth_cols=NULL)}
+plot_saturation_curve <-
+  function(saturation,
+           plot_points=TRUE,
+           plot_lines=TRUE,
+           plot_terminal_points=TRUE,
+           plot_smooth=FALSE) {
+    satplot <- ggplot(data=saturation, mapping=aes(x=depth, y=sat, group=sample, color=sample)) +
+      labs(x="Reads", y="Genes above threshold") +
+      guides(color=FALSE)
+    
+    if (plot_points) satplot <- satplot + geom_point()
+    if (plot_lines) satplot <- satplot + geom_line()
+    if (plot_smooth) satplot <- satplot + geom_smooth(se=FALSE)
+    
+    if (plot_terminal_points) {
+      saturation.maxdepth <- saturation %>%
+        filter(!is.na(sat)) %>%
+        group_by(sample) %>%
+        summarise(max.depth=max(depth))
+      saturation.terminal <- saturation[sapply(1:nrow(saturation.maxdepth), function(x) {
+        which((saturation$sample==saturation.maxdepth$sample[x]) &
+                (saturation$depth == saturation.maxdepth$max.depth[x]))}),]
+      satplot <- satplot +
+        geom_point(data=saturation.terminal, mapping=aes(x=depth, y=sat),
+                   color="black")
+    }
+    print(satplot)
   }
-  print(satplot)
-}

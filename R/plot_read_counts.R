@@ -12,31 +12,33 @@
 #' @param id_col numeric or character, the number or name of the column containing the library identifiers. Used to plot identifiers of low-count libraries.
 #' @export
 #' @usage \code{
-#' plot_read_counts(metrics,
-#'                  file_prefix=NULL, plotdims=c(9,6),
-#'                  threshold_line=5, n_lowcount=20,
-#'                  id_col="lib.id"
-#'                  )}
-plot_read_counts <- function(metrics,
-                             file_prefix=NULL, plotdims=c(9,6),
-                             threshold_line=5, n_lowcount=20,
-                             id_col="lib.id") {
-  metrics <- arrange(metrics, fastq_total_reads)
-  
-  if (!is.null(file_prefix)) {
-    pdf(file=paste0(file_prefix, "_read_count_all_libs.pdf"), w=plotdims[1], h=plotdims[2])
-  } else quartz(w=plotdims[1], h=plotdims[2])
-  barplot(metrics[,"fastq_total_reads"]/10^6, main="Read count for all libraries",
-          xlab="libraries", ylab = "total reads (in millions)")
-  abline(h=threshold_line)
-  if (!is.null(file_prefix)) dev.off()
-  
-  if (!is.null(file_prefix)) {
-    pdf(file=paste0(file_prefix, "_read_count_lowcount_libs.pdf"), w=plotdims[1], h=plotdims[2])
-  } else quartz(w=plotdims[1], h=plotdims[2])
-  barplot(metrics[1:n_lowcount,"fastq_total_reads"]/10^6, main="Read count for low-count libraries",
-          names.arg = metrics[1:n_lowcount,id_col],
-          ylab = "total reads (in millions)",las=2)
-  abline(h=threshold_line)
-  if (!is.null(file_prefix)) dev.off()
-}
+#' plot_read_counts(
+#'      metrics,
+#'      file_prefix=NULL, plotdims=c(9,6),
+#'      threshold_line=5, n_lowcount=20,
+#'      id_col="lib.id"
+#'      )}
+plot_read_counts <-
+  function(metrics,
+           file_prefix=NULL, plotdims=c(9,6),
+           threshold_line=5, n_lowcount=20,
+           id_col="lib.id") {
+    metrics <- arrange(metrics, fastq_total_reads)
+    
+    if (!is.null(file_prefix)) {
+      pdf(file=paste0(file_prefix, "_read_count_all_libs.pdf"), w=plotdims[1], h=plotdims[2])
+      on.exit(dev.off(), add=TRUE) # close plotting device on exit
+    } else quartz(w=plotdims[1], h=plotdims[2])
+    barplot(metrics[,"fastq_total_reads"]/10^6, main="Read count for all libraries",
+            xlab="libraries", ylab = "total reads (in millions)")
+    abline(h=threshold_line)
+    
+    if (!is.null(file_prefix)) {
+      pdf(file=paste0(file_prefix, "_read_count_lowcount_libs.pdf"), w=plotdims[1], h=plotdims[2])
+      on.exit(dev.off(), add=TRUE) # close plotting device on exit
+    } else quartz(w=plotdims[1], h=plotdims[2])
+    barplot(metrics[1:n_lowcount,"fastq_total_reads"]/10^6, main="Read count for low-count libraries",
+            names.arg = metrics[1:n_lowcount,id_col],
+            ylab = "total reads (in millions)",las=2)
+    abline(h=threshold_line)
+  }

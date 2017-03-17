@@ -5,11 +5,12 @@
 \title{Plot a heatmap of correlations between PCs and other sample variables}
 \usage{
 \code{
-plot_PCcor_heatmap(PCcor_result, filename=NULL, plotdims=c(9,9),
-                   my_heatmap_cols=colorRampPalette(rev(brewer.pal(9, "RdBu")))(100),
-                   key=TRUE, keysize=0.8, density.info="none", trace="none",
-                   row_dendro=FALSE, col_dendro=FALSE,
-                   ...)}
+plot_PCcor_heatmap(
+     PCcor_result, filename=NULL, plotdims=c(9,9),
+     my_heatmap_cols=colorRampPalette(rev(brewer.pal(9, "RdBu")))(100),
+     key=TRUE, keysize=0.8, density.info="none", trace="none",
+     row_dendro=FALSE, col_dendro=FALSE,
+     ...)}
 }
 \arguments{
 \item{PCcor_result}{a numeric matrix or data.frame, generally the result of \code{calc_PCcors}. Should have annotation variables as columns and PCs as rows.}

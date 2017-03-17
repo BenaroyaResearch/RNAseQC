@@ -9,7 +9,8 @@
 #' @export
 #' @usage \code{plot_PC_loadings(rotation_matrix)}
 plot_PC_loadings <- function(rotation_matrix) {
-  rotation_matrix <- reshape2::melt(rotation_matrix, varnames=c("gene", "PC"), value.name="loading")
+  rotation_matrix <-
+    reshape2::melt(rotation_matrix, varnames=c("gene", "PC"), value.name="loading")
   ggplot(data=rotation_matrix, mapping=aes(x=PC, y=loading, group=gene, color=gene)) +
     geom_line() + guides(color=FALSE)
 }

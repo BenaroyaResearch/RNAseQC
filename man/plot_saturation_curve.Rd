@@ -5,15 +5,16 @@
 \title{Plot saturation curves of genes based on reads object}
 \usage{
 \code{
-plot_saturation_curve(saturation,
-                      plot_points=TRUE,
-                      plot_lines=TRUE,
-                      plot_terminal_points=TRUE,
-                      plot_smooth=FALSE,
-                      color_points_by_var=NULL, my_point_cols=NULL
-                      color_lines_by_var=NULL, my_line_cols=NULL
-                      color_terminal_points_by_var=NULL, my_terminal_point_cols=NULL
-                      color_smooths_by_var=NULL, my_smooth_cols=NULL)}
+plot_saturation_curve(
+     saturation,
+     plot_points=TRUE,
+     plot_lines=TRUE,
+     plot_terminal_points=TRUE,
+     plot_smooth=FALSE,
+     color_points_by_var=NULL, my_point_cols=NULL
+     color_lines_by_var=NULL, my_line_cols=NULL
+     color_terminal_points_by_var=NULL, my_terminal_point_cols=NULL
+     color_smooths_by_var=NULL, my_smooth_cols=NULL)}
 }
 \arguments{
 \item{saturation}{a data frame, typically the output of \code{estimate_saturation}. Should contain columns "sample" with sample identifiers, "depth" with the varied simulated sequencing depths, and "sat" with the number of genes detected at that depth.}
