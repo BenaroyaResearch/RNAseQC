@@ -5,11 +5,12 @@
 \title{Calculate correlations of principal components with quality or annotation variables}
 \usage{
 \code{
-calc_PCcors(PCA_result, annotation,
-            PCs=1:10, id_col="libid",
-            var_cols, ignore_unique_nonnumeric=TRUE, min_libs=5,
-            cont_method="spearman", cat_method="ICC",
-            ...)}
+calc_PCcors(
+  PCA_result, annotation,
+  PCs=1:10, id_col="libid",
+  var_cols, ignore_unique_nonnumeric=TRUE, date_as_numeric=TRUE,
+  min_libs=5, cont_method="spearman", cat_method="ICC",
+  ...)}
 }
 \arguments{
 \item{PCA_result}{result of a principal component analysis, generally of gene expression data. Typically the output of \code{prcomp} or \code{calc_PCAs}.}
@@ -20,17 +21,19 @@ calc_PCcors(PCA_result, annotation,
 
 \item{id_col}{name or number of the column of \code{annotation} containing the library identifiers. These are matched to the rownames of \code{PCA_result}. Ignored if \code{PCA_result} does not have rownames.}
 
-\item{min_libs}{number, the minimum number of libraries containing non-NA values for a variable. Variables in \code{annotation} with fewer non-NA values will be dropped. Defaults to 5.}
+\item{var_cols}{numbers or names of columns to include in the correlation calculations. If not specified, all columns will be included, subject to other exclusion criteria.}
 
 \item{ignore_unique_nonnumeric}{logical, whether to drop columns from annotation if they contain unique non-numeric values. Correlations for such variables are meaningless. Defaults to TRUE.}
+
+\item{date_as_numeric}{logical, whether to treat data of class "Date" as numeric. If set to FALSE, dates are treated as categorical variables.}
+
+\item{min_libs}{number, the minimum number of libraries containing non-NA values for a variable. Variables in \code{annotation} with fewer non-NA values will be dropped. Defaults to 5.}
 
 \item{cont_method}{character, the name of the correlation coefficient to use for continuous variables. Passed to \code{stats::cor}, and must be one of "pearson", "kendall", or "spearman", or abbreviations thereof. Defaults to "spearman".}
 
 \item{cat_method}{character, the name of the correlation coefficient to use for categorical variables. Currently, the only acceptable option is "ICC", which uses the intraclass correlation coefficient as implemented in \code{ICC::ICCbare}.}
 
 \item{...}{(optional) additional arguments passed to \code{cor} or other functions.}
-
-\item{var_cols}{numbers or names of columns to include in the correlation calculations. If not specified, all columns will be included, subject to other exclusion criteria.}
 }
 \value{
 a matrix of correlation coefficients, wih the column and row names reflecting the PC axes and annotation variables for which correlations were calculated.

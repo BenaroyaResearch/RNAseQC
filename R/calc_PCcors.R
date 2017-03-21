@@ -7,6 +7,7 @@
 #' @param id_col name or number of the column of \code{annotation} containing the library identifiers. These are matched to the rownames of \code{PCA_result}. Ignored if \code{PCA_result} does not have rownames.
 #' @param var_cols numbers or names of columns to include in the correlation calculations. If not specified, all columns will be included, subject to other exclusion criteria.
 #' @param ignore_unique_nonnumeric logical, whether to drop columns from annotation if they contain unique non-numeric values. Correlations for such variables are meaningless. Defaults to TRUE.
+#' @param date_as_numeric logical, whether to treat data of class "Date" as numeric. If set to FALSE, dates are treated as categorical variables.
 #' @param min_libs number, the minimum number of libraries containing non-NA values for a variable. Variables in \code{annotation} with fewer non-NA values will be dropped. Defaults to 5.
 #' @param cont_method character, the name of the correlation coefficient to use for continuous variables. Passed to \code{stats::cor}, and must be one of "pearson", "kendall", or "spearman", or abbreviations thereof. Defaults to "spearman".
 #' @param cat_method character, the name of the correlation coefficient to use for categorical variables. Currently, the only acceptable option is "ICC", which uses the intraclass correlation coefficient as implemented in \code{ICC::ICCbare}.
@@ -14,16 +15,17 @@
 #' @export
 #' @return a matrix of correlation coefficients, wih the column and row names reflecting the PC axes and annotation variables for which correlations were calculated.
 #' @usage \code{
-#' calc_PCcors(PCA_result, annotation,
-#'             PCs=1:10, id_col="libid",
-#'             var_cols, ignore_unique_nonnumeric=TRUE, min_libs=5,
-#'             cont_method="spearman", cat_method="ICC",
-#'             ...)}
+#' calc_PCcors(
+#'   PCA_result, annotation,
+#'   PCs=1:10, id_col="libid",
+#'   var_cols, ignore_unique_nonnumeric=TRUE, date_as_numeric=TRUE,
+#'   min_libs=5, cont_method="spearman", cat_method="ICC",
+#'   ...)}
 calc_PCcors <-
   function(PCA_result, annotation,
            PCs=1:10, id_col="libid",
-           min_libs=5, ignore_col=NULL, ignore_unique_nonnumeric=TRUE,
-           cont_method="spearman", cat_method="ICC",
+           var_cols=NULL, ignore_unique_nonnumeric=TRUE, date_as_numeric=TRUE,
+           min_libs=5, cont_method="spearman", cat_method="ICC",
            ...) {
     if (class(PCA_result)=="princomp") {
       PCA_result <- PCA_result$scores
@@ -58,6 +60,13 @@ calc_PCcors <-
                    function(x) {
                      is.numeric(x) |
                        length(unique(na.omit(x)))!=length(na.omit(x))})]
+    }
+    
+    # convert Date columns to numeric (if specified)
+    if (date_as_numeric) {
+      for (j in colnames(annotation)[sapply(annotation, class)=="Date"]) {
+        annotation[,j] <- as.numeric(annotation[,j])
+      }
     }
     
     # drop columns with too few non-NA values
