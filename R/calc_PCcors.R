@@ -24,7 +24,7 @@
 calc_PCcors <-
   function(PCA_result, annotation,
            PCs=1:10, id_col="libid",
-           var_cols=NULL, ignore_unique_nonnumeric=TRUE, date_as_numeric=TRUE,
+           var_cols, ignore_unique_nonnumeric=TRUE, date_as_numeric=TRUE,
            min_libs=5, cont_method="spearman", cat_method="ICC",
            ...) {
     if (class(PCA_result)=="princomp") {
