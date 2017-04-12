@@ -39,8 +39,8 @@ calc_PCcors <-
         stop("PCA_result must have rownames, or must have the same number of rows as annotation.")
       } else cat("No rownames in PCA_result. Assuming that PCA_result and annotation are in the same order.")
     } else {
-      PCA_result <- PCA_result[na.omit(match(rownames(PCA_result), annotation[,id_col])),]
-      annotation <- annotation[na.omit(match(annotation[,id_col], rownames(PCA_result))),]
+      PCA_result <- PCA_result[na.omit(match(annotation[,id_col], rownames(PCA_result))),]
+      annotation <- annotation[na.omit(match(rownames(PCA_result), annotation[,id_col])),]
     }
     
     ## check that PCs specified are in PCA_result

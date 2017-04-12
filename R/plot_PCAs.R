@@ -124,9 +124,10 @@ plot_PCAs <-
               file_prefix, paste("PC", PCs[i], "_vs_PC", PCs[j], sep=""),
               file_suffix, sep="."),
             w=plotdims[1], h=plotdims[2])
-          on.exit(dev.off(), add=TRUE) # close plotting device on exit
+          on.exit(while (names(dev.cur()) == "pdf") dev.off()) # close plotting device on exit (mostly important for errors that could leave pdf output open)
         } else quartz(w=plotdims[1], h=plotdims[2])
         print(pca_plot)
       }
     }
+    while (names(dev.cur()) == "pdf") dev.off()  # shut down PDF device (not sure why on.exit isn't doing it)
   }
