@@ -48,6 +48,9 @@ plot_PCAs <-
     plot_color_by_var <- !is.null(color_by_var)
     color_scale <- NULL; color_labs <- NULL
     if (plot_color_by_var) {
+      if (!((is.character(color_by_var) & (color_by_var %in% colnames(scores_design_pca))) |
+            (is.numeric(color_by_var) & color_by_var %in% 1:ncol(scores_design_pca))))
+        stop(paste("Column", color_by_var, "not found in the included design object."))
       if (!is.numeric(scores_design_pca[,color_by_var])) {
         if (!is.factor(scores_design_pca[,color_by_var]) | !is.null(color_by_var_levels)) {
           if (is.null(color_by_var_levels))
@@ -68,6 +71,9 @@ plot_PCAs <-
     plot_pch_by_var <- !is.null(pch_by_var)
     pch_scale <- NULL; pch_labs <- NULL
     if (plot_pch_by_var) {
+      if (!((is.character(pch_by_var) & (pch_by_var %in% colnames(scores_design_pca))) |
+            (is.numeric(pch_by_var) & pch_by_var %in% 1:ncol(scores_design_pca))))
+        stop(paste("Column", pch_by_var, "not found in the included design object."))
       if (!is.factor(scores_design_pca[,pch_by_var]) | !is.null(pch_by_var_levels)) {
         if (is.null(pch_by_var_levels)) pch_by_var_levels <- as.character(unique(scores_design_pca[,pch_by_var]))
         scores_design_pca[,pch_by_var] <- factor(scores_design_pca[,pch_by_var], levels=pch_by_var_levels)
@@ -90,6 +96,9 @@ plot_PCAs <-
       plot_points <- geom_point(size=3)
     
     if (!is.null(text_by_var)) {
+      if (!((is.character(text_by_var) & (text_by_var %in% colnames(scores_design_pca))) |
+            (is.numeric(text_by_var) & text_by_var %in% 1:ncol(scores_design_pca))))
+        stop(paste("Column", text_by_var, "not found in the included design object."))
       if (exists("plot_points")) {
         plot_points <-
           plot_points +
@@ -124,7 +133,7 @@ plot_PCAs <-
               file_prefix, paste("PC", PCs[i], "_vs_PC", PCs[j], sep=""),
               file_suffix, sep="."),
             w=plotdims[1], h=plotdims[2])
-          on.exit(while (names(dev.cur()) == "pdf") dev.off()) # close plotting device on exit (mostly important for errors that could leave pdf output open)
+          on.exit(while ("pdf" %in% names(dev.list())) dev.off()) # close plotting device on exit (mostly important for errors that could leave pdf output open)
         } else quartz(w=plotdims[1], h=plotdims[2])
         print(pca_plot)
       }

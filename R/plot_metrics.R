@@ -180,7 +180,7 @@ plot_metrics <-
     if (!is.null(file_prefix)) {
       pdf(file=paste(file_prefix, "perc_aligned_vs_total_reads", file_suffix, sep="."),
           w=plotdims[1], h=plotdims[2])
-      on.exit(dev.off(), add=TRUE) # close plotting device on exit
+      on.exit(while ("pdf" %in% names(dev.list())) dev.off()) # close plotting device on exit (mostly important for errors that could leave pdf output open)
     } else quartz(w=plotdims[1], h=plotdims[2])
     print(perc_aligned_vs_total_reads)
     
@@ -251,7 +251,7 @@ plot_metrics <-
     if (!is.null(file_prefix)) {
       pdf(file=paste(file_prefix, "median_cv_coverage_vs_total_reads", file_suffix, sep="."),
           w=plotdims[1], h=plotdims[2])
-      on.exit(dev.off(), add=TRUE) # close plotting device on exit
+      on.exit(while ("pdf" %in% names(dev.list())) dev.off()) # close plotting device on exit (mostly important for errors that could leave pdf output open)
     } else quartz(w=plotdims[1], h=plotdims[2])
     print(median_cv_coverage_vs_total_reads)
     
@@ -323,7 +323,7 @@ plot_metrics <-
     if (!is.null(file_prefix)) {
       pdf(file=paste(file_prefix, "perc_aligned_vs_median_cv_coverage", file_suffix, sep="."),
           w=plotdims[1], h=plotdims[2])
-      on.exit(dev.off(), add=TRUE) # close plotting device on exit
+      on.exit(while ("pdf" %in% names(dev.list())) dev.off()) # close plotting device on exit (mostly important for errors that could leave pdf output open)
     } else quartz(w=plotdims[1], h=plotdims[2])
     print(perc_aligned_vs_median_cv_coverage)
   }

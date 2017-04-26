@@ -26,16 +26,16 @@ plot_read_counts <-
     metrics <- arrange(metrics, fastq_total_reads)
     
     if (!is.null(file_prefix)) {
-      pdf(file=paste0(file_prefix, "_read_count_all_libs.pdf"), w=plotdims[1], h=plotdims[2])
-      on.exit(dev.off(), add=TRUE) # close plotting device on exit
+      pdf(file=paste0(file_prefix, ".read_count_all_libs.pdf"), w=plotdims[1], h=plotdims[2])
+      on.exit(while ("pdf" %in% names(dev.list())) dev.off()) # close plotting device on exit (mostly important for errors that could leave pdf output open)
     } else quartz(w=plotdims[1], h=plotdims[2])
     barplot(metrics[,"fastq_total_reads"]/10^6, main="Read count for all libraries",
             xlab="libraries", ylab = "total reads (in millions)")
     abline(h=threshold_line)
     
     if (!is.null(file_prefix)) {
-      pdf(file=paste0(file_prefix, "_read_count_lowcount_libs.pdf"), w=plotdims[1], h=plotdims[2])
-      on.exit(dev.off(), add=TRUE) # close plotting device on exit
+      pdf(file=paste0(file_prefix, ".read_count_lowcount_libs.pdf"), w=plotdims[1], h=plotdims[2])
+      on.exit(while ("pdf" %in% names(dev.list())) dev.off()) # close plotting device on exit (mostly important for errors that could leave pdf output open)
     } else quartz(w=plotdims[1], h=plotdims[2])
     barplot(metrics[1:n_lowcount,"fastq_total_reads"]/10^6, main="Read count for low-count libraries",
             names.arg = metrics[1:n_lowcount,id_col],
