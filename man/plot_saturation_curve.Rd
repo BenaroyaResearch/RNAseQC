@@ -6,28 +6,31 @@
 \usage{
 \code{
 plot_saturation_curve(
-     saturation,
-     plot_points=TRUE,
-     plot_lines=TRUE,
-     plot_terminal_points=TRUE,
-     plot_smooth=FALSE,
-     color_points_by_var=NULL, my_point_cols=NULL
-     color_lines_by_var=NULL, my_line_cols=NULL
-     color_terminal_points_by_var=NULL, my_terminal_point_cols=NULL
-     color_smooths_by_var=NULL, my_smooth_cols=NULL)}
+     saturation, design,
+     plot_points=FALSE, color_points_by_var=NULL,
+     plot_lines=TRUE, color_lines_by_var=NULL,
+     plot_terminal_points=TRUE, color_terminal_points_by_var=NULL,
+     plot_smooths=FALSE, color_smooths_by_var=NULL,
+     my_cols=NULL)}
 }
 \arguments{
 \item{saturation}{a data frame, typically the output of \code{estimate_saturation}. Should contain columns "sample" with sample identifiers, "depth" with the varied simulated sequencing depths, and "sat" with the number of genes detected at that depth.}
 
+\item{design}{an optional data frame containing annotation data for use in coloring points, lines, and/or smooths. Must include a column matching column "sample" in \code{saturation}, and any columns specified by the "color_by" arguments.}
+
+\item{design_id_col}{the number of name of the column containing identifiers that match the "sample" column in \code{saturation}.}
+
 \item{plot_points}{logical, whether to include points in the plot.}
+
+\item{color_points_by_var, color_lines_by_var, color_terminal_points_by_var, color_smooth_by_var}{variable to use for plotting points, lines, terminal points, and/or smooths by a discrete variable. Must be either the name of a column in \code{saturation}, or a column in \code{design}.}
 
 \item{plot_lines}{logical, whether to include (unsmoothed) lines in the plot. It is not recommended to include both \code{plot_lines} and \code{plot_smooth}, as this will make plots difficult to read.}
 
 \item{plot_terminal_points, }{whether to plot the maximum-depth point for each library. This helps to visualize the actual distribution of observed counts by library.}
 
-\item{plot_smooth}{logical, whether to include lowess curves in the plot. It is not recommended to include both \code{plot_lines} and \code{plot_smooth}, as this will make plots difficult to read.}
+\item{my_cols}{character vector of color names for use in plotting. If not specified, \code{ggthemes::colorblind_pal()} is used. If the number of colors provided is less than the number of colors needed, additional colors are interpolated using \code{colorRampPalette}.}
 
-\item{color_points_by_var, color_lines_by_var, color_terminal_points_by_var, color_smooth_by_var}{variable to use for plotting points, lines, terminal points, and/or smooths by a discrete variable. Must be either the name of a column in \code{saturation}, or a named vector containing the values, with element names corresponding to values in \code{saturation$sample}.}
+\item{plot_smooth}{logical, whether to include lowess curves in the plot. It is not recommended to include both \code{plot_lines} and \code{plot_smooth}, as this will make plots difficult to read.}
 }
 \description{
 Plot the saturation of gene detection based on rarefaction of the mapped read counts from a library.

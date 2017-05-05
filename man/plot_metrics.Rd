@@ -9,7 +9,7 @@ plot_metrics(
      metrics, metrics.libID_col="lib.id",
      design=NULL, design.libID_col="lib.id",
      threshold.perc_aligned=0.8, column.perc_aligned="mapped_reads_w_dups",
-     threshold.total_reads=5.0, column.total_reads="fastq_total_reads",
+     threshold.total_reads=5.0, column.total_reads="pf_hq_aligned_reads",
      threshold.median_cv_coverage=1.0, column.median_cv_coverage="median_cv_coverage",
      by_var=NULL, by_var_levels=NULL, by_var_lab=NULL,
      my_cols=c("blue","red"), na_col="grey50",
@@ -32,7 +32,7 @@ plot_metrics(
 
 \item{threshold.total_reads}{numeric, the threshold for total reads, in millions. Libraries with values below this threshold are flagged. Defaults to 5. Set to NULL to remove threshold.}
 
-\item{column.total_reads}{the name or number of the column in \code{metrics} containing the total reads, assumed to be in millions of reads. Defaults to columnn.total_reads.}
+\item{column.total_reads}{the name or number of the column in \code{metrics} containing the total reads, assumed to be in millions of reads. Defaults to "pf_hq_aligned_reads".}
 
 \item{threshold.median_cv_coverage}{numeric, the threshold for median CV coverage. Libraries with values above this threshold are flagged. Defaults to 1. Set to NULL to remove threshold.}
 
@@ -56,7 +56,7 @@ plot_metrics(
 
 \item{plotdims}{a numeric vector, the size (in inches) of the plotting object. Either the size of the pdfs, or the size of the plotting windows.}
 
-\item{column.median_cv}{the name or number of the column in \code{metrics} containing the median_CV_coverage. Defaults to column.median_cv_coverage.}
+\item{column.median_cv}{the name or number of the column in \code{metrics} containing the median_CV_coverage. Defaults to "median_cv_coverage".}
 }
 \description{
 This function generates plots of several common metrics (total reads, % reads aligned, median CV

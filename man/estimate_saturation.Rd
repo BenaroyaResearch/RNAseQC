@@ -5,11 +5,12 @@
 \title{Estimate saturation of genes based on rarefaction of reads}
 \usage{
 \code{
-estimate_saturation(counts, max_reads=Inf,
-                    method="sampling",
-                    ndepths=6, nreps=5, min_counts=1,
-                    verbose=FALSE
-                    )}
+estimate_saturation(
+  counts, max_reads=Inf,
+  method="sampling",
+  ndepths=6, nreps=5,
+  min_counts=1, min_cpm=NULL,
+  verbose=FALSE)}
 }
 \arguments{
 \item{counts}{a numeric matrix (or object that can be coerced to a matrix) containing read counts, with genes in rows and samples in columns.}
@@ -22,7 +23,9 @@ estimate_saturation(counts, max_reads=Inf,
 
 \item{nreps}{the number of samples to take for each library at each depth. With well-sampled libraries, 1 should be sufficient. With poorly-sampled libraries, sampling variance may be substantial, requiring higher values.}
 
-\item{min_counts}{the minimum number of counts for a gene to be counted as detected. Genes with sample counts >= this value are considered detected.}
+\item{min_counts}{the minimum number of counts for a gene to be counted as detected. Genes with sample counts >= this value are considered detected. Defaults to 1. Set to NULL to use min_cpm.}
+
+\item{min_cpm}{the minimum counts per million for a gene to be counted as detected. Genes with sample counts >= this value are considered detected. Either this or min_count should be specified, but not both; including both yields an error. Defaults to NULL.}
 
 \item{verbose}{logical, whether to output the status of the estimation.}
 }

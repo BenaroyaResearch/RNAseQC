@@ -14,9 +14,9 @@
 #' @param threshold.perc_aligned numeric, the threshold for percent of reads aligned. Libraries with values below this threshold are flagged. Defaults to 0.8. Set to NULL to remove threshold.
 #' @param column.perc_aligned the name or number of the column in \code{metrics} containing the percent of reads aligned. Defaults to "mapped_reads_w_dups".
 #' @param threshold.total_reads numeric, the threshold for total reads, in millions. Libraries with values below this threshold are flagged. Defaults to 5. Set to NULL to remove threshold.
-#' @param column.total_reads the name or number of the column in \code{metrics} containing the total reads, assumed to be in millions of reads. Defaults to columnn.total_reads.
+#' @param column.total_reads the name or number of the column in \code{metrics} containing the total reads, assumed to be in millions of reads. Defaults to "pf_hq_aligned_reads".
 #' @param threshold.median_cv_coverage numeric, the threshold for median CV coverage. Libraries with values above this threshold are flagged. Defaults to 1. Set to NULL to remove threshold.
-#' @param column.median_cv the name or number of the column in \code{metrics} containing the median_CV_coverage. Defaults to column.median_cv_coverage.
+#' @param column.median_cv the name or number of the column in \code{metrics} containing the median_CV_coverage. Defaults to "median_cv_coverage".
 #' @param by_var (optional) character string or integer identifying the column in design to color points by. If not provided, points are plotted in black.
 #' @param by_var_levels (optional) character vector defining the order of elements in the variable used for coloring points; this order is used for the plot legend and to match the order of colors (if provided). If not provided, levels of the variable are ordered by order of appearance in the design object.
 #' @param by_var_lab (optional) string to be used as the title for the color legend.
@@ -34,7 +34,7 @@
 #'      metrics, metrics.libID_col="lib.id",
 #'      design=NULL, design.libID_col="lib.id",
 #'      threshold.perc_aligned=0.8, column.perc_aligned="mapped_reads_w_dups",
-#'      threshold.total_reads=5.0, column.total_reads="fastq_total_reads",
+#'      threshold.total_reads=5.0, column.total_reads="pf_hq_aligned_reads",
 #'      threshold.median_cv_coverage=1.0, column.median_cv_coverage="median_cv_coverage",
 #'      by_var=NULL, by_var_levels=NULL, by_var_lab=NULL,
 #'      my_cols=c("blue","red"), na_col="grey50",
@@ -45,7 +45,7 @@ plot_metrics <-
   function(metrics, metrics.libID_col="lib.id",
            design=NULL, design.libID_col="lib.id",
            threshold.perc_aligned=0.8, column.perc_aligned="mapped_reads_w_dups",
-           threshold.total_reads=5.0, column.total_reads="fastq_total_reads",
+           threshold.total_reads=5.0, column.total_reads="pf_hq_aligned_reads",
            threshold.median_cv_coverage=1.0, column.median_cv_coverage="median_cv_coverage",
            by_var=NULL, by_var_levels=NULL, by_var_lab=NULL,
            my_cols=c("blue","red"), na_col="grey50",
