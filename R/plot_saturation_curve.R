@@ -4,7 +4,7 @@
 #' This function takes the output of \code{estimate_saturation}.
 #' @param saturation a data frame, typically the output of \code{estimate_saturation}. Should contain columns "sample" with sample identifiers, "depth" with the varied simulated sequencing depths, and "sat" with the number of genes detected at that depth.
 #' @param design an optional data frame containing annotation data for use in coloring points, lines, and/or smooths. Must include a column matching column "sample" in \code{saturation}, and any columns specified by the "color_by" arguments.
-#' @param design_id_col the number of name of the column containing identifiers that match the "sample" column in \code{saturation}.
+#' @param design_id_col the number or name of the column containing identifiers that match the "sample" column in \code{saturation}. Defaults to "libid".
 #' @param plot_points logical, whether to include points in the plot.
 #' @param plot_terminal_points, whether to plot the maximum-depth point for each library. This helps to visualize the actual distribution of observed counts by library.
 #' @param plot_lines logical, whether to include (unsmoothed) lines in the plot. It is not recommended to include both \code{plot_lines} and \code{plot_smooth}, as this will make plots difficult to read.
@@ -16,7 +16,7 @@
 #' @export
 #' @usage \code{
 #' plot_saturation_curve(
-#'      saturation, design,
+#'      saturation, design, design_id_col="libid",
 #'      plot_points=FALSE, color_points_by_var=NULL,
 #'      plot_lines=TRUE, color_lines_by_var=NULL,
 #'      plot_terminal_points=TRUE, color_terminal_points_by_var=NULL,

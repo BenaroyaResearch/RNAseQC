@@ -6,7 +6,7 @@
 \usage{
 \code{
 plot_saturation_curve(
-     saturation, design,
+     saturation, design, design_id_col="libid",
      plot_points=FALSE, color_points_by_var=NULL,
      plot_lines=TRUE, color_lines_by_var=NULL,
      plot_terminal_points=TRUE, color_terminal_points_by_var=NULL,
@@ -18,7 +18,7 @@ plot_saturation_curve(
 
 \item{design}{an optional data frame containing annotation data for use in coloring points, lines, and/or smooths. Must include a column matching column "sample" in \code{saturation}, and any columns specified by the "color_by" arguments.}
 
-\item{design_id_col}{the number of name of the column containing identifiers that match the "sample" column in \code{saturation}.}
+\item{design_id_col}{the number or name of the column containing identifiers that match the "sample" column in \code{saturation}. Defaults to "libid".}
 
 \item{plot_points}{logical, whether to include points in the plot.}
 
