@@ -102,8 +102,8 @@ plot_saturation_curve <-
       if (is.null(my_cols)) {
         my_cols <-
           colorRampPalette(colorblind_pal()(8))(n_col)
-        satplot <- satplot + scale_color_manual(values=my_cols)
       }
+      satplot <- satplot + scale_color_manual(values=my_cols)
     }
     
     print(satplot)
