@@ -13,7 +13,7 @@ estimate_saturation(
   verbose=FALSE)}
 }
 \arguments{
-\item{counts}{a numeric matrix (or object that can be coerced to a matrix) containing read counts, with genes in rows and samples in columns.}
+\item{counts}{a numeric matrix (or object that can be coerced to a matrix) containing read counts, or an object from which counts can be extracted. Should have genes in rows and samples in columns.}
 
 \item{max_reads}{the maximum number of reads to sample at. By default, this value is the maximum of total read counts across all libraries.}
 

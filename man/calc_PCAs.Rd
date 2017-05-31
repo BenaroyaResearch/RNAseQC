@@ -8,7 +8,7 @@
 calc_PCAs(counts, cpm=TRUE, log2_transform=FALSE, ...)}
 }
 \arguments{
-\item{counts}{matrix or data frame of gene expression counts, with genes in rows and samples in columns}
+\item{counts}{matrix or data frame of gene expression counts, or an object from which counts can be extracted. Should have genes in rows and samples in columns}
 
 \item{cpm}{logical, whether to transform the counts to counts-per-million (using \code{edgeR::cpm}) before running prcomp.}
 
