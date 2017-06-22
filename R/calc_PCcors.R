@@ -33,6 +33,9 @@ calc_PCcors <-
       PCA_result <- PCA_result$x
     } else if (class(PCA_result != "matrix")) stop("Class of object PCA_result not recognized.")
     
+    if (!(id_col) %in% colnames(annotation))
+      stop(paste("Annotation object does not contain expected column of library identifiers:", id_col))
+    
     # drop objects from PCA matrix if not found in annotation object
     if (is.null(rownames(PCA_result))) {
       if (nrow(PCA_result) != nrow(annotation)) {

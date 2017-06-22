@@ -15,4 +15,3 @@ In the future, I may expand this function to take prcomp and princomp objects, a
 handles for manipulating the plots (e.g. number of variables and/or number of PCs to plot), outputting
 to pdf, etc.
 }
-

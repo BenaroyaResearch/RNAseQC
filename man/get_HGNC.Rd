@@ -24,4 +24,3 @@ specified using \code{from}. By default, this function uses the \code{annotables
 is not installed, or if the user specifies not to use it, \code{biomaRt} is used instead. Genes can be
 filtered by type; any genes not matching the specified type(s) will return NA.
 }
-

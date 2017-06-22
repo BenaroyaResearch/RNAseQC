@@ -33,4 +33,3 @@ Large values are likely to be from female samples; small values from male sample
  If the counts object contains additional columns, the columns containing
  libraries must be indicated in \code{lib_cols}.
 }
-

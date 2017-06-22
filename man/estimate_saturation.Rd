@@ -43,4 +43,3 @@ counted as "detected" (default=1).
 \details{
 The \code{method} parameter determines the approach used to estimate the number of genes detected at different sequencing depths. Method "division" simply divides the counts for each gene by a series of scaling factors, then counts the genes whose adjusted counts exceed the detection threshold. Method "sampling" generates a number of sets (\code{nreps}) of simulated counts for each library at each sequencing depth, by probabilistically simulating counts using observed proportions. It then counts the number of genes that meet the detection threshold in each simulation, and takes the arithmetic mean of the values for each library at each depth.
 }
-

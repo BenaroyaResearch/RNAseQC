@@ -67,4 +67,3 @@ values of a discrete or continuous variable from \code{design} specified by \cod
 Some options still need to be built in, e.g. plotting names of all libraries, modifying threshold values
 for each metric, etc.
 }
-

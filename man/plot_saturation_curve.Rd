@@ -36,4 +36,3 @@ plot_saturation_curve(
 Plot the saturation of gene detection based on rarefaction of the mapped read counts from a library.
 This function takes the output of \code{estimate_saturation}.
 }
-

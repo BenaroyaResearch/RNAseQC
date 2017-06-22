@@ -58,4 +58,3 @@ plot_PCAs(scores_design_pca, PCs=1:3, pvars.labs="PC#",
 This function plots samples on all pairwise sets of specified PCA axes. Points can have their shape
 and/or color set by variables provided in a design object.
 }
-

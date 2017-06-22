@@ -31,4 +31,3 @@ number of reads. These plots can optionally be output to pdfs by specifing \code
 plot shows all libraries, with a line at \code{threshold_line} million reads. The second plot zooms in
 on the \code{n_lowcount} libraries with the lowest counts.
 }
-

@@ -41,4 +41,3 @@ a matrix of correlation coefficients, wih the column and row names reflecting th
 \description{
 This is a helper function to facilitate calculating correlations of sample-specific variables with principal components (generally from RNAseq data). By default, it uses Spearman (rank) correlations for continuous variables and intraclass correlations (as implemented in \code{ICC::ICCbare}) for categorical variables. The correlation method can be changed for continuous variables, but not currently for categorical variables.
 }
-

@@ -22,4 +22,3 @@ a prcomp object, with additional list elements containing the percent variance a
 \description{
 This is a wrapper function for prcomp, designed for running PCA on RNAseq data. It transposes the input data, and adds two elements to the prcomp object, containing the following for each PC: the percent variance, and a character string for labeling plot axes.
 }
-

@@ -31,4 +31,3 @@ plot_PCcor_heatmap(
 This is a wrapper for \code{heatmap.2}, designed to make plotting of PC correlations more
 automated. It also provides a nicer default color palette than the \code{heatmap.2} default.
 }
-
