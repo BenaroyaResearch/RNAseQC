@@ -19,7 +19,10 @@
 a vector of HGNC gene symbols, of length equivalent to the length of genes.
 }
 \description{
-Convert a vector of gene identifiers to HGNC gene symbols. The type of the input identifiers is
+This is a simple wrapper for the more flexible function \code{convert_gene_names}. I created it to
+facilitate compatability with old code. It simply calls \code{convert_gene_names} with the hard-coded
+specification to return HGNC symbols, and some variable name translation.
+It converts a vector of gene identifiers to HGNC gene symbols. The type of the input identifiers is
 specified using \code{from}. By default, this function uses the \code{annotables} package. If annotables
 is not installed, or if the user specifies not to use it, \code{biomaRt} is used instead. Genes can be
 filtered by type; any genes not matching the specified type(s) will return NA.
