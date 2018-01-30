@@ -68,7 +68,7 @@ estimate_saturation <-
         } else if (method=="sampling") {
           est <- as.numeric(rep(NA, nreps))
           for (k in 1:nreps) {
-            reads <- sample.int (n=ngenes, size=j, replace=TRUE, prob=probs)
+            reads <- sample.int(n=ngenes, size=j, replace=TRUE, prob=probs)
             est[k] <- sum(table(reads) >= min_counts.lib)
           }
           sat.estimates <- c(sat.estimates, mean(est))

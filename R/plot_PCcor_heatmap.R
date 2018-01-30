@@ -39,7 +39,4 @@ plot_PCcor_heatmap <-
       key=key, keysize=keysize, margins=c(8,12),
       trace=trace, density.info=density.info,
       ...)
-    
-    
-    
   }
