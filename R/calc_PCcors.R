@@ -27,14 +27,11 @@ calc_PCcors <-
            var_cols, ignore_unique_nonnumeric=TRUE, date_as_numeric=TRUE,
            min_libs=5, cont_method="spearman", cat_method="ICC",
            ...) {
-    if (class(PCA_result)=="princomp") {
+    if (inherits(PCA_result, "princomp")) {
       PCA_result <- PCA_result$scores
-    } else if (class(PCA_result)=="prcomp") {
+    } else if (inherits(PCA_result, "prcomp")) {
       PCA_result <- PCA_result$x
-    } else if (class(PCA_result != "matrix")) stop("Class of object PCA_result not recognized.")
-    
-    if (!(id_col) %in% colnames(annotation))
-      stop(paste("Annotation object does not contain expected column of library identifiers:", id_col))
+    } else if (!inherits(PCA_result, "matrix")) stop("Class of object PCA_result not recognized.")
     
     # drop objects from PCA matrix if not found in annotation object
     if (is.null(rownames(PCA_result))) {
@@ -42,6 +39,8 @@ calc_PCcors <-
         stop("PCA_result must have rownames, or must have the same number of rows as annotation.")
       } else cat("No rownames in PCA_result. Assuming that PCA_result and annotation are in the same order.")
     } else {
+      if (!(id_col) %in% colnames(annotation))
+        stop(paste("Annotation object does not contain expected column of library identifiers:", id_col))
       PCA_result <- PCA_result[na.omit(match(annotation[,id_col], rownames(PCA_result))),]
       annotation <- annotation[na.omit(match(rownames(PCA_result), annotation[,id_col])),]
     }
