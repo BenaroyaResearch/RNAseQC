@@ -13,7 +13,7 @@ calc_PCcors(
   ...)}
 }
 \arguments{
-\item{PCA_result}{result of a principal component analysis, generally of gene expression data. Typically the output of \code{prcomp} or \code{calc_PCAs}.}
+\item{PCA_result}{result of a principal component analysis, generally of gene expression data. Typically the output of \code{prcomp} or \code{calc_PCAs}. Can also be a matrix with samples in rows and dimensions in columns.}
 
 \item{annotation}{a data frame containing annotation data for the samples. May include clinical data, sample quality metrics, etc.}
 

@@ -1,7 +1,7 @@
 #' Calculate correlations of principal components with quality or annotation variables
 #'
 #' This is a helper function to facilitate calculating correlations of sample-specific variables with principal components (generally from RNAseq data). By default, it uses Spearman (rank) correlations for continuous variables and intraclass correlations (as implemented in \code{ICC::ICCbare}) for categorical variables. The correlation method can be changed for continuous variables, but not currently for categorical variables.
-#' @param PCA_result result of a principal component analysis, generally of gene expression data. Typically the output of \code{prcomp} or \code{calc_PCAs}.
+#' @param PCA_result result of a principal component analysis, generally of gene expression data. Typically the output of \code{prcomp} or \code{calc_PCAs}. Can also be a matrix with samples in rows and dimensions in columns.
 #' @param annotation a data frame containing annotation data for the samples. May include clinical data, sample quality metrics, etc.
 #' @param PCs numeric vector of principal component axes to include in correlation calculations. Defaults to 1:10, which will calculate for the first 10 PCs.
 #' @param id_col name or number of the column of \code{annotation} containing the library identifiers. These are matched to the rownames of \code{PCA_result}. Ignored if \code{PCA_result} does not have rownames.
@@ -86,7 +86,7 @@ calc_PCcors <-
         ncol=ncol(annotation),
         dimnames=list(colnames(PCA_result)[PCs], colnames(annotation)))
     
-    # calculate correlations of all variables with PCs, using pearson for numeric variables, and ICC for non-numeric
+    # calculate correlations of all variables with PCs, using specified methods for continuous 
     for (i in colnames(PCcors)) {
       if (is.numeric(annotation[,i])) {
         PCcors[,i] <-
@@ -94,15 +94,18 @@ calc_PCcors <-
               PCA_result[,PCs],
               method=cont_method, use="pairwise")
       } else {
-        for (j in rownames(PCcors)) {
-          data.tmp <-
-            data.frame(
-              annotation[,i], PCA_result[,j])
-          colnames(data.tmp) <- c(i,j)
-          capture.output(suppressWarnings(  # suppress output from ICCbare
-            PCcors[j,i] <-
-              ICC::ICCbare(data=data.tmp, x=i, y=j)))
-        }
+        if (cat_method=="ICC") {
+          for (j in rownames(PCcors)) {
+            data.tmp <-
+              data.frame(
+                annotation[,i], PCA_result[,j])
+            colnames(data.tmp) <- c(i,j)
+            
+            capture.output(suppressWarnings(  # suppress output from ICCbare
+              PCcors[j,i] <-
+                ICC::ICCbare(data=data.tmp, x=i, y=j)))
+          }
+        } else stop ("Only method 'ICC' is currently supported for categorical variables.")
       }
     }
     
