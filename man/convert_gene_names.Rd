@@ -15,7 +15,7 @@
 
 \item{biotype}{(optional) character vector containing biotypes of genes to retain. If provided, genes with biotype not matching elements of this vector return NA. If NULL, all genes are retained.}
 
-\item{use_annotables}{boolean, whether to use the annotables package. If annotables is not installed, the function defaults to using \code{biomaRt}.}
+\item{use_annotables}{logical, whether to use the annotables package. If annotables is not installed, the function defaults to using \code{biomaRt}.}
 }
 \value{
 a vector of gene symbols, of length equivalent to the length of genes.

@@ -10,18 +10,19 @@
 #' @param input_type the gene identifier type to convert from. Must match a corresponding identifier type in \code{annotables} or \code{biomaRt}.
 #' @param output_type the gene identifier type to convert to Must match a corresponding identifier type in \code{annotables} or \code{biomaRt}.
 #' @param biotype (optional) character vector containing biotypes of genes to retain. If provided, genes with biotype not matching elements of this vector return NA. If NULL, all genes are retained.
-#' @param use_annotables boolean, whether to use the annotables package. If annotables is not installed, the function defaults to using \code{biomaRt}.
+#' @param use_annotables logical, whether to use the annotables package. If annotables is not installed, the function defaults to using \code{biomaRt}.
 #' @export
 #' @return a vector of gene symbols, of length equivalent to the length of genes.
 #' @usage \code{convert_gene_names(genes, input_type, output_type, biotype=NULL, use_annotables=TRUE)}
-convert_gene_names <- function(genes, input_type, output_type, biotype=NULL, use_annotables=TRUE) {
+convert_gene_names <-
+  function(genes, input_type, output_type, biotype=NULL, use_annotables=TRUE) {
   if (require(annotables) & use_annotables) {
-    cat('Package "annotables" detected. Using data from annotables instead of BioMart.\n')
+    warning('Package "annotables" detected. Used data from annotables instead of BioMart.\n')
     grch38.tmp <- if (is.null(biotype)) {grch38} else {grch38[grch38[["biotype"]] %in% biotype,]}
     if (!(output_type %in% colnames(grch38.tmp))) stop("Specified 'output_type' is not available.")
     genes_out <- grch38.tmp[[output_type]][match(genes, grch38.tmp[[input_type]])] # get the gene names
   } else {
-    cat('Using BioMart to convert gene symbols. This could take a while.\n')
+    warning('Used BioMart to convert gene symbols.\n')
     if (input_type=="ensgene") input_type <- "ensembl_gene_id"
     ensembl <- biomaRt::useMart('ensembl', 'hsapiens_gene_ensembl')
     gene_ID_translate <-
