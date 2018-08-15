@@ -40,10 +40,13 @@ estimate_saturation <-
     readsums <- colSums(counts)
     max_reads <- min(max(readsums), max_reads)
     depths <- round(seq(from=0, to=max_reads, length.out=ndepths+1))
-    saturation <- data.frame(sample=as.vector(sapply(colnames(counts), FUN=rep, times=ndepths+1)),
-                             depth=rep(depths, time=ncol(counts)))
-    sat.estimates <- numeric()
-    if (method=="sampling") sat.var.estimates <- numeric()
+    saturation <-
+      data.frame(sample=as.vector(sapply(colnames(counts), FUN=rep, times=ndepths+1)),
+                 depth=rep(depths, time=ncol(counts)))
+    sat.estimates <- as.numeric(rep(NA, ncol(counts) * length(depths)))
+    counter <- 0
+    if (method=="sampling")
+      sat.var.estimates <- as.numeric(rep(NA, ncol(counts) * length(depths)))
     for (i in 1:ncol(counts)) {
       if (verbose) cat("Working on library", i, "of", ncol(counts), "\n")
       
@@ -58,21 +61,22 @@ estimate_saturation <-
       probs <- probs[probs > 0] # zero counts add nothing but computational time!
       ngenes <- length(probs)
       for (j in depths) {
+        counter <- counter + 1
         if (j > readsums[i]) {
-          sat.estimates <- c(sat.estimates, NA)
+          sat.estimates[counter] <- NA
           if (exists("sat.var.estimates"))
-            sat.var.estimates <- c(sat.var.estimates, NA)
+            sat.var.estimates[counter] <- NA
         } else if (method=="division") {
-          sat.estimates <- c(sat.estimates,
-                             sum((probs * j) >= min_counts.lib))
+          sat.estimates[counter] <-
+              sum((probs * j) >= min_counts.lib)
         } else if (method=="sampling") {
           est <- as.numeric(rep(NA, nreps))
           for (k in 1:nreps) {
             reads <- sample.int(n=ngenes, size=j, replace=TRUE, prob=probs)
             est[k] <- sum(table(reads) >= min_counts.lib)
           }
-          sat.estimates <- c(sat.estimates, mean(est))
-          sat.var.estimates <- c(sat.var.estimates, var(est))
+          sat.estimates[counter] <- mean(est)
+          sat.var.estimates[counter] <- var(est)
         }
       }
     }
