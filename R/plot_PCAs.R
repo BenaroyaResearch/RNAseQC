@@ -51,12 +51,12 @@ plot_PCAs <-
       if (!((is.character(color_by_var) & (color_by_var %in% colnames(scores_design_pca))) |
             (is.numeric(color_by_var) & color_by_var %in% 1:ncol(scores_design_pca))))
         stop(paste("Column", color_by_var, "not found in the included design object."))
-      if (!is.numeric(scores_design_pca[,color_by_var])) {
-        if (!is.factor(scores_design_pca[,color_by_var]) | !is.null(color_by_var_levels)) {
+      if (!is.numeric(scores_design_pca[,color_by_var, drop=TRUE])) {
+        if (!is.factor(scores_design_pca[,color_by_var, drop=TRUE]) | !is.null(color_by_var_levels)) {
           if (is.null(color_by_var_levels))
-            color_by_var_levels <- as.character(unique(scores_design_pca[,color_by_var]))
+            color_by_var_levels <- as.character(unique(scores_design_pca[,color_by_var, drop=TRUE]))
           scores_design_pca[,color_by_var] <-
-            factor(scores_design_pca[,color_by_var], levels=color_by_var_levels)
+            factor(scores_design_pca[,color_by_var, drop=TRUE], levels=color_by_var_levels)
         }
         if (length(my_cols) < length(color_by_var_levels))
           my_cols <- colorRampPalette(colors=my_cols)(length(color_by_var_levels))
@@ -74,9 +74,11 @@ plot_PCAs <-
       if (!((is.character(pch_by_var) & (pch_by_var %in% colnames(scores_design_pca))) |
             (is.numeric(pch_by_var) & pch_by_var %in% 1:ncol(scores_design_pca))))
         stop(paste("Column", pch_by_var, "not found in the included design object."))
-      if (!is.factor(scores_design_pca[,pch_by_var]) | !is.null(pch_by_var_levels)) {
-        if (is.null(pch_by_var_levels)) pch_by_var_levels <- as.character(unique(scores_design_pca[,pch_by_var]))
-        scores_design_pca[,pch_by_var] <- factor(scores_design_pca[,pch_by_var], levels=pch_by_var_levels)
+      if (!is.factor(scores_design_pca[,pch_by_var, drop=TRUE]) | !is.null(pch_by_var_levels)) {
+        if (is.null(pch_by_var_levels))
+          pch_by_var_levels <- as.character(unique(scores_design_pca[,pch_by_var, drop=TRUE]))
+        scores_design_pca[,pch_by_var] <-
+          factor(scores_design_pca[,pch_by_var, drop=TRUE], levels=pch_by_var_levels)
       }
       file_suffix <- paste("pch_by_", pch_by_var, ".", file_suffix, sep="")
       

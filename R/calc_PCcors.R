@@ -41,8 +41,8 @@ calc_PCcors <-
     } else {
       if (!(id_col) %in% colnames(annotation))
         stop(paste("Annotation object does not contain expected column of library identifiers:", id_col))
-      PCA_result <- PCA_result[na.omit(match(annotation[,id_col], rownames(PCA_result))),]
-      annotation <- annotation[na.omit(match(rownames(PCA_result), annotation[,id_col])),]
+      PCA_result <- PCA_result[na.omit(match(annotation[,id_col, drop=TRUE], rownames(PCA_result))),]
+      annotation <- annotation[na.omit(match(rownames(PCA_result), annotation[,id_col, drop=TRUE])),]
     }
     
     ## check that PCs specified are in PCA_result

@@ -71,13 +71,14 @@ plot_metrics <-
     
     metrics[,column.total_reads] <- metrics[,column.total_reads] / 1e6
     
-    if (!is.null(by_var)) {plot_by_var <- TRUE
+    if (!is.null(by_var)) {
+      plot_by_var <- TRUE
     } else plot_by_var <- FALSE
     
     file_suffix <- "pdf"; color_scale <- NULL; color_labs <- NULL
     if (plot_by_var) {
       metrics[,by_var] <-
-        design[match(metrics[,metrics.libID_col], design[,design.libID_col]), by_var]
+        design[match(metrics[,metrics.libID_col, drop=TRUE], design[,design.libID_col, drop=TRUE]), by_var]
       if (!is.numeric(metrics[,by_var])) {
         if (is.null(by_var_levels)) by_var_levels <- unique(design[,by_var])
         if (length(my_cols) < length(by_var_levels))
@@ -144,7 +145,8 @@ plot_metrics <-
       if (point_names=="thresholded")
         names_to_plot <-
           union(names_to_plot,
-                metrics[(metrics[,column.total_reads] < threshold.total_reads), metrics.libID_col])
+                metrics[(metrics[,column.total_reads] < threshold.total_reads),
+                        metrics.libID_col, drop=TRUE])
     }
     
     # add threshold for percent aligned
@@ -154,7 +156,8 @@ plot_metrics <-
       if (point_names=="thresholded")
         names_to_plot <-
           union(names_to_plot,
-                metrics[(metrics[,column.perc_aligned] < threshold.perc_aligned), metrics.libID_col])
+                metrics[(metrics[,column.perc_aligned] < threshold.perc_aligned),
+                        metrics.libID_col, drop=TRUE])
     } 
     
     # check names to plot
@@ -164,7 +167,7 @@ plot_metrics <-
     # add library names to plot (if specified)
     if (!is.null(names_to_plot)) {
       perc_aligned_vs_total_reads <- perc_aligned_vs_total_reads +
-        geom_text(data=metrics[(metrics[,metrics.libID_col] %in% names_to_plot),],
+        geom_text(data=metrics[(metrics[,metrics.libID_col, drop=TRUE] %in% names_to_plot),],
                   mapping=aes_(label=as.name(metrics.libID_col)),
                   nudge_y=-0.01, size=4, vjust=1, hjust=0.5, colour="black")
     }
@@ -214,7 +217,7 @@ plot_metrics <-
         names_to_plot <-
           union(names_to_plot,
                 metrics[(metrics[,column.total_reads] < threshold.total_reads),
-                        metrics.libID_col])
+                        metrics.libID_col, drop=TRUE])
     }
     
     # add threshold for median_cv_coverage
@@ -225,7 +228,7 @@ plot_metrics <-
         names_to_plot <-
           union(names_to_plot,
                 metrics[(metrics[,column.median_cv_coverage] > threshold.median_cv_coverage),
-                        metrics.libID_col])
+                        metrics.libID_col, drop=TRUE])
     } 
     
     # check names to plot
@@ -235,7 +238,7 @@ plot_metrics <-
     # add library names to plot (if specified)
     if (!is.null(names_to_plot)) {
       median_cv_coverage_vs_total_reads <- median_cv_coverage_vs_total_reads +
-        geom_text(data=metrics[(metrics[,metrics.libID_col] %in% names_to_plot),],
+        geom_text(data=metrics[(metrics[,metrics.libID_col, drop=TRUE] %in% names_to_plot),],
                   mapping=aes_(label=as.name(metrics.libID_col)),
                   nudge_y=-0.01, size=4, vjust=1, hjust=0.5, colour="black")
     }
@@ -286,7 +289,7 @@ plot_metrics <-
         names_to_plot <-
           union(names_to_plot,
                 metrics[(metrics[,column.perc_aligned] < threshold.perc_aligned),
-                        metrics.libID_col])
+                        metrics.libID_col, drop=TRUE])
     }
     
     # add threshold for median_cv_coverage
@@ -297,7 +300,7 @@ plot_metrics <-
         names_to_plot <-
           union(names_to_plot,
                 metrics[(metrics[,column.median_cv_coverage] > threshold.median_cv_coverage),
-                        metrics.libID_col])
+                        metrics.libID_col, drop=TRUE])
     } 
     
     # check names to plot
@@ -307,7 +310,7 @@ plot_metrics <-
     # add library names to plot (if specified)
     if (!is.null(names_to_plot)) {
       perc_aligned_vs_median_cv_coverage <- perc_aligned_vs_median_cv_coverage +
-        geom_text(data=metrics[(metrics[,metrics.libID_col] %in% names_to_plot),],
+        geom_text(data=metrics[(metrics[,metrics.libID_col, drop=TRUE] %in% names_to_plot),],
                   mapping=aes_(label=as.name(metrics.libID_col)),
                   nudge_y=-0.01, size=4, vjust=1, hjust=0.5, colour="black")
     }

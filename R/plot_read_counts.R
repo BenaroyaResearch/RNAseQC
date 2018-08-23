@@ -38,7 +38,7 @@ plot_read_counts <-
       on.exit(while ("pdf" %in% names(dev.list())) dev.off()) # close plotting device on exit (mostly important for errors that could leave pdf output open)
     } else quartz(w=plotdims[1], h=plotdims[2])
     barplot(metrics[1:n_lowcount,"fastq_total_reads"]/10^6, main="Read count for low-count libraries",
-            names.arg = metrics[1:n_lowcount,id_col],
+            names.arg = metrics[1:n_lowcount,id_col, drop=TRUE],
             ylab = "total reads (in millions)",las=2)
     abline(h=threshold_line)
   }

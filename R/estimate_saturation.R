@@ -57,7 +57,7 @@ estimate_saturation <-
         min_counts.lib <- min_counts
       }
       
-      probs <- counts[,i] / readsums[i] # calculate gene probabilities for the library
+      probs <- counts[,i, drop=TRUE] / readsums[i] # calculate gene probabilities for the library
       probs <- probs[probs > 0] # zero counts add nothing but computational time!
       ngenes <- length(probs)
       for (j in depths) {

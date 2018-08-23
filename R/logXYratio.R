@@ -50,6 +50,5 @@ logXYratio <-
     ratios <- log((x_counts+1) / (y_counts+1))  # calculate log-transformed ratios of X reads to Y reads; add 1 to each because Y counts can be 0, which yields infinite ratio
     names(ratios) <- colnames(counts)[lib_cols]  # name the vector of ratios with the library IDs
     
-    cat("Done!\n")
     return(ratios)
   }
