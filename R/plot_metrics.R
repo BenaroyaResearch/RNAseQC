@@ -69,7 +69,7 @@ plot_metrics <-
         stop("Column '", design.libID_col, "' specified by design.libID_col not found in design object.")
     }
     
-    metrics[,column.total_reads] <- metrics[,column.total_reads] / 1e6
+    metrics[, column.total_reads] <- metrics[, column.total_reads, drop=TRUE] / 1e6
     
     if (!is.null(by_var)) {
       plot_by_var <- TRUE
@@ -79,11 +79,11 @@ plot_metrics <-
     if (plot_by_var) {
       metrics[,by_var] <-
         design[match(metrics[,metrics.libID_col, drop=TRUE], design[,design.libID_col, drop=TRUE]), by_var]
-      if (!is.numeric(metrics[,by_var])) {
-        if (is.null(by_var_levels)) by_var_levels <- unique(design[,by_var])
+      if (!is.numeric(metrics[, by_var, drop=TRUE])) {
+        if (is.null(by_var_levels)) by_var_levels <- unique(design[, by_var, drop=TRUE])
         if (length(my_cols) < length(by_var_levels))
           my_cols <- colorRampPalette(colors=my_cols)(length(by_var_levels))
-        metrics[,by_var] <- factor(metrics[,by_var], levels=by_var_levels)
+        metrics[,by_var] <- factor(metrics[, by_var, drop=TRUE], levels=by_var_levels)
         color_scale <- scale_color_manual(values=my_cols)
       } else {
         color_scale <- scale_color_gradient(low=my_cols[1], high=my_cols[2], na.value=na_col)
@@ -101,20 +101,20 @@ plot_metrics <-
     
     if (plot_outlier_lines) {
       total_reads_quantiles <-
-        c(quantile(metrics[,column.total_reads], 0.25) -
-            1.5*IQR(metrics[,column.total_reads]),
-          quantile(metrics[,column.total_reads], 0.75) +
-            1.5*IQR(metrics[,column.total_reads]))
+        c(quantile(metrics[, column.total_reads, drop=TRUE], 0.25) -
+            1.5*IQR(metrics[, column.total_reads, drop=TRUE]),
+          quantile(metrics[, column.total_reads, drop=TRUE], 0.75) +
+            1.5*IQR(metrics[, column.total_reads, drop=TRUE]))
       perc_aligned_quantiles <-
-        c(quantile(metrics[,column.perc_aligned], 0.25) -
-            1.5*IQR(metrics[,column.perc_aligned]),
-          quantile(metrics[,column.perc_aligned], 0.75) +
-            1.5*IQR(metrics[,column.perc_aligned]))
+        c(quantile(metrics[, column.perc_aligned, drop=TRUE], 0.25) -
+            1.5*IQR(metrics[, column.perc_aligned, drop=TRUE]),
+          quantile(metrics[, column.perc_aligned, drop=TRUE], 0.75) +
+            1.5*IQR(metrics[, column.perc_aligned, drop=TRUE]))
       median_cv_coverage_quantiles <-
-        c(quantile(metrics[,column.median_cv_coverage], 0.25) -
-            1.5*IQR(metrics[,column.median_cv_coverage]),
-          quantile(metrics[,column.median_cv_coverage], 0.75) +
-            1.5*IQR(metrics[,column.median_cv_coverage]))
+        c(quantile(metrics[, column.median_cv_coverage, drop=TRUE], 0.25) -
+            1.5*IQR(metrics[, column.median_cv_coverage, drop=TRUE]),
+          quantile(metrics[, column.median_cv_coverage, drop=TRUE], 0.75) +
+            1.5*IQR(metrics[, column.median_cv_coverage, drop=TRUE]))
     }
     
     ## Plot percent aligned vs total reads
@@ -145,7 +145,7 @@ plot_metrics <-
       if (point_names=="thresholded")
         names_to_plot <-
           union(names_to_plot,
-                metrics[(metrics[,column.total_reads] < threshold.total_reads),
+                metrics[(metrics[, column.total_reads, drop=TRUE] < threshold.total_reads),
                         metrics.libID_col, drop=TRUE])
     }
     
@@ -156,7 +156,7 @@ plot_metrics <-
       if (point_names=="thresholded")
         names_to_plot <-
           union(names_to_plot,
-                metrics[(metrics[,column.perc_aligned] < threshold.perc_aligned),
+                metrics[(metrics[, column.perc_aligned, drop=TRUE] < threshold.perc_aligned),
                         metrics.libID_col, drop=TRUE])
     } 
     
@@ -167,7 +167,7 @@ plot_metrics <-
     # add library names to plot (if specified)
     if (!is.null(names_to_plot)) {
       perc_aligned_vs_total_reads <- perc_aligned_vs_total_reads +
-        geom_text(data=metrics[(metrics[,metrics.libID_col, drop=TRUE] %in% names_to_plot),],
+        geom_text(data=metrics[(metrics[, metrics.libID_col, drop=TRUE] %in% names_to_plot),],
                   mapping=aes_(label=as.name(metrics.libID_col)),
                   nudge_y=-0.01, size=4, vjust=1, hjust=0.5, colour="black")
     }
@@ -216,7 +216,7 @@ plot_metrics <-
       if (point_names=="thresholded")
         names_to_plot <-
           union(names_to_plot,
-                metrics[(metrics[,column.total_reads] < threshold.total_reads),
+                metrics[(metrics[, column.total_reads, drop=TRUE] < threshold.total_reads),
                         metrics.libID_col, drop=TRUE])
     }
     
@@ -227,7 +227,7 @@ plot_metrics <-
       if (point_names=="thresholded")
         names_to_plot <-
           union(names_to_plot,
-                metrics[(metrics[,column.median_cv_coverage] > threshold.median_cv_coverage),
+                metrics[(metrics[, column.median_cv_coverage, drop=TRUE] > threshold.median_cv_coverage),
                         metrics.libID_col, drop=TRUE])
     } 
     
@@ -288,7 +288,7 @@ plot_metrics <-
       if (point_names=="thresholded")
         names_to_plot <-
           union(names_to_plot,
-                metrics[(metrics[,column.perc_aligned] < threshold.perc_aligned),
+                metrics[(metrics[, column.perc_aligned, drop=TRUE] < threshold.perc_aligned),
                         metrics.libID_col, drop=TRUE])
     }
     
@@ -299,7 +299,7 @@ plot_metrics <-
       if (point_names=="thresholded")
         names_to_plot <-
           union(names_to_plot,
-                metrics[(metrics[,column.median_cv_coverage] > threshold.median_cv_coverage),
+                metrics[(metrics[, column.median_cv_coverage, drop=TRUE] > threshold.median_cv_coverage),
                         metrics.libID_col, drop=TRUE])
     } 
     
@@ -310,7 +310,7 @@ plot_metrics <-
     # add library names to plot (if specified)
     if (!is.null(names_to_plot)) {
       perc_aligned_vs_median_cv_coverage <- perc_aligned_vs_median_cv_coverage +
-        geom_text(data=metrics[(metrics[,metrics.libID_col, drop=TRUE] %in% names_to_plot),],
+        geom_text(data=metrics[(metrics[, metrics.libID_col, drop=TRUE] %in% names_to_plot),],
                   mapping=aes_(label=as.name(metrics.libID_col)),
                   nudge_y=-0.01, size=4, vjust=1, hjust=0.5, colour="black")
     }
