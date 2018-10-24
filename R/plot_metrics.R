@@ -121,27 +121,29 @@ plot_metrics <-
     
     # generate base plot
     if (plot_by_var) {
-      perc_aligned_vs_total_reads <- 
+      total_reads_vs_perc_aligned <- 
         ggplot(metrics,
-               aes_(x=as.name(column.total_reads), y=as.name(column.perc_aligned),
-                    colour=as.name(by_var)))
+               aes_string(y=column.total_reads, x=column.perc_aligned,
+                          colour=by_var)) +
+        scale_x_reverse()
     } else {
-      perc_aligned_vs_total_reads <- 
-        ggplot(metrics, aes_(x=as.name(column.total_reads), y=as.name(column.perc_aligned)))
+      total_reads_vs_perc_aligned <- 
+        ggplot(metrics, aes_string(y=column.total_reads, x=column.perc_aligned)) +
+        scale_x_reverse()
     }
     
     # add points and labels to plot
-    perc_aligned_vs_total_reads <- perc_aligned_vs_total_reads +
+    total_reads_vs_perc_aligned <- total_reads_vs_perc_aligned +
       geom_point(size=point_size) +
-      labs(x = "total counts (in millions)", y = "percent alignment") +
+      labs(y = "total counts (in millions)", x = "percent alignment") +
       color_scale + color_labs
     
     names_to_plot <- NULL
     
     # add threshold for total reads
     if (!is.null(threshold.total_reads)) {
-      perc_aligned_vs_total_reads <- perc_aligned_vs_total_reads +
-        geom_vline(xintercept=threshold.total_reads, colour="red", size=1)
+      total_reads_vs_perc_aligned <- total_reads_vs_perc_aligned +
+        geom_hline(yintercept=threshold.total_reads, colour="red", size=1)
       if (point_names=="thresholded")
         names_to_plot <-
           union(names_to_plot,
@@ -151,8 +153,8 @@ plot_metrics <-
     
     # add threshold for percent aligned
     if (!is.null(threshold.perc_aligned)) {
-      perc_aligned_vs_total_reads <- perc_aligned_vs_total_reads +
-        geom_hline(yintercept=threshold.perc_aligned, colour="red", size=1)
+      total_reads_vs_perc_aligned <- total_reads_vs_perc_aligned +
+        geom_vline(xintercept=threshold.perc_aligned, colour="red", size=1)
       if (point_names=="thresholded")
         names_to_plot <-
           union(names_to_plot,
@@ -166,53 +168,56 @@ plot_metrics <-
     
     # add library names to plot (if specified)
     if (!is.null(names_to_plot)) {
-      perc_aligned_vs_total_reads <- perc_aligned_vs_total_reads +
+      total_reads_vs_perc_aligned <- total_reads_vs_perc_aligned +
         geom_text(data=metrics[(metrics[, metrics.libID_col, drop=TRUE] %in% names_to_plot),],
-                  mapping=aes_(label=as.name(metrics.libID_col)),
+                  mapping=aes_string(label=as.name(metrics.libID_col)),
                   nudge_y=-0.01, size=4, vjust=1, hjust=0.5, colour="black")
     }
     
     # add outlier lines (if specified)
     if (plot_outlier_lines) {
-      perc_aligned_vs_total_reads <- perc_aligned_vs_total_reads +
-        geom_vline(xintercept=total_reads_quantiles, linetype="dotted") +
-        geom_hline(yintercept=perc_aligned_quantiles, linetype="dotted")
+      total_reads_vs_perc_aligned <- total_reads_vs_perc_aligned +
+        geom_hline(yintercept=total_reads_quantiles, linetype="dotted") +
+        geom_vline(xintercept=perc_aligned_quantiles, linetype="dotted")
     }
     
     # output plot
     if (!is.null(file_prefix)) {
-      pdf(file=paste(file_prefix, "perc_aligned_vs_total_reads", file_suffix, sep="."),
+      pdf(file=paste(file_prefix, "total_reads_vs_perc_aligned", file_suffix, sep="."),
           w=plotdims[1], h=plotdims[2])
       on.exit(while ("pdf" %in% names(dev.list())) dev.off()) # close plotting device on exit (mostly important for errors that could leave pdf output open)
     } else quartz(w=plotdims[1], h=plotdims[2])
-    print(perc_aligned_vs_total_reads)
+    print(total_reads_vs_perc_aligned)
     
     
     ## Plot median_cv_coverage vs fastq_total_reads
     
     # generate base plot
     if (plot_by_var) {
-      median_cv_coverage_vs_total_reads <- 
+      total_reads_vs_median_cv_coverage <- 
         ggplot(metrics,
-               aes_(x=as.name(column.total_reads), y=as.name(column.median_cv_coverage),
-                    colour=as.name(by_var)))
+               aes_string(
+                 x=column.median_cv_coverage,
+                 y=column.total_reads, 
+                 colour=by_var))
     } else {
-      median_cv_coverage_vs_total_reads <- 
-        ggplot(metrics, aes_(x=as.name(column.total_reads), y=as.name(column.median_cv_coverage)))
+      total_reads_vs_median_cv_coverage <- 
+        ggplot(metrics, aes_string(x=column.median_cv_coverage, y=column.total_reads))
     }
     
     # add points and labels to plot
-    median_cv_coverage_vs_total_reads <- median_cv_coverage_vs_total_reads +
+    total_reads_vs_median_cv_coverage <-
+      total_reads_vs_median_cv_coverage +
       geom_point(size=point_size) +
-      labs(x = "total counts (in millions)", y = "median cv coverage") +
+      labs(y = "total counts (in millions)", x = "median cv coverage") +
       color_scale + color_labs
     
     names_to_plot <- NULL
     
     # add threshold for total_reads
     if (!is.null(threshold.total_reads)) {
-      median_cv_coverage_vs_total_reads <- median_cv_coverage_vs_total_reads +
-        geom_vline(xintercept=threshold.total_reads, colour="red", size=1)
+      total_reads_vs_median_cv_coverage <- total_reads_vs_median_cv_coverage +
+        geom_hline(yintercept=threshold.total_reads, colour="red", size=1)
       if (point_names=="thresholded")
         names_to_plot <-
           union(names_to_plot,
@@ -222,8 +227,8 @@ plot_metrics <-
     
     # add threshold for median_cv_coverage
     if (!is.null(threshold.median_cv_coverage)) {
-      median_cv_coverage_vs_total_reads <- median_cv_coverage_vs_total_reads +
-        geom_hline(yintercept=threshold.median_cv_coverage, colour="red", size=1)
+      total_reads_vs_median_cv_coverage <- total_reads_vs_median_cv_coverage +
+        geom_vline(xintercept=threshold.median_cv_coverage, colour="red", size=1)
       if (point_names=="thresholded")
         names_to_plot <-
           union(names_to_plot,
@@ -237,26 +242,26 @@ plot_metrics <-
     
     # add library names to plot (if specified)
     if (!is.null(names_to_plot)) {
-      median_cv_coverage_vs_total_reads <- median_cv_coverage_vs_total_reads +
+      total_reads_vs_median_cv_coverage <- total_reads_vs_median_cv_coverage +
         geom_text(data=metrics[(metrics[,metrics.libID_col, drop=TRUE] %in% names_to_plot),],
-                  mapping=aes_(label=as.name(metrics.libID_col)),
+                  mapping=aes_string(label=as.name(metrics.libID_col)),
                   nudge_y=-0.01, size=4, vjust=1, hjust=0.5, colour="black")
     }
     
     # add outlier lines (if specified)
     if (plot_outlier_lines) {
-      median_cv_coverage_vs_total_reads <- median_cv_coverage_vs_total_reads +
-        geom_vline(xintercept=total_reads_quantiles, linetype="dotted") +
-        geom_hline(yintercept=median_cv_coverage_quantiles, linetype="dotted")
+      total_reads_vs_median_cv_coverage <- total_reads_vs_median_cv_coverage +
+        geom_hline(yintercept=total_reads_quantiles, linetype="dotted") +
+        geom_vline(xintercept=median_cv_coverage_quantiles, linetype="dotted")
     }
     
     # output plot
     if (!is.null(file_prefix)) {
-      pdf(file=paste(file_prefix, "median_cv_coverage_vs_total_reads", file_suffix, sep="."),
+      pdf(file=paste(file_prefix, "total_reads_vs_median_cv_coverage", file_suffix, sep="."),
           w=plotdims[1], h=plotdims[2])
       on.exit(while ("pdf" %in% names(dev.list())) dev.off()) # close plotting device on exit (mostly important for errors that could leave pdf output open)
     } else quartz(w=plotdims[1], h=plotdims[2])
-    print(median_cv_coverage_vs_total_reads)
+    print(total_reads_vs_median_cv_coverage)
     
     
     ## Plot percent_aligned vs median_cv_coverage
@@ -265,12 +270,12 @@ plot_metrics <-
     if (plot_by_var) {
       perc_aligned_vs_median_cv_coverage <- 
         ggplot(metrics,
-               aes_(x=as.name(column.median_cv_coverage), y=as.name(column.perc_aligned),
-                    colour=as.name(by_var)))
+               aes_string(x=column.median_cv_coverage, y=column.perc_aligned,
+                          colour=by_var))
     } else {
       perc_aligned_vs_median_cv_coverage <- 
         ggplot(metrics,
-               aes_(x=as.name(column.median_cv_coverage), y=as.name(column.perc_aligned)))
+               aes_string(x=column.median_cv_coverage, y=column.perc_aligned))
     }
     
     # add points and labels to plot
@@ -311,7 +316,7 @@ plot_metrics <-
     if (!is.null(names_to_plot)) {
       perc_aligned_vs_median_cv_coverage <- perc_aligned_vs_median_cv_coverage +
         geom_text(data=metrics[(metrics[, metrics.libID_col, drop=TRUE] %in% names_to_plot),],
-                  mapping=aes_(label=as.name(metrics.libID_col)),
+                  mapping=aes_string(label=metrics.libID_col),
                   nudge_y=-0.01, size=4, vjust=1, hjust=0.5, colour="black")
     }
     
