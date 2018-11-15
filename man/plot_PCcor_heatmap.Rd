@@ -10,6 +10,7 @@ plot_PCcor_heatmap(
      my_heatmap_cols,
      key=TRUE, keysize=0.8, density.info="none", trace="none",
      row_dendro=FALSE, col_dendro=FALSE,
+     remove_all_NA_cols=TRUE,
      ...)}
 }
 \arguments{
@@ -24,6 +25,8 @@ plot_PCcor_heatmap(
 \item{key, keysize, density.info, trace}{parameters passed to \code{heatmap.2}. Default values here are to override default behavior of \code{heatmap.2}.}
 
 \item{row_dendro, col_dendro}{logical, whether to include the row and/or columns dendrogram(s). Both default to \code{FALSE}.}
+
+\item{remove_all_NA_cols}{logical, whether to remove variables where all the correlation values are NA. Defaults to \code{TRUE}.}
 
 \item{...}{(optional) additional arguments passed to \code{heatmap.2}.}
 }
