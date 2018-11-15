@@ -9,6 +9,7 @@
 #' @param my_heatmap_cols a vector of color names, typically the result of a call to \code{colorRampPalette}. Default is a blue (low) to red (high) palette.
 #' @param key,keysize,density.info,trace parameters passed to \code{heatmap.2}. Default values here are to override default behavior of \code{heatmap.2}.
 #' @param row_dendro,col_dendro logical, whether to include the row and/or columns dendrogram(s). Both default to \code{FALSE}.
+#' @param remove_all_NA_cols logical, whether to remove variables where all the correlation values are NA. Defaults to \code{TRUE}.
 #' @param ... (optional) additional arguments passed to \code{heatmap.2}.
 #' @export
 #' @usage \code{
@@ -17,13 +18,24 @@
 #'      my_heatmap_cols,
 #'      key=TRUE, keysize=0.8, density.info="none", trace="none",
 #'      row_dendro=FALSE, col_dendro=FALSE,
+#'      remove_all_NA_cols=TRUE,
 #'      ...)}
 plot_PCcor_heatmap <-
   function(PCcor_result, filename=NULL, plotdims=c(9,9),
            my_heatmap_cols,
            key=TRUE, keysize=0.8, density.info="none", trace="none",
            row_dendro=FALSE, col_dendro=FALSE,
+           remove_all_NA_cols=TRUE,
            ...) {
+    PCcor_result <- as.matrix(PCcor_result)
+    
+    checkmate::assert(
+      checkmate::check_numeric(PCcor_result)
+    )
+    
+    if (remove_all_NA_cols)
+      PCcor_result <- miscHelpers::remove_all_NA_rowcols(PCcor_result, rows=FALSE)
+    
     if (missing(my_heatmap_cols))
       my_heatmap_cols <-
         colorRampPalette(rev(RColorBrewer::brewer.pal(9, "RdBu")))(100)
