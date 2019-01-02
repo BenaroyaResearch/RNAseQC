@@ -8,7 +8,7 @@
 calc_PCcors(
   PCA_result, annotation,
   PCs=1:10, id_col="libid",
-  var_cols, ignore_unique_nonnumeric=TRUE, date_as_numeric=TRUE,
+  var_cols, ignore_unique_nonnumeric=TRUE, ignore_invariant=TRUE, date_as_numeric=TRUE,
   min_libs=5, cont_method="spearman", cat_method="ICC",
   ...)}
 }
@@ -24,6 +24,8 @@ calc_PCcors(
 \item{var_cols}{numbers or names of columns to include in the correlation calculations. If not specified, all columns will be included, subject to other exclusion criteria.}
 
 \item{ignore_unique_nonnumeric}{logical, whether to drop columns from annotation if they contain unique non-numeric values. Correlations for such variables are meaningless. Defaults to TRUE.}
+
+\item{ignore_invariant}{logical, whether to drop columns from annotation if all non-NA values are identical. Correlations for such variables are meaningless. Defaults to TRUE.}
 
 \item{date_as_numeric}{logical, whether to treat data of class "Date" as numeric. If set to FALSE, dates are treated as categorical variables.}
 
