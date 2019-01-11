@@ -48,9 +48,9 @@ plot_PCAs(scores_design_pca, PCs=1:3, pvars.labs="PC#",
 
 \item{add_legend}{boolean, whether to include legend(s) on the plot for points plotted by variables.}
 
-\item{file_prefix}{a character string. If provided, the function outputs a pdf of the plot, named "{file_prefix}{other_stuff}.pdf", where {other_stuff} includes the PCs being plotted and variables for shape or color plotting. If \code{NULL}, plots are output to an R plotting window.}
+\item{file_prefix}{a character string. If provided, the function outputs a pdf of the plot, named "{file_prefix}{other_stuff}.pdf", where {other_stuff} includes the PCs being plotted and variables for shape or color plotting. If \code{NULL}, plots are output to the current plotting device. Defaults to NULL.}
 
-\item{plotdims}{a numeric vector, the size (in inches) of the plotting object. Either the size of the pdf, or the size of the plotting window.}
+\item{plotdims}{a numeric vector, the size (in inches) of the plotting object. Applies only if \code{file_prefix} is not NULL.}
 
 \item{point_order}{character string, specifying how to order the points. Currently accepted values are "random", which randomizes the order of the points, and "input", which sends the points to ggplot as they are in the input data frame. Defaults to "random".}
 }

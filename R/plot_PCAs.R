@@ -18,8 +18,8 @@
 #' @param plot_text_and_pch boolean, whether to plot both text labels and points. If \code{FALSE}, text labels are plotted and points are not.
 #' @param text_by_var_size numeric, the scaling factor for the text labels; passed as \code{size} to \code{geom_text}.
 #' @param add_legend boolean, whether to include legend(s) on the plot for points plotted by variables.
-#' @param file_prefix a character string. If provided, the function outputs a pdf of the plot, named "{file_prefix}{other_stuff}.pdf", where {other_stuff} includes the PCs being plotted and variables for shape or color plotting. If \code{NULL}, plots are output to an R plotting window.
-#' @param plotdims a numeric vector, the size (in inches) of the plotting object. Either the size of the pdf, or the size of the plotting window.
+#' @param file_prefix a character string. If provided, the function outputs a pdf of the plot, named "{file_prefix}{other_stuff}.pdf", where {other_stuff} includes the PCs being plotted and variables for shape or color plotting. If \code{NULL}, plots are output to the current plotting device. Defaults to NULL.
+#' @param plotdims a numeric vector, the size (in inches) of the plotting object. Applies only if \code{file_prefix} is not NULL.
 #' @param point_order character string, specifying how to order the points. Currently accepted values are "random", which randomizes the order of the points, and "input", which sends the points to ggplot as they are in the input data frame. Defaults to "random".
 #' @import ggplot2
 #' @export
@@ -136,7 +136,7 @@ plot_PCAs <-
               file_suffix, sep="."),
             w=plotdims[1], h=plotdims[2])
           on.exit(while ("pdf" %in% names(dev.list())) dev.off()) # close plotting device on exit (mostly important for errors that could leave pdf output open)
-        } else quartz(w=plotdims[1], h=plotdims[2])
+        }
         print(pca_plot)
       }
     }
