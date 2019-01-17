@@ -10,6 +10,8 @@
 #' @param plot_lines logical, whether to include (unsmoothed) lines in the plot. It is not recommended to include both \code{plot_lines} and \code{plot_smooth}, as this will make plots difficult to read.
 #' @param plot_smooth logical, whether to include lowess curves in the plot. It is not recommended to include both \code{plot_lines} and \code{plot_smooth}, as this will make plots difficult to read.
 #' @param color_points_by_var,color_lines_by_var,color_terminal_points_by_var,color_smooth_by_var variable to use for plotting points, lines, terminal points, and/or smooths by a discrete variable. Must be either the name of a column in \code{saturation}, or a column in \code{design}.
+#' @param log_transform_depth logical, whether to plot the read counts on a log10 scale. Defaults to FALSE.
+#' @param log_transform_genes logical, whether to plot the number of genes detected on a log10 scale. Defaults to FALSE.
 #' @param my_cols character vector of color names for use in plotting. If not specified, \code{ggthemes::colorblind_pal()} is used. If the number of colors provided is less than the number of colors needed, additional colors are interpolated using \code{colorRampPalette}.
 #' @import ggplot2
 #' @import dplyr
@@ -21,6 +23,7 @@
 #'      plot_lines=TRUE, color_lines_by_var=NULL,
 #'      plot_terminal_points=TRUE, color_terminal_points_by_var=NULL,
 #'      plot_smooths=FALSE, color_smooths_by_var=NULL,
+#'      log_transform_depth=FALSE, log_transform_genes=FALSE,
 #'      my_cols=NULL)}
 plot_saturation_curve <-
   function(saturation,
@@ -29,6 +32,7 @@ plot_saturation_curve <-
            plot_lines=TRUE, color_lines_by_var=NULL,
            plot_terminal_points=TRUE, color_terminal_points_by_var=NULL,
            plot_smooths=FALSE, color_smooths_by_var=NULL,
+           log_transform_depth=FALSE, log_transform_genes=FALSE,
            my_cols=NULL) {
     if (all(is.null(color_points_by_var), is.null(color_lines_by_var),
             is.null(color_terminal_points_by_var), is.null(color_smooths_by_var))) {
@@ -105,6 +109,9 @@ plot_saturation_curve <-
       }
       satplot <- satplot + scale_color_manual(values=my_cols)
     }
+    
+    if (log_transform_depth) satplot <- satplot + scale_x_log10()
+    if (log_transform_genes) satplot <- satplot + scale_y_log10()
     
     print(satplot)
   }

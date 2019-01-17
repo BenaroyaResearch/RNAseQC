@@ -11,6 +11,7 @@ plot_saturation_curve(
      plot_lines=TRUE, color_lines_by_var=NULL,
      plot_terminal_points=TRUE, color_terminal_points_by_var=NULL,
      plot_smooths=FALSE, color_smooths_by_var=NULL,
+     log_transform_depth=FALSE, log_transform_genes=FALSE,
      my_cols=NULL)}
 }
 \arguments{
@@ -27,6 +28,10 @@ plot_saturation_curve(
 \item{plot_lines}{logical, whether to include (unsmoothed) lines in the plot. It is not recommended to include both \code{plot_lines} and \code{plot_smooth}, as this will make plots difficult to read.}
 
 \item{plot_terminal_points, }{whether to plot the maximum-depth point for each library. This helps to visualize the actual distribution of observed counts by library.}
+
+\item{log_transform_depth}{logical, whether to plot the read counts on a log10 scale. Defaults to FALSE.}
+
+\item{log_transform_genes}{logical, whether to plot the number of genes detected on a log10 scale. Defaults to FALSE.}
 
 \item{my_cols}{character vector of color names for use in plotting. If not specified, \code{ggthemes::colorblind_pal()} is used. If the number of colors provided is less than the number of colors needed, additional colors are interpolated using \code{colorRampPalette}.}
 
