@@ -17,7 +17,7 @@ calc_PCcors(
 
 \item{annotation}{a data frame containing annotation data for the samples. May include clinical data, sample quality metrics, etc.}
 
-\item{PCs}{numeric vector of principal component axes to include in correlation calculations. Defaults to 1:10, which will calculate for the first 10 PCs.}
+\item{PCs}{numeric vector of principal component axes to include in correlation calculations. Defaults to 1:10, which will calculate for the first 10 PCs. Any PCs specified that are not found in the PCA object will not be compared.}
 
 \item{id_col}{name or number of the column of \code{annotation} containing the library identifiers. These are matched to the rownames of \code{PCA_result}. Ignored if \code{PCA_result} does not have rownames.}
 

@@ -3,7 +3,7 @@
 #' This is a helper function to facilitate calculating correlations of sample-specific variables with principal components (generally from RNAseq data). By default, it uses Spearman (rank) correlations for continuous variables and intraclass correlations (as implemented in \code{ICC::ICCbare}) for categorical variables. The correlation method can be changed for continuous variables, but not currently for categorical variables.
 #' @param PCA_result result of a principal component analysis, generally of gene expression data. Typically the output of \code{prcomp} or \code{calc_PCAs}. Can also be a matrix with samples in rows and dimensions in columns.
 #' @param annotation a data frame containing annotation data for the samples. May include clinical data, sample quality metrics, etc.
-#' @param PCs numeric vector of principal component axes to include in correlation calculations. Defaults to 1:10, which will calculate for the first 10 PCs.
+#' @param PCs numeric vector of principal component axes to include in correlation calculations. Defaults to 1:10, which will calculate for the first 10 PCs. Any PCs specified that are not found in the PCA object will not be compared.
 #' @param id_col name or number of the column of \code{annotation} containing the library identifiers. These are matched to the rownames of \code{PCA_result}. Ignored if \code{PCA_result} does not have rownames.
 #' @param var_cols numbers or names of columns to include in the correlation calculations. If not specified, all columns will be included, subject to other exclusion criteria.
 #' @param ignore_unique_nonnumeric logical, whether to drop columns from annotation if they contain unique non-numeric values. Correlations for such variables are meaningless. Defaults to TRUE.
@@ -47,8 +47,10 @@ calc_PCcors <-
     }
     
     ## check that PCs specified are in PCA_result
-    if (!any(PCs %in% 1:ncol(PCA_result)))
-      stop("Some specified PC axes were not found in PCA_result.")
+    if (!all(PCs %in% 1:ncol(PCA_result))) {
+      warning("Some specified PC axes were not found in PCA_result.")
+      PCs <- intersect(PCs, 1:ncol(PCA_result))
+    }
     
     ### drop columns from annotation object
     
