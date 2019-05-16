@@ -64,7 +64,7 @@ plot_read_counts <-
     
 
     if (!is.null(file_prefix)) {
-      pdf(file=paste0(file_prefix, ".read_count_all_libs", file_suffix), w=plotdims[1], h=plotdims[2])
+      pdf(file=paste0(file_prefix, ".read_count_all_libs.", file_suffix), w=plotdims[1], h=plotdims[2])
       on.exit(while ("pdf" %in% names(dev.list())) dev.off()) # close plotting device on exit (mostly important for errors that could leave pdf output open)
     } else quartz(w=plotdims[1], h=plotdims[2])
     barplot(metrics[, total_reads_col, drop=TRUE]/10^6, main="Read count for all libraries",
@@ -72,7 +72,7 @@ plot_read_counts <-
     abline(h=threshold_line)
     
     if (!is.null(file_prefix)) {
-      pdf(file=paste0(file_prefix, ".read_count_lowcount_libs", file_suffix), w=plotdims[1], h=plotdims[2])
+      pdf(file=paste0(file_prefix, ".read_count_lowcount_libs.", file_suffix), w=plotdims[1], h=plotdims[2])
       on.exit(while ("pdf" %in% names(dev.list())) dev.off()) # close plotting device on exit (mostly important for errors that could leave pdf output open)
     } else quartz(w=plotdims[1], h=plotdims[2])
     barplot(metrics[1:n_lowcount, total_reads_col, drop=TRUE]/10^6, main="Read count for low-count libraries",
