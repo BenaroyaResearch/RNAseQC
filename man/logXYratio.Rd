@@ -4,9 +4,8 @@
 \alias{logXYratio}
 \title{Calculate ratio of total counts of genes mapping to the X and Y chromosome}
 \usage{
-\code{
-logXYratio(counts, lib_cols=1:ncol(counts),
-           gene_ID="ensembl", use_annotables=TRUE)}
+logXYratio(counts, lib_cols = 1:ncol(counts), gene_ID = "symbol",
+  use_annotables = TRUE)
 }
 \arguments{
 \item{counts}{a matrix or data frame containing the gene expression counts. Should have samples in columns and genes in rows. Row names must contain gene names, in the class standard matching \code{gene_ID}.}

@@ -16,15 +16,6 @@
 #' @import ggplot2
 #' @import dplyr
 #' @export
-#' @usage \code{
-#' plot_saturation_curve(
-#'      saturation, design, design_id_col="libid",
-#'      plot_points=FALSE, color_points_by_var=NULL,
-#'      plot_lines=TRUE, color_lines_by_var=NULL,
-#'      plot_terminal_points=TRUE, color_terminal_points_by_var=NULL,
-#'      plot_smooths=FALSE, color_smooths_by_var=NULL,
-#'      log_transform_depth=FALSE, log_transform_genes=FALSE,
-#'      my_cols=NULL)}
 plot_saturation_curve <-
   function(saturation,
            design, design_id_col="libid",

@@ -13,7 +13,6 @@
 #' @param use_annotables logical, whether to use the annotables package. If annotables is not installed, the function defaults to using \code{biomaRt}.
 #' @export
 #' @return a vector of gene symbols, of length equivalent to the length of genes.
-#' @usage \code{convert_gene_names(genes, input_type, output_type, biotype=NULL, use_annotables=TRUE)}
 convert_gene_names <-
   function(genes, input_type, output_type, biotype=NULL, use_annotables=TRUE) {
   if (require(annotables) & use_annotables) {

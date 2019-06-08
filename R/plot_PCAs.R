@@ -23,16 +23,6 @@
 #' @param point_order character string, specifying how to order the points. Currently accepted values are "random", which randomizes the order of the points, and "input", which sends the points to ggplot as they are in the input data frame. Defaults to "random".
 #' @import ggplot2
 #' @export
-#' @usage \code{
-#' plot_PCAs(scores_design_pca, PCs=1:3, pvars.labs="PC#",
-#'           color_by_var=NULL, color_by_var_levels=NULL, color_var_lab=NULL,
-#'           my_cols=c("blue","red"), na_col="grey50",
-#'           pch_by_var=NULL, pch_by_var_levels=NULL, pch_var_lab=NULL, my_pch=NULL,
-#'           text_by_var=NULL, plot_text_and_pch=FALSE, text_by_var_size=1,
-#'           add_legend=TRUE,
-#'           file_prefix=NULL, plotdims=c(9,9),
-#'           point_order="random"
-#'           )}
 plot_PCAs <-
   function(scores_design_pca, PCs=1:3, pvars.labs="PC#",
            color_by_var=NULL, color_by_var_levels=NULL, color_var_lab=NULL,

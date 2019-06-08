@@ -4,7 +4,7 @@
 \alias{get_HGNC}
 \title{Convert gene identifiers to HGNC gene symbols}
 \usage{
-\code{get_HGNC(genes, from="ensgene", type=NULL, use_annotables=TRUE)}
+get_HGNC(genes, from = "ensgene", type = NULL, use_annotables = TRUE)
 }
 \arguments{
 \item{genes}{character vector containing gene identifiers to convert}

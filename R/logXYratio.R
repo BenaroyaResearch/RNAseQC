@@ -14,9 +14,6 @@
 #'  It assumes that each column in the counts object corresponds to a library.
 #'  If the counts object contains additional columns, the columns containing
 #'  libraries must be indicated in \code{lib_cols}.
-#' @usage \code{
-#' logXYratio(counts, lib_cols=1:ncol(counts),
-#'            gene_ID="ensembl", use_annotables=TRUE)}
 logXYratio <-
   function(counts, lib_cols=1:ncol(counts),
            gene_ID="symbol", use_annotables=TRUE) {
@@ -37,14 +34,16 @@ logXYratio <-
       if (gene_ID=="ensembl") gene_ID <- "ensembl_gene_id"
       ensembl <- useMart('ensembl', 'hsapiens_gene_ensembl')
       gene_ID_to_chrom_name <-
-        getBM(attributes=c(gene_ID, "chromosome_name"), filters=gene_ID,
-              values=rownames(counts), mart=ensembl)
+        biomaRt::getBM(
+          attributes=c(gene_ID, "chromosome_name"), filters=gene_ID,
+          values=rownames(counts), mart=ensembl)
       
     } else {
       stop("Sorry, I'm missing some needed packages.\nPlease install either the annotables or biomaRt package.\n")
     }
     
-    counts$chromosome_name <- gene_ID_to_chrom_name$chromosome_name[match(rownames(counts), gene_ID_to_chrom_name[,1])]
+    counts$chromosome_name <-
+      gene_ID_to_chrom_name$chromosome_name[match(rownames(counts), gene_ID_to_chrom_name[,1])]
     x_counts <- colSums(counts[counts$chromosome_name=="X", lib_cols], na.rm=TRUE)
     y_counts <- colSums(counts[counts$chromosome_name=="Y", lib_cols], na.rm=TRUE)
     ratios <- log((x_counts+1) / (y_counts+1))  # calculate log-transformed ratios of X reads to Y reads; add 1 to each because Y counts can be 0, which yields infinite ratio

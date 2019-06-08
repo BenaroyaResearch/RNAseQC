@@ -15,13 +15,6 @@
 #' @param ... (optional) additional arguments passed to \code{cor} or other functions.
 #' @export
 #' @return a matrix of correlation coefficients, wih the column and row names reflecting the PC axes and annotation variables for which correlations were calculated.
-#' @usage \code{
-#' calc_PCcors(
-#'   PCA_result, annotation,
-#'   PCs=1:10, id_col="libid",
-#'   var_cols, ignore_unique_nonnumeric=TRUE, ignore_invariant=TRUE, date_as_numeric=TRUE,
-#'   min_libs=5, cont_method="spearman", cat_method="ICC",
-#'   ...)}
 calc_PCcors <-
   function(PCA_result, annotation,
            PCs=1:10, id_col="libid",

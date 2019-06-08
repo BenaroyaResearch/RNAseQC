@@ -4,7 +4,8 @@
 \alias{convert_gene_names}
 \title{Convert gene identifiers}
 \usage{
-\code{convert_gene_names(genes, input_type, output_type, biotype=NULL, use_annotables=TRUE)}
+convert_gene_names(genes, input_type, output_type, biotype = NULL,
+  use_annotables = TRUE)
 }
 \arguments{
 \item{genes}{character vector containing gene identifiers to convert}

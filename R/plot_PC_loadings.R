@@ -7,7 +7,6 @@
 #' @param rotation_matrix a PCA rotation or loading matrix. Should have genes in rows and PCs in columns.
 #' @import ggplot2
 #' @export
-#' @usage \code{plot_PC_loadings(rotation_matrix)}
 plot_PC_loadings <- function(rotation_matrix) {
   rotation_matrix <-
     reshape2::melt(rotation_matrix, varnames=c("gene", "PC"), value.name="loading")

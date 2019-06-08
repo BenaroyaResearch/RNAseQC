@@ -29,18 +29,6 @@
 #' @param plotdims a numeric vector, the size (in inches) of the plotting object. Either the size of the pdfs, or the size of the plotting windows.
 #' @import ggplot2
 #' @export
-#' @usage \code{
-#' plot_metrics(
-#'      metrics, metrics.libID_col="lib.id",
-#'      design=NULL, design.libID_col="lib.id",
-#'      threshold.perc_aligned=0.8, column.perc_aligned="mapped_reads_w_dups",
-#'      threshold.total_reads=5.0, column.total_reads="pf_hq_aligned_reads",
-#'      threshold.median_cv_coverage=1.0, column.median_cv_coverage="median_cv_coverage",
-#'      by_var=NULL, by_var_levels=NULL, by_var_lab=NULL,
-#'      my_cols=c("blue","red"), na_col="grey50",
-#'      point_names="thresholded",
-#'      point_size=1, plot_outlier_lines=TRUE,
-#'      file_prefix=NULL, plotdims=c(9,9))}
 plot_metrics <-
   function(metrics, metrics.libID_col="lib.id",
            design=NULL, design.libID_col="lib.id",

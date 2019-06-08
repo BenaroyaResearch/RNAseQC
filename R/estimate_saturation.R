@@ -18,13 +18,6 @@
 #' @export
 #' @details The \code{method} parameter determines the approach used to estimate the number of genes detected at different sequencing depths. Method "division" simply divides the counts for each gene by a series of scaling factors, then counts the genes whose adjusted counts exceed the detection threshold. Method "sampling" generates a number of sets (\code{nreps}) of simulated counts for each library at each sequencing depth, by probabilistically simulating counts using observed proportions. It then counts the number of genes that meet the detection threshold in each simulation, and takes the arithmetic mean of the values for each library at each depth.
 #' @return A data frame containing \code{nrep * ndepths} rows, with one row for each sample at each depth. Columns include "sample" (the name of the sample identifier), "depth" (the depth value for that iteration), and "sat" (the number of genes detected at that depth for that sample).  For method "sampling", it includes an additional column with the variance of genes detected across all replicates of each sample at each depth.
-#' @usage \code{
-#' estimate_saturation(
-#'   counts, max_reads=Inf,
-#'   method="sampling",
-#'   ndepths=6, nreps=5,
-#'   min_counts=1, min_cpm=NULL,
-#'   verbose=FALSE)}
 estimate_saturation <-
   function(counts, max_reads=Inf,
            method="sampling",
@@ -35,7 +28,8 @@ estimate_saturation <-
       stop("One of min_counts or min_cpm must be specified, but not both.")
     method <- match.arg(method, choices=c("division", "sampling"))
     
-    counts <- extract_counts(counts, return_class="matrix") # extract counts and/or convert to matrix
+    counts <-
+      countSubsetNorm::extract_counts(counts, return_class="matrix") # extract counts and/or convert to matrix
     
     readsums <- colSums(counts)
     max_reads <- min(max(readsums), max_reads)

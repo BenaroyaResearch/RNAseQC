@@ -13,7 +13,6 @@
 #' @param use_annotables boolean, whether to use the annotables package. If annotables is not installed, the function defaults to using \code{biomaRt}.
 #' @export
 #' @return a vector of HGNC gene symbols, of length equivalent to the length of genes.
-#' @usage \code{get_HGNC(genes, from="ensgene", type=NULL, use_annotables=TRUE)}
 get_HGNC <- function(genes, from="ensgene", type=NULL, use_annotables=TRUE) {
   if (require(annotables) & use_annotables) {
     output_type <- "symbol"

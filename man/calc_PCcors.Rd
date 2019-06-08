@@ -4,13 +4,10 @@
 \alias{calc_PCcors}
 \title{Calculate correlations of principal components with quality or annotation variables}
 \usage{
-\code{
-calc_PCcors(
-  PCA_result, annotation,
-  PCs=1:10, id_col="libid",
-  var_cols, ignore_unique_nonnumeric=TRUE, ignore_invariant=TRUE, date_as_numeric=TRUE,
-  min_libs=5, cont_method="spearman", cat_method="ICC",
-  ...)}
+calc_PCcors(PCA_result, annotation, PCs = 1:10, id_col = "libid",
+  var_cols, ignore_unique_nonnumeric = TRUE, ignore_invariant = TRUE,
+  date_as_numeric = TRUE, min_libs = 5, cont_method = "spearman",
+  cat_method = "ICC", ...)
 }
 \arguments{
 \item{PCA_result}{result of a principal component analysis, generally of gene expression data. Typically the output of \code{prcomp} or \code{calc_PCAs}. Can also be a matrix with samples in rows and dimensions in columns.}

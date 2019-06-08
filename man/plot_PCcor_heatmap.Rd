@@ -4,33 +4,30 @@
 \alias{plot_PCcor_heatmap}
 \title{Plot a heatmap of correlations between PCs and other sample variables}
 \usage{
-\code{
-plot_PCcor_heatmap(
-     PCcor_result, filename=NULL, plotdims=c(9,9),
-     my_heatmap_cols,
-     key=TRUE, keysize=0.8, density.info="none", trace="none",
-     row_dendro=FALSE, col_dendro=FALSE,
-     remove_all_NA_cols=TRUE,
-     ...)}
+plot_PCcor_heatmap(PCcor_result, filename = NULL, plotdims = c(9, 9),
+  my_heatmap_cols, center_colors_zero = TRUE, key = TRUE,
+  keysize = 0.8, density.info = "none", trace = "none",
+  row_dendro = FALSE, col_dendro = FALSE, remove_all_NA_cols = TRUE,
+  ...)
 }
 \arguments{
 \item{PCcor_result}{a numeric matrix or data.frame, generally the result of \code{calc_PCcors}. Should have annotation variables as columns and PCs as rows.}
 
 \item{filename}{a character string. If provided, the function outputs a pdf of the plot, named "{filename}.pdf". If not provided, the function prints to a plotting window.}
 
-\item{plotdims}{a numeric vector, the size (in inches) of the plotting object. Either the size of the pdf, or the size of the plotting window.}
+\item{plotdims}{a numeric vector, the size (in inches) of the plotting object (if outputting to a file)}
 
-\item{my_heatmap_cols}{a vector of color names, typically the result of a call to \code{colorRampPalette}. Default is a blue (low) to red (high) palette.}
+\item{my_heatmap_cols}{a vector of color names, typically the result of a call to \code{colorRampPalette}. Default is a blue (low) to white (middle) to red (high) palette.}
 
-\item{key, keysize, density.info, trace}{parameters passed to \code{heatmap.2}. Default values here are to override default behavior of \code{heatmap.2}.}
+\item{center_colors_zero}{logical, whether to center the color scale on 0. Ignored if \code{my_heatmap_cols} is specified. Defaults to \code{TRUE}.}
 
 \item{row_dendro, col_dendro}{logical, whether to include the row and/or columns dendrogram(s). Both default to \code{FALSE}.}
 
 \item{remove_all_NA_cols}{logical, whether to remove variables where all the correlation values are NA. Defaults to \code{TRUE}.}
 
-\item{...}{(optional) additional arguments passed to \code{heatmap.2}.}
+\item{...}{(optional) additional arguments passed to \code{ComplexHeatmap::Heatmap}.}
 }
 \description{
-This is a wrapper for \code{heatmap.2}, designed to make plotting of PC correlations more
-automated. It also provides a nicer default color palette than the \code{heatmap.2} default.
+This is a wrapper for \code{ComplexHeatmap::Heatmap}, designed to make plotting of PC correlations more
+automated. It also provides a nicer default color palette than the \code{ComplexHeatmap::Heatmap} default.
 }

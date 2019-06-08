@@ -4,8 +4,7 @@
 \alias{calc_PCAs}
 \title{Run PCA on gene expression count data}
 \usage{
-\code{
-calc_PCAs(counts, cpm=TRUE, log2_transform=FALSE, ...)}
+calc_PCAs(counts, cpm = TRUE, log2_transform = FALSE, ...)
 }
 \arguments{
 \item{counts}{matrix or data frame of gene expression counts, or an object from which counts can be extracted. Should have genes in rows and samples in columns}

@@ -17,13 +17,6 @@
 #' @param id_col numeric or character, the number or name of the column containing the read counts to plot. Used Defaults to "fastq_total_reads".
 #' @param id_col numeric or character, the number or name of the column containing the library identifiers. Used to plot identifiers of low-count libraries. Defaults to "lib.id".
 #' @export
-#' @usage \code{
-#' plot_read_counts(
-#'      metrics,
-#'      file_prefix=NULL, plotdims=c(9,6),
-#'      threshold_line=5, n_lowcount=20,
-#'      id_col="lib.id", total_reads_col="fastq_total_reads"
-#'      )}
 plot_read_counts <-
   function(metrics,
            file_prefix=NULL, plotdims=c(9,6),

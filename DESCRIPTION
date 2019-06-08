@@ -1,5 +1,5 @@
 Package: RNAseQC
-Title: Helper functions for conducting quality control of RNAseq data.
+Title: Helper functions for conducting quality control of RNAseq data
 Version: 0.0.0.9004
 Authors@R: person("Matthew", "Dufort", email = "matt.dufort@gmail.com", role = c("aut", "cre"))
 Description: This package includes functions to assist with quality control of
@@ -12,7 +12,9 @@ Imports:
     ggplot2,
     biomaRt,
     dplyr,
-    ICC
+    ICC,
+    countSubsetNorm,
+    ComplexHeatmap
 Depends:
     R (>= 3.2.2)
 Suggests:

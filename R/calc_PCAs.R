@@ -7,8 +7,6 @@
 #' @param ... (optional) additional arguments passed to prcomp, such as \code{center} and \code{scale}.
 #' @export
 #' @return a prcomp object, with additional list elements containing the percent variance and strings for labeling plot axes.
-#' @usage \code{
-#' calc_PCAs(counts, cpm=TRUE, log2_transform=FALSE, ...)}
 calc_PCAs <- function(counts, cpm=TRUE, log2_transform=FALSE,
                       ...) {
   counts <- extract_counts(counts)

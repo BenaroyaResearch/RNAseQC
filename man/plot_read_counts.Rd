@@ -4,13 +4,11 @@
 \alias{plot_read_counts}
 \title{Plot read counts by library}
 \usage{
-\code{
-plot_read_counts(
-     metrics,
-     file_prefix=NULL, plotdims=c(9,6),
-     threshold_line=5, n_lowcount=20,
-     id_col="lib.id", total_reads_col="fastq_total_reads"
-     )}
+plot_read_counts(metrics, file_prefix = NULL, plotdims = c(9, 6),
+  threshold_line = 5, n_lowcount = 20, color_by_var = NULL,
+  color_by_var_levels = NULL, color_var_lab = NULL,
+  my_cols = c("red", "blue"), na_col = "grey50", id_col = "lib.id",
+  total_reads_col = "fastq_total_reads")
 }
 \arguments{
 \item{metrics}{matrix or data frame containing values of metrics. Should have metrics in columns and libraries in rows.}

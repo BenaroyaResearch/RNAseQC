@@ -4,7 +4,7 @@
 \alias{plot_PC_loadings}
 \title{Plot PC loadings}
 \usage{
-\code{plot_PC_loadings(rotation_matrix)}
+plot_PC_loadings(rotation_matrix)
 }
 \arguments{
 \item{rotation_matrix}{a PCA rotation or loading matrix. Should have genes in rows and PCs in columns.}
