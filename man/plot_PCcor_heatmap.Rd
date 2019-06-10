@@ -5,9 +5,8 @@
 \title{Plot a heatmap of correlations between PCs and other sample variables}
 \usage{
 plot_PCcor_heatmap(PCcor_result, filename = NULL, plotdims = c(9, 9),
-  my_heatmap_cols, center_colors_zero = TRUE, key = TRUE,
-  keysize = 0.8, density.info = "none", trace = "none",
-  PC_dendro = FALSE, var_dendro = FALSE, orientation = "horizontal",
+  my_heatmap_cols, center_colors_zero = TRUE, PC_dendro = FALSE,
+  var_dendro = FALSE, orientation = "horizontal",
   remove_all_NA_cols = TRUE, ...)
 }
 \arguments{

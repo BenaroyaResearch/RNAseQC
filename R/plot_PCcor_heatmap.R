@@ -16,7 +16,6 @@
 plot_PCcor_heatmap <-
   function(PCcor_result, filename=NULL, plotdims=c(9,9),
            my_heatmap_cols, center_colors_zero=TRUE,
-           key=TRUE, keysize=0.8, density.info="none", trace="none",
            PC_dendro=FALSE, var_dendro=FALSE,
            orientation="horizontal",
            remove_all_NA_cols=TRUE,
