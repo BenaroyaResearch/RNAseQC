@@ -7,8 +7,8 @@
 plot_PCcor_heatmap(PCcor_result, filename = NULL, plotdims = c(9, 9),
   my_heatmap_cols, center_colors_zero = TRUE, key = TRUE,
   keysize = 0.8, density.info = "none", trace = "none",
-  row_dendro = FALSE, col_dendro = FALSE, remove_all_NA_cols = TRUE,
-  ...)
+  PC_dendro = FALSE, var_dendro = FALSE, orientation = "horizontal",
+  remove_all_NA_cols = TRUE, ...)
 }
 \arguments{
 \item{PCcor_result}{a numeric matrix or data.frame, generally the result of \code{calc_PCcors}. Should have annotation variables as columns and PCs as rows.}
@@ -21,7 +21,9 @@ plot_PCcor_heatmap(PCcor_result, filename = NULL, plotdims = c(9, 9),
 
 \item{center_colors_zero}{logical, whether to center the color scale on 0. Ignored if \code{my_heatmap_cols} is specified. Defaults to \code{TRUE}.}
 
-\item{row_dendro, col_dendro}{logical, whether to include the row and/or columns dendrogram(s). Both default to \code{FALSE}.}
+\item{PC_dendro, var_dendro}{logical, whether to include the row and/or columns dendrogram(s). Both default to \code{FALSE}.}
+
+\item{orientation}{character, either "horizontal" or "vertical", specifying the direction to plot the correlations. If "horizontal" (the default), PCs are rows and other variables are columns. If "vertical", PCs are columns and other variables are rows. Partial matches are allowed.}
 
 \item{remove_all_NA_cols}{logical, whether to remove variables where all the correlation values are NA. Defaults to \code{TRUE}.}
 
