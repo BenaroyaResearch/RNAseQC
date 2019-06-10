@@ -59,5 +59,4 @@ plot_PCcor_heatmap <-
         cluster_columns=col_dendro)
     
     print(heatmap_result)
-    return(heatmap_result)
   }
