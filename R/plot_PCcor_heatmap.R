@@ -50,10 +50,14 @@ plot_PCcor_heatmap <-
     }
     
     # generate heatmap
-    ComplexHeatmap::Heatmap(
-      matrix=PCcor_result,
-      col=my_heatmap_cols,
-      name="cor",
-      cluster_rows=row_dendro,
-      cluster_columns=col_dendro)
+    heatmap_result <-
+      ComplexHeatmap::Heatmap(
+        matrix=PCcor_result,
+        col=my_heatmap_cols,
+        name="cor",
+        cluster_rows=row_dendro,
+        cluster_columns=col_dendro)
+    
+    print(heatmap_result)
+    return(heatmap_result)
   }
