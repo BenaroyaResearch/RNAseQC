@@ -67,7 +67,8 @@ plot_PCcor_heatmap <-
         col=my_heatmap_cols,
         name="cor",
         cluster_rows=row_dendro,
-        cluster_columns=col_dendro)
+        cluster_columns=col_dendro,
+        ...)
     
     print(heatmap_result)
   }
