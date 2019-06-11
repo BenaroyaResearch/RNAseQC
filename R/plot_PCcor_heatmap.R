@@ -10,6 +10,7 @@
 #' @param center_colors_zero logical, whether to center the color scale on 0. Ignored if \code{my_heatmap_cols} is specified. Defaults to \code{TRUE}.
 #' @param PC_dendro,var_dendro logical, whether to include the row and/or columns dendrogram(s). Both default to \code{FALSE}.
 #' @param orientation character, either "horizontal" or "vertical", specifying the direction to plot the correlations. If "horizontal" (the default), PCs are rows and other variables are columns. If "vertical", PCs are columns and other variables are rows. Partial matches are allowed.
+#' @param border logical, whether to draw a border around the heatmap. Defaults to \code{FALSE}.
 #' @param remove_all_NA_cols logical, whether to remove variables where all the correlation values are NA. Defaults to \code{TRUE}.
 #' @param ... (optional) additional arguments passed to \code{ComplexHeatmap::Heatmap}.
 #' @export
@@ -17,7 +18,7 @@ plot_PCcor_heatmap <-
   function(PCcor_result, filename=NULL, plotdims=c(9,9),
            my_heatmap_cols, center_colors_zero=TRUE,
            PC_dendro=FALSE, var_dendro=FALSE,
-           orientation="horizontal",
+           orientation="horizontal", border = FALSE,
            remove_all_NA_cols=TRUE,
            ...) {
     PCcor_result <- as.matrix(PCcor_result)
@@ -69,6 +70,9 @@ plot_PCcor_heatmap <-
         cluster_rows=row_dendro,
         cluster_columns=col_dendro,
         ...)
+    if (border)
+      decorate_heatmap_body(
+        "cor", {grid.rect(gp = gpar(fill = "transparent", col = "black", lwd = 1))})
     
     print(heatmap_result)
   }

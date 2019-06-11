@@ -6,7 +6,7 @@
 \usage{
 plot_PCcor_heatmap(PCcor_result, filename = NULL, plotdims = c(9, 9),
   my_heatmap_cols, center_colors_zero = TRUE, PC_dendro = FALSE,
-  var_dendro = FALSE, orientation = "horizontal",
+  var_dendro = FALSE, orientation = "horizontal", border = FALSE,
   remove_all_NA_cols = TRUE, ...)
 }
 \arguments{
@@ -23,6 +23,8 @@ plot_PCcor_heatmap(PCcor_result, filename = NULL, plotdims = c(9, 9),
 \item{PC_dendro, var_dendro}{logical, whether to include the row and/or columns dendrogram(s). Both default to \code{FALSE}.}
 
 \item{orientation}{character, either "horizontal" or "vertical", specifying the direction to plot the correlations. If "horizontal" (the default), PCs are rows and other variables are columns. If "vertical", PCs are columns and other variables are rows. Partial matches are allowed.}
+
+\item{border}{logical, whether to draw a border around the heatmap. Defaults to \code{FALSE}.}
 
 \item{remove_all_NA_cols}{logical, whether to remove variables where all the correlation values are NA. Defaults to \code{TRUE}.}
 
