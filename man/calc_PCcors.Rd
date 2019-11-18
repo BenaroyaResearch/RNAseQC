@@ -24,7 +24,7 @@ calc_PCcors(PCA_result, annotation, PCs = 1:10, id_col = "libid",
 
 \item{ignore_invariant}{logical, whether to drop columns from annotation if all non-NA values are identical. Correlations for such variables are meaningless. Defaults to TRUE.}
 
-\item{date_as_numeric}{logical, whether to treat data of class "Date" as numeric. If set to FALSE, dates are treated as categorical variables.}
+\item{date_as_numeric}{logical, whether to treat data of class "Date" and "POSIXt" as numeric. If set to FALSE, dates are treated as categorical variables.}
 
 \item{min_libs}{number, the minimum number of libraries containing non-NA values for a variable. Variables in \code{annotation} with fewer non-NA values will be dropped. Defaults to 5.}
 

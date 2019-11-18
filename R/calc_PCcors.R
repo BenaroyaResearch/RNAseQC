@@ -8,7 +8,7 @@
 #' @param var_cols numbers or names of columns to include in the correlation calculations. If not specified, all columns will be included, subject to other exclusion criteria.
 #' @param ignore_unique_nonnumeric logical, whether to drop columns from annotation if they contain unique non-numeric values. Correlations for such variables are meaningless. Defaults to TRUE.
 #' @param ignore_invariant logical, whether to drop columns from annotation if all non-NA values are identical. Correlations for such variables are meaningless. Defaults to TRUE.
-#' @param date_as_numeric logical, whether to treat data of class "Date" as numeric. If set to FALSE, dates are treated as categorical variables.
+#' @param date_as_numeric logical, whether to treat data of class "Date" and "POSIXt" as numeric. If set to FALSE, dates are treated as categorical variables.
 #' @param min_libs number, the minimum number of libraries containing non-NA values for a variable. Variables in \code{annotation} with fewer non-NA values will be dropped. Defaults to 5.
 #' @param cont_method character, the name of the correlation coefficient to use for continuous variables. Passed to \code{stats::cor}, and must be one of "pearson", "kendall", or "spearman", or abbreviations thereof. Defaults to "spearman".
 #' @param cat_method character, the name of the correlation coefficient to use for categorical variables. Currently, the only acceptable option is "ICC", which uses the intraclass correlation coefficient as implemented in \code{ICC::ICCbare}.
@@ -71,7 +71,11 @@ calc_PCcors <-
     
     # convert Date columns to numeric (if specified)
     if (date_as_numeric) {
-      for (j in colnames(annotation)[sapply(annotation, class)=="Date"]) {
+      for (
+        j in 
+        colnames(annotation)[
+          sapply(annotation, inherits, "Date") |
+          sapply(annotation, inherits, "POSIXt")]) {
         annotation[,j] <- as.numeric(annotation[,j])
       }
     }
