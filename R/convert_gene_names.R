@@ -30,7 +30,7 @@ convert_gene_names <-
                      mart=ensembl)
     if (!is.null(biotype))
       gene_ID_translate <- gene_ID_translate[gene_ID_translate[,"gene_biotype"] %in% biotype,]
-    genes_out <- gene_ID_translate[match(genes, gene_ID_translate[,input_type]),outype_type] # get the gene names
+    genes_out <- gene_ID_translate[match(genes, gene_ID_translate[,input_type]),output_type] # get the gene names
   }
   return(genes_out)
 }
