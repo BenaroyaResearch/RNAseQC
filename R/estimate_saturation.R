@@ -15,7 +15,7 @@
 #' @param min_cpm the minimum counts per million for a gene to be counted as detected. Genes with sample counts >= this value are considered detected. Either this or min_count should be specified, but not both; including both yields an error. Defaults to NULL.
 #' @param verbose logical, whether to output the status of the estimation.
 #' @import countSubsetNorm
-#' @import Rfast
+#' @importFrom Rfast colTabulate
 #' @export
 #' @details The \code{method} parameter determines the approach used to estimate the number of genes detected at different sequencing depths. Method "division" simply divides the counts for each gene by a series of scaling factors, then counts the genes whose adjusted counts exceed the detection threshold. Method "sampling" generates a number of sets (\code{nreps}) of simulated counts for each library at each sequencing depth, by probabilistically simulating counts using observed proportions. It then counts the number of genes that meet the detection threshold in each simulation, and takes the arithmetic mean of the values for each library at each depth.
 #' @return A data frame containing \code{nrep * ndepths} rows, with one row for each sample at each depth. Columns include "sample" (the name of the sample identifier), "depth" (the depth value for that iteration), and "sat" (the number of genes detected at that depth for that sample).  For method "sampling", it includes an additional column with the variance of genes detected across all replicates of each sample at each depth.
