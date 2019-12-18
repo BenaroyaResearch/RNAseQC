@@ -1,6 +1,6 @@
 Package: RNAseQC
 Title: Helper functions for conducting quality control of RNAseq data
-Version: 0.0.0.9005
+Version: 0.0.0.9006
 Authors@R: person("Matthew", "Dufort", email = "matt.dufort@gmail.com", role = c("aut", "cre"))
 Description: This package includes functions to assist with quality control of
     RNAseq data. It includes functions for running PCA, plotting PCA output,
@@ -13,8 +13,9 @@ Imports:
     biomaRt,
     dplyr,
     ICC,
+    Rfast,
     countSubsetNorm,
-    ComplexHeatmap
+    ComplexHeatmap,
 Depends:
     R (>= 3.2.2)
 Suggests:
