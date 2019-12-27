@@ -4,9 +4,16 @@
 \alias{estimate_saturation}
 \title{Estimate saturation of genes based on rarefaction of reads}
 \usage{
-estimate_saturation(counts, max_reads = Inf, method = "sampling",
-  ndepths = 6, nreps = 5, min_counts = 1, min_cpm = NULL,
-  verbose = FALSE)
+estimate_saturation(
+  counts,
+  max_reads = Inf,
+  method = "sampling",
+  ndepths = 6,
+  nreps = 5,
+  min_counts = 1,
+  min_cpm = NULL,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{counts}{a numeric matrix (or object that can be coerced to a matrix) containing read counts, or an object from which counts can be extracted. Should have genes in rows and samples in columns.}

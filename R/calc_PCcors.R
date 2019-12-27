@@ -26,7 +26,7 @@ calc_PCcors <-
     } else if (inherits(PCA_result, "prcomp")) {
       PCA_result <- PCA_result$x
     } else if (!inherits(PCA_result, "matrix")) stop("Class of object PCA_result not recognized.")
-    
+
     # drop objects from PCA matrix if not found in annotation object
     if (is.null(rownames(PCA_result))) {
       if (nrow(PCA_result) != nrow(annotation)) {
@@ -38,18 +38,18 @@ calc_PCcors <-
       PCA_result <- PCA_result[na.omit(match(annotation[,id_col, drop=TRUE], rownames(PCA_result))),]
       annotation <- annotation[na.omit(match(rownames(PCA_result), annotation[,id_col, drop=TRUE])),]
     }
-    
+
     ## check that PCs specified are in PCA_result
     if (!all(PCs %in% 1:ncol(PCA_result))) {
       warning("Some specified PC axes were not found in PCA_result.")
       PCs <- intersect(PCs, 1:ncol(PCA_result))
     }
-    
+
     ### drop columns from annotation object
-    
+
     # keep columns specified by var_cols (or all if unspecified)
     if (exists("var_cols")) annotation <- annotation[,var_cols]
-    
+
     # drop columns containing only unique non-numeric values
     if (ignore_unique_nonnumeric) {
       annotation <-
@@ -59,7 +59,7 @@ calc_PCcors <-
                      is.numeric(x) |
                        length(unique(na.omit(x)))!=length(na.omit(x))})]
     }
-    
+
     # drop columns containing all identical values
     if (ignore_invariant) {
       annotation <-
@@ -68,24 +68,24 @@ calc_PCcors <-
                    function(x) {
                        length(unique(na.omit(x))) > 1})]
     }
-    
+
     # convert Date columns to numeric (if specified)
     if (date_as_numeric) {
       for (
-        j in 
+        j in
         colnames(annotation)[
           sapply(annotation, inherits, "Date") |
           sapply(annotation, inherits, "POSIXt")]) {
-        annotation[,j] <- as.numeric(annotation[,j])
+        annotation[,j] <- as.numeric(annotation[,j, drop=TRUE])
       }
     }
-    
+
     # drop columns with too few non-NA values
     annotation <-
       annotation[
         , sapply(annotation,
                  function(x) {sum(!is.na(x)) >= min_libs})]
-    
+
     # generate empty matrix to store correlation data
     if (is.null(colnames(PCA_result)))
       colnames(PCA_result) <- paste0("PC", 1:ncol(PCA_result))
@@ -94,12 +94,12 @@ calc_PCcors <-
         nrow=length(PCs),
         ncol=ncol(annotation),
         dimnames=list(colnames(PCA_result)[PCs], colnames(annotation)))
-    
-    # calculate correlations of all variables with PCs, using specified methods for continuous 
+
+    # calculate correlations of all variables with PCs, using specified methods for continuous
     for (i in colnames(PCcors)) {
       if (is.numeric(annotation[,i])) {
         PCcors[,i] <-
-          cor(annotation[,i],
+          cor(annotation[,i, drop=TRUE],
               PCA_result[,PCs],
               method=cont_method, use="pairwise")
       } else {
@@ -109,7 +109,7 @@ calc_PCcors <-
               data.frame(
                 annotation[,i], PCA_result[,j])
             colnames(data.tmp) <- c(i,j)
-            
+
             capture.output(suppressWarnings(  # suppress output from ICCbare
               PCcors[j,i] <-
                 ICC::ICCbare(data=data.tmp, x=i, y=j)))
@@ -117,6 +117,6 @@ calc_PCcors <-
         } else stop ("Only method 'ICC' is currently supported for categorical variables.")
       }
     }
-    
+
     PCcors
   }
