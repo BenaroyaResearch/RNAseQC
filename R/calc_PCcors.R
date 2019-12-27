@@ -97,7 +97,7 @@ calc_PCcors <-
 
     # calculate correlations of all variables with PCs, using specified methods for continuous
     for (i in colnames(PCcors)) {
-      if (is.numeric(annotation[,i])) {
+      if (is.numeric(annotation[,i, drop=TRUE])) {
         PCcors[,i] <-
           cor(annotation[,i, drop=TRUE],
               PCA_result[,PCs],
