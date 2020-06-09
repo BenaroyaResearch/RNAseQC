@@ -1,5 +1,5 @@
 #' Estimate saturation of genes based on rarefaction of reads
-#' 
+#'
 #' Estimate the saturation of gene detection based on rarefaction of the mapped read counts from each
 #' library in a read counts object. This function takes the read counts for each library and
 #' sequentially rarefies them at different levels to determine how thoroughly genes are being sampled.
@@ -15,7 +15,7 @@
 #' @param min_cpm the minimum counts per million for a gene to be counted as detected. Genes with sample counts >= this value are considered detected. Either this or min_count should be specified, but not both; including both yields an error. Defaults to NULL.
 #' @param verbose logical, whether to output the status of the estimation.
 #' @import countSubsetNorm
-#' @importFrom Rfast colTabulate
+#' @importFrom bigtabulate bigtable
 #' @export
 #' @details The \code{method} parameter determines the approach used to estimate the number of genes detected at different sequencing depths. Method "division" simply divides the counts for each gene by a series of scaling factors, then counts the genes whose adjusted counts exceed the detection threshold. Method "sampling" generates a number of sets (\code{nreps}) of simulated counts for each library at each sequencing depth, by probabilistically simulating counts using observed proportions. It then counts the number of genes that meet the detection threshold in each simulation, and takes the arithmetic mean of the values for each library at each depth.
 #' @return A data frame containing \code{nrep * ndepths} rows, with one row for each sample at each depth. Columns include "sample" (the name of the sample identifier), "depth" (the depth value for that iteration), and "sat" (the number of genes detected at that depth for that sample).  For method "sampling", it includes an additional column with the variance of genes detected across all replicates of each sample at each depth.
@@ -28,10 +28,10 @@ estimate_saturation <-
     if (sum(!is.null(min_counts), !is.null(min_cpm)) != 1)
       stop("One of min_counts or min_cpm must be specified, but not both.")
     method <- match.arg(method, choices=c("division", "sampling"))
-    
+
     counts <-
       countSubsetNorm::extract_counts(counts, return_class="matrix") # extract counts and/or convert to matrix
-    
+
     readsums <- colSums(counts)
     max_reads <- min(max(readsums), max_reads)
     depths <- round(seq(from=0, to=max_reads, length.out=ndepths+1))
@@ -44,14 +44,14 @@ estimate_saturation <-
       sat.var.estimates <- as.numeric(rep(NA, ncol(counts) * length(depths)))
     for (i in 1:ncol(counts)) {
       if (verbose) cat("Working on library", i, "of", ncol(counts), "\n")
-      
+
       # adjust to min_cpm if specified
       if (!is.null(min_cpm)) {
         min_counts.lib <- readsums[i] / 1000000
       } else {
         min_counts.lib <- min_counts
       }
-      
+
       probs <- counts[,i, drop=TRUE] / readsums[i] # calculate gene probabilities for the library
       probs <- probs[probs > 0] # zero counts add nothing but computational time!
       ngenes <- length(probs)
@@ -69,13 +69,11 @@ estimate_saturation <-
           sat.estimates[counter] <-
               sum((probs * j) >= min_counts.lib)
         } else if (method=="sampling") {
-          reads <-
-            matrix(
-              sample.int(n=ngenes, size=j*nreps, replace=TRUE, prob=probs),
-              ncol=nreps)
-          read_table <- Rfast::colTabulate(reads)
-          read_table_threshold <- read_table >= min_counts.lib
-          est <- colSums(read_table_threshold)
+          est <- as.numeric(rep(NA, nreps))
+          for (k in 1:nreps) {
+            reads <- as.matrix(sample.int(n=ngenes, size=j, replace=TRUE, prob=probs))
+            est[k] <- sum(bigtabulate::bigtable(reads, ccol=1) >= min_counts.lib)
+          }
           sat.estimates[counter] <- mean(est)
           sat.var.estimates[counter] <- var(est)
         }
@@ -84,6 +82,6 @@ estimate_saturation <-
     saturation$sat <- sat.estimates
     if (method=="sampling")
       saturation$sat.var <- sat.var.estimates
-    
+
     return(saturation)
   }
