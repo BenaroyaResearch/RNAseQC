@@ -17,18 +17,18 @@
 logXYratio <-
   function(counts, lib_cols=1:ncol(counts),
            gene_ID="symbol", use_annotables=TRUE) {
-    if (!is.data.frame(counts)) {
-      stop("Counts object must be a data frame.")
+    if (!(is.data.frame(counts) | is.matrix(counts) | is(counts, "dgCMatrix")) {
+      stop("Counts object must be a data frame, matrix, or sparse matrix of class 'dgCMatrix'.")
     }
     force(lib_cols)  # causes lib_cols to be evaluated, which is necessary for later use
-    
+
     if (require(annotables) & use_annotables) {
       warning('Package "annotables" detected. Used data from annotables instead of BioMart.\n')
       if (gene_ID=="ensembl") gene_ID <- "ensgene"
       gene_ID_to_chrom_name <-
         data.frame(gene_ID = rownames(counts),
                    chromosome_name = grch38[["chr"]][match(rownames(counts), grch38[[gene_ID]])])
-      
+
     } else if (require(biomaRt)) {
       warning('Used BioMart to retrieve chromosome identity for all gene IDs.\n')
       if (gene_ID=="ensembl") gene_ID <- "ensembl_gene_id"
@@ -37,17 +37,17 @@ logXYratio <-
         biomaRt::getBM(
           attributes=c(gene_ID, "chromosome_name"), filters=gene_ID,
           values=rownames(counts), mart=ensembl)
-      
+
     } else {
       stop("Sorry, I'm missing some needed packages.\nPlease install either the annotables or biomaRt package.\n")
     }
-    
-    counts$chromosome_name <-
+
+    chromosome_name <-
       gene_ID_to_chrom_name$chromosome_name[match(rownames(counts), gene_ID_to_chrom_name[,1])]
-    x_counts <- colSums(counts[counts$chromosome_name=="X", lib_cols], na.rm=TRUE)
-    y_counts <- colSums(counts[counts$chromosome_name=="Y", lib_cols], na.rm=TRUE)
+    x_counts <- colSums(counts[chromosome_name=="X", lib_cols], na.rm=TRUE)
+    y_counts <- colSums(counts[chromosome_name=="Y", lib_cols], na.rm=TRUE)
     ratios <- log((x_counts+1) / (y_counts+1))  # calculate log-transformed ratios of X reads to Y reads; add 1 to each because Y counts can be 0, which yields infinite ratio
     names(ratios) <- colnames(counts)[lib_cols]  # name the vector of ratios with the library IDs
-    
+
     return(ratios)
   }
