@@ -17,7 +17,7 @@
 logXYratio <-
   function(counts, lib_cols=1:ncol(counts),
            gene_ID="symbol", use_annotables=TRUE) {
-    if (!(is.data.frame(counts) | is.matrix(counts) | is(counts, "dgCMatrix")) {
+    if (!(is.data.frame(counts) | is.matrix(counts) | is(counts, "dgCMatrix"))) {
       stop("Counts object must be a data frame, matrix, or sparse matrix of class 'dgCMatrix'.")
     }
     force(lib_cols)  # causes lib_cols to be evaluated, which is necessary for later use
