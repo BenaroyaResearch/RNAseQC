@@ -44,8 +44,8 @@ logXYratio <-
 
     chromosome_name <-
       gene_ID_to_chrom_name$chromosome_name[match(rownames(counts), gene_ID_to_chrom_name[,1])]
-    x_counts <- colSums(counts[chromosome_name=="X", lib_cols], na.rm=TRUE)
-    y_counts <- colSums(counts[chromosome_name=="Y", lib_cols], na.rm=TRUE)
+    x_counts <- colSums(counts[which(chromosome_name=="X"), lib_cols], na.rm=TRUE)
+    y_counts <- colSums(counts[which(chromosome_name=="Y"), lib_cols], na.rm=TRUE)
     ratios <- log((x_counts+1) / (y_counts+1))  # calculate log-transformed ratios of X reads to Y reads; add 1 to each because Y counts can be 0, which yields infinite ratio
     names(ratios) <- colnames(counts)[lib_cols]  # name the vector of ratios with the library IDs
 
