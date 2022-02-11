@@ -8,6 +8,7 @@ logXYratio(
   counts,
   lib_cols = 1:ncol(counts),
   gene_ID = "symbol",
+  species = "human",
   use_annotables = TRUE
 )
 }
@@ -17,6 +18,8 @@ logXYratio(
 \item{lib_cols}{a numeric vector, the indices of columns containing count data. Defaults to all columns in \code{counts}; can be adjusted if non-count columns are included in the \code{counts} object.}
 
 \item{gene_ID}{the gene identifier class of the gene names. Must match a corresponding variable in \code{annotables} or \code{biomaRt}.}
+
+\item{species}{character, the species that the data derive from. Can be "human" or "mouse", or any species abbreviation used in the BioMart ensembl datasets (as long as the species has X and Y chromosomes). For a full list of possible species, use \code{biomaRt::listDatasets(biomaRt::useMart("ensembl"))$dataset)}. For backward compatibility, defaults to human.}
 
 \item{use_annotables}{boolean, whether to use the annotables package. If annotables is not installed, defaults to using \code{biomaRt}.}
 }
