@@ -13,9 +13,9 @@ logXYratio(
 )
 }
 \arguments{
-\item{counts}{a matrix or data frame containing the gene expression counts. Should have samples in columns and genes in rows. Row names must contain gene names, in the class standard matching \code{gene_ID}.}
+\item{counts}{a matrix or data frame containing the gene expression counts. Should have samples in columns and genes in rows. Row names must contain gene names, in the class standard matching \code{gene_ID}. NOTE: The calculated ratios are returned in the order of the counts object (by default), or in the order specified by \code{lib_cols}}
 
-\item{lib_cols}{a numeric vector, the indices of columns containing count data. Defaults to all columns in \code{counts}; can be adjusted if non-count columns are included in the \code{counts} object.}
+\item{lib_cols}{a numeric vector, the indices of columns containing count data. Defaults to all columns in \code{counts}; can be adjusted if non-count columns are included in the \code{counts} object. Can also be used to specify an ordering of the libraries other than the order of the counts object.}
 
 \item{gene_ID}{the gene identifier class of the gene names. Must match a corresponding variable in \code{annotables} or \code{biomaRt}.}
 
