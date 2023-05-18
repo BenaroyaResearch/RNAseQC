@@ -9,7 +9,7 @@
 #' @return a prcomp object, with additional list elements containing the percent variance and strings for labeling plot axes.
 calc_PCAs <- function(counts, cpm=TRUE, log2_transform=FALSE,
                       ...) {
-  counts <- extract_counts(counts)
+  counts <- countSubsetNorm::extract_counts(counts)
   if (cpm) counts <- edgeR::cpm(counts)
   t.counts <- t(counts)
   if (log2_transform) t.counts <- log2(t.counts + 1)

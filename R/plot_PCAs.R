@@ -22,6 +22,7 @@
 #' @param plotdims a numeric vector, the size (in inches) of the plotting object. Applies only if \code{file_prefix} is not NULL.
 #' @param point_order character string, specifying how to order the points. Currently accepted values are "random", which randomizes the order of the points, and "input", which sends the points to ggplot as they are in the input data frame. Defaults to "random".
 #' @import ggplot2
+#' @importFrom rlang sym
 #' @export
 plot_PCAs <-
   function(scores_design_pca, PCs=1:3, pvars.labs="PC#",
@@ -77,11 +78,11 @@ plot_PCAs <-
     }
     
     if (plot_color_by_var & plot_pch_by_var) {
-      plot_points <- geom_point(aes_string(color=color_by_var, shape=pch_by_var), size=3)
+      plot_points <- geom_point(aes(color=!!sym(color_by_var), shape=!!sym(pch_by_var)), size=3)
     } else if (plot_color_by_var & !plot_pch_by_var) {
-      plot_points <- geom_point(aes_string(color=color_by_var), size=3)
+      plot_points <- geom_point(aes(color=!!sym(color_by_var)), size=3)
     } else if (!plot_color_by_var & plot_pch_by_var) {
-      plot_points <- geom_point(aes_string(shape=pch_by_var), size=3)
+      plot_points <- geom_point(aes(shape=!!sym(pch_by_var)), size=3)
     }
     
     if (!exists("plot_points") & (is.null(text_by_var) | plot_text_and_pch))
@@ -94,8 +95,8 @@ plot_PCAs <-
       if (exists("plot_points")) {
         plot_points <-
           plot_points +
-          geom_text(aes_string(label=text_by_var), size=text_by_var_size)
-      } else plot_points <- geom_text(aes_string(label=text_by_var), size=text_by_var_size)
+          geom_text(aes(label=!!sym(text_by_var)), size=text_by_var_size)
+      } else plot_points <- geom_text(aes(label=!!sym(text_by_var)), size=text_by_var_size)
       file_suffix <- paste("text_by_", text_by_var, ".", file_suffix, sep="")
     }
     
@@ -111,7 +112,7 @@ plot_PCAs <-
     for (i in 1:(length(PCs)-1)) {
       for (j in (i+1):length(PCs)) {
         pca_plot <-
-          ggplot(scores_design_pca, aes_string(x=pc_names[i], y=pc_names[j])) +
+          ggplot(scores_design_pca, aes(x=!!sym(pc_names[i]), y=!!sym(pc_names[j]))) +
           labs(x = pvars.labs[PCs[i]], y = pvars.labs[PCs[j]]) +
           color_scale + color_labs +
           pch_scale + pch_labs +

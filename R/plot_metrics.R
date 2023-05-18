@@ -28,6 +28,7 @@
 #' @param file_prefix a character string. If provided, the function outputs pdfs of the plots, named "{file_prefix}_{plot_name}.pdf". If not provided, the function prints to a plotting window.
 #' @param plotdims a numeric vector, the size (in inches) of the plotting object. Either the size of the pdfs, or the size of the plotting windows.
 #' @import ggplot2
+#' @importFrom rlang sym
 #' @export
 plot_metrics <-
   function(metrics, metrics.libID_col="lib.id",
@@ -111,12 +112,12 @@ plot_metrics <-
     if (plot_by_var) {
       total_reads_vs_perc_aligned <- 
         ggplot(metrics,
-               aes_string(y=column.total_reads, x=column.perc_aligned,
-                          colour=by_var)) +
+               aes(y=!!sym(column.total_reads), x=!!sym(column.perc_aligned),
+                   colour=!!sym(by_var))) +
         scale_x_reverse()
     } else {
       total_reads_vs_perc_aligned <- 
-        ggplot(metrics, aes_string(y=column.total_reads, x=column.perc_aligned)) +
+        ggplot(metrics, aes(y=!!sym(column.total_reads), x=!!sym(column.perc_aligned))) +
         scale_x_reverse()
     }
     
@@ -158,7 +159,7 @@ plot_metrics <-
     if (!is.null(names_to_plot)) {
       total_reads_vs_perc_aligned <- total_reads_vs_perc_aligned +
         geom_text(data=metrics[(metrics[, metrics.libID_col, drop=TRUE] %in% names_to_plot),],
-                  mapping=aes_string(label=as.name(metrics.libID_col)),
+                  mapping=aes(label=!!sym(metrics.libID_col)),
                   nudge_y=-0.01, size=4, vjust=1, hjust=0.5, colour="black")
     }
     
@@ -184,13 +185,13 @@ plot_metrics <-
     if (plot_by_var) {
       total_reads_vs_median_cv_coverage <- 
         ggplot(metrics,
-               aes_string(
-                 x=column.median_cv_coverage,
-                 y=column.total_reads, 
-                 colour=by_var))
+               aes(
+                 x=!!sym(column.median_cv_coverage),
+                 y=!!sym(column.total_reads), 
+                 colour=!!sym(by_var)))
     } else {
       total_reads_vs_median_cv_coverage <- 
-        ggplot(metrics, aes_string(x=column.median_cv_coverage, y=column.total_reads))
+        ggplot(metrics, aes(x=!!sym(column.median_cv_coverage), y=!!sym(column.total_reads)))
     }
     
     # add points and labels to plot
@@ -232,7 +233,7 @@ plot_metrics <-
     if (!is.null(names_to_plot)) {
       total_reads_vs_median_cv_coverage <- total_reads_vs_median_cv_coverage +
         geom_text(data=metrics[(metrics[,metrics.libID_col, drop=TRUE] %in% names_to_plot),],
-                  mapping=aes_string(label=as.name(metrics.libID_col)),
+                  mapping=aes(label=!!sym(metrics.libID_col)),
                   nudge_y=-0.01, size=4, vjust=1, hjust=0.5, colour="black")
     }
     
@@ -258,12 +259,12 @@ plot_metrics <-
     if (plot_by_var) {
       perc_aligned_vs_median_cv_coverage <- 
         ggplot(metrics,
-               aes_string(x=column.median_cv_coverage, y=column.perc_aligned,
+               aes(x=!!sym(column.median_cv_coverage), y=!!sym(column.perc_aligned),
                           colour=by_var))
     } else {
       perc_aligned_vs_median_cv_coverage <- 
         ggplot(metrics,
-               aes_string(x=column.median_cv_coverage, y=column.perc_aligned))
+               aes(x=!!sym(column.median_cv_coverage), y=!!sym(column.perc_aligned)))
     }
     
     # add points and labels to plot
@@ -304,7 +305,7 @@ plot_metrics <-
     if (!is.null(names_to_plot)) {
       perc_aligned_vs_median_cv_coverage <- perc_aligned_vs_median_cv_coverage +
         geom_text(data=metrics[(metrics[, metrics.libID_col, drop=TRUE] %in% names_to_plot),],
-                  mapping=aes_string(label=metrics.libID_col),
+                  mapping=aes(label=!!sym(metrics.libID_col)),
                   nudge_y=-0.01, size=4, vjust=1, hjust=0.5, colour="black")
     }
     

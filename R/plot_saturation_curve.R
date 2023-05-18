@@ -15,6 +15,7 @@
 #' @param my_cols character vector of color names for use in plotting. If not specified, \code{ggthemes::colorblind_pal()} is used. If the number of colors provided is less than the number of colors needed, additional colors are interpolated using \code{colorRampPalette}.
 #' @import ggplot2
 #' @import dplyr
+#' @importFrom rlang sym
 #' @export
 plot_saturation_curve <-
   function(saturation,
@@ -44,7 +45,7 @@ plot_saturation_curve <-
     
     if (plot_points) {
       if (!is.null(color_points_by_var)) {
-        satplot <- satplot + geom_point(mapping=aes_string(color=color_points_by_var))
+        satplot <- satplot + geom_point(mapping=aes(color=!!sym(color_points_by_var)))
         n_col <- max(n_col, length(unique(saturation[,color_points_by_var])))
       } else {
         satplot <- satplot + geom_point()
@@ -53,7 +54,7 @@ plot_saturation_curve <-
     
     if (plot_lines) {
       if (!is.null(color_lines_by_var)) {
-        satplot <- satplot + geom_line(mapping=aes_string(color=color_lines_by_var))
+        satplot <- satplot + geom_line(mapping=aes(color=!!sym(color_lines_by_var)))
         n_col <- max(n_col, length(unique(saturation[,color_lines_by_var])))
       } else {
         satplot <- satplot + geom_line()
@@ -62,7 +63,7 @@ plot_saturation_curve <-
     
     if (plot_smooths) {
       if (!is.null(color_smooths_by_var)) {
-        satplot <- satplot + geom_smooth(mapping=aes_string(color=color_smooths_by_var))
+        satplot <- satplot + geom_smooth(mapping=aes(color=!!sym(color_smooths_by_var)))
         n_col <- max(n_col, length(unique(saturation[,color_smooths_by_var])))
       } else {
         satplot <- satplot + geom_smooth(se=FALSE)
@@ -81,7 +82,7 @@ plot_saturation_curve <-
       if (!is.null(color_terminal_points_by_var)) {
         satplot <- satplot +
           geom_point(data=saturation.terminal,
-                     mapping=aes_string(x="depth", y="sat", color=color_terminal_points_by_var))
+                     mapping=aes(x=depth, y=sat, color=!!sym(color_terminal_points_by_var)))
         n_col <- max(n_col, length(unique(saturation.terminal[,color_terminal_points_by_var])))
       } else {
         satplot <- satplot +

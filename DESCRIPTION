@@ -1,25 +1,33 @@
 Package: RNAseQC
 Title: Helper functions for conducting quality control of RNAseq data
-Version: 0.0.0.9008
+Version: 0.0.0.9009
 Authors@R: person("Matthew", "Dufort", email = "matt.dufort@gmail.com", role = c("aut", "cre"))
 Description: This package includes functions to assist with quality control of
     RNAseq data. It includes functions for running PCA, plotting PCA output,
     plotting quality metrics, estimating and plotting read saturation, inferring
     the sex of a sample source from X- and Y-chromosome reads, determining and
     plotting correlations between clinical/quality variables and PCs.
+biocViews:
 Imports:
     reshape2,
     ggplot2,
-    biomaRt,
     dplyr,
+    rlang,
     ICC,
+    bigtabulate,
+    ggthemes,
+	checkmate,
     countSubsetNorm,
-    ComplexHeatmap,
-    bigtabulate
+    miscHelpers,
+	biomaRt,
+    ComplexHeatmap
+Remotes:
+	BenaroyaResearch/countSubsetNorm,
+	BenaroyaResearch/miscHelpers
 Depends:
     R (>= 3.2.2)
 Suggests:
     annotables
 License: GPL-3
 LazyData: true
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3
