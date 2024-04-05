@@ -27,7 +27,7 @@ Remotes:
 Depends:
     R (>= 3.2.2)
 Suggests:
-    stephenturner/annotables
+    stephenturner/annotables (>= 0.1.0)
 License: GPL-3
 LazyData: true
 RoxygenNote: 7.2.3
