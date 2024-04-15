@@ -23,11 +23,12 @@ Imports:
     ComplexHeatmap
 Remotes:
 	BenaroyaResearch/countSubsetNorm,
-	BenaroyaResearch/miscHelpers
+	BenaroyaResearch/miscHelpers,
+	stephenturner/annotables
 Depends:
     R (>= 3.2.2)
 Suggests:
-    stephenturner/annotables
+    annotables
 License: GPL-3
 LazyData: true
 RoxygenNote: 7.2.3
