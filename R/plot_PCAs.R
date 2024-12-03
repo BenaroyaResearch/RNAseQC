@@ -18,21 +18,21 @@
 #' @param plot_text_and_pch boolean, whether to plot both text labels and points. If \code{FALSE}, text labels are plotted and points are not.
 #' @param text_by_var_size numeric, the scaling factor for the text labels; passed as \code{size} to \code{geom_text}.
 #' @param add_legend boolean, whether to include legend(s) on the plot for points plotted by variables.
-#' @param file_prefix a character string. If provided, the function outputs a pdf of the plot, named "{file_prefix}{other_stuff}.pdf", where {other_stuff} includes the PCs being plotted and variables for shape or color plotting. If \code{NULL}, plots are output to the current plotting device. Defaults to NULL.
+#' @param file_prefix a character string. If provided, the function outputs a pdf of the plot, named "\code{file_prefix}\code{other_stuff}.pdf", where \code{other_stuff} includes the PCs being plotted and variables for shape or color plotting. If \code{NULL}, plots are output to the current plotting device. Defaults to NULL.
 #' @param plotdims a numeric vector, the size (in inches) of the plotting object. Applies only if \code{file_prefix} is not NULL.
 #' @param point_order character string, specifying how to order the points. Currently accepted values are "random", which randomizes the order of the points, and "input", which sends the points to ggplot as they are in the input data frame. Defaults to "random".
 #' @import ggplot2
 #' @importFrom rlang sym
 #' @export
 plot_PCAs <-
-  function(scores_design_pca, PCs=1:3, pvars.labs="PC#",
-           color_by_var=NULL, color_by_var_levels=NULL, color_var_lab=NULL,
-           my_cols=c("blue","red"), na_col="grey50",
-           pch_by_var=NULL, pch_by_var_levels=NULL, pch_var_lab=NULL, my_pch=NULL,
-           text_by_var=NULL, plot_text_and_pch=FALSE, text_by_var_size=1,
-           add_legend=TRUE,
-           file_prefix=NULL, plotdims=c(9,9),
-           point_order="random") {
+  function(scores_design_pca, PCs = 1:3, pvars.labs = "PC#",
+           color_by_var = NULL, color_by_var_levels = NULL, color_var_lab = NULL,
+           my_cols = c("blue", "red"), na_col = "grey50",
+           pch_by_var = NULL, pch_by_var_levels = NULL, pch_var_lab = NULL, my_pch = NULL,
+           text_by_var = NULL, plot_text_and_pch = FALSE, text_by_var_size = 1,
+           add_legend = TRUE,
+           file_prefix = NULL, plotdims = c(9,9),
+           point_order = "random") {
     file_suffix <- "pdf"
     
     scores_design_pca <- as.data.frame(scores_design_pca)
@@ -42,21 +42,21 @@ plot_PCAs <-
       if (!((is.character(color_by_var) & (color_by_var %in% colnames(scores_design_pca))) |
             (is.numeric(color_by_var) & color_by_var %in% 1:ncol(scores_design_pca))))
         stop(paste("Column", color_by_var, "not found in the included design object."))
-      if (!is.numeric(scores_design_pca[,color_by_var, drop=TRUE])) {
-        if (!is.factor(scores_design_pca[,color_by_var, drop=TRUE]) | !is.null(color_by_var_levels)) {
+      if (!is.numeric(scores_design_pca[,color_by_var, drop = TRUE])) {
+        if (!is.factor(scores_design_pca[,color_by_var, drop = TRUE]) | !is.null(color_by_var_levels)) {
           if (is.null(color_by_var_levels))
-            color_by_var_levels <- as.character(unique(scores_design_pca[,color_by_var, drop=TRUE]))
-          scores_design_pca[,color_by_var] <-
-            factor(scores_design_pca[,color_by_var, drop=TRUE], levels=color_by_var_levels)
+            color_by_var_levels <- as.character(unique(scores_design_pca[, color_by_var, drop = TRUE]))
+          scores_design_pca[, color_by_var] <-
+            factor(scores_design_pca[, color_by_var, drop = TRUE], levels = color_by_var_levels)
         }
         if (length(my_cols) < length(color_by_var_levels))
-          my_cols <- colorRampPalette(colors=my_cols)(length(color_by_var_levels))
+          my_cols <- colorRampPalette(colors = my_cols)(length(color_by_var_levels))
         
         color_scale <- scale_color_manual(values=my_cols)
-      } else color_scale <- scale_color_gradient(low=my_cols[1], high=my_cols[2], na.value=my_cols[3])
+      } else color_scale <- scale_color_gradient(low = my_cols[1], high = my_cols[2], na.value = my_cols[3])
       
       file_suffix <- paste("color_by_", color_by_var, ".", file_suffix, sep="")
-      color_labs <- if (!is.null(color_var_lab)) labs(color=color_var_lab) else labs(color=color_by_var)
+      color_labs <- if (!is.null(color_var_lab)) labs(color = color_var_lab) else labs(color = color_by_var)
     }
     
     plot_pch_by_var <- !is.null(pch_by_var)
@@ -65,24 +65,24 @@ plot_PCAs <-
       if (!((is.character(pch_by_var) & (pch_by_var %in% colnames(scores_design_pca))) |
             (is.numeric(pch_by_var) & pch_by_var %in% 1:ncol(scores_design_pca))))
         stop(paste("Column", pch_by_var, "not found in the included design object."))
-      if (!is.factor(scores_design_pca[,pch_by_var, drop=TRUE]) | !is.null(pch_by_var_levels)) {
+      if (!is.factor(scores_design_pca[,pch_by_var, drop = TRUE]) | !is.null(pch_by_var_levels)) {
         if (is.null(pch_by_var_levels))
-          pch_by_var_levels <- as.character(unique(scores_design_pca[,pch_by_var, drop=TRUE]))
+          pch_by_var_levels <- as.character(unique(scores_design_pca[,pch_by_var, drop = TRUE]))
         scores_design_pca[,pch_by_var] <-
-          factor(scores_design_pca[,pch_by_var, drop=TRUE], levels=pch_by_var_levels)
+          factor(scores_design_pca[,pch_by_var, drop = TRUE], levels = pch_by_var_levels)
       }
-      file_suffix <- paste("pch_by_", pch_by_var, ".", file_suffix, sep="")
+      file_suffix <- paste("pch_by_", pch_by_var, ".", file_suffix, sep = "")
       
-      if (!is.null(my_pch)) pch_scale <- scale_shape_manual(values=my_pch)
-      pch_labs <- if (!is.null(pch_var_lab)) labs(shape=pch_var_lab) else labs(shape=pch_by_var)
+      if (!is.null(my_pch)) pch_scale <- scale_shape_manual(values = my_pch)
+      pch_labs <- if (!is.null(pch_var_lab)) labs(shape = pch_var_lab) else labs(shape = pch_by_var)
     }
     
     if (plot_color_by_var & plot_pch_by_var) {
-      plot_points <- geom_point(aes(color=!!sym(color_by_var), shape=!!sym(pch_by_var)), size=3)
+      plot_points <- geom_point(aes(color = !!sym(color_by_var), shape = !!sym(pch_by_var)), size = 3)
     } else if (plot_color_by_var & !plot_pch_by_var) {
-      plot_points <- geom_point(aes(color=!!sym(color_by_var)), size=3)
+      plot_points <- geom_point(aes(color = !!sym(color_by_var)), size = 3)
     } else if (!plot_color_by_var & plot_pch_by_var) {
-      plot_points <- geom_point(aes(shape=!!sym(pch_by_var)), size=3)
+      plot_points <- geom_point(aes(shape = !!sym(pch_by_var)), size = 3)
     }
     
     if (!exists("plot_points") & (is.null(text_by_var) | plot_text_and_pch))
@@ -95,37 +95,37 @@ plot_PCAs <-
       if (exists("plot_points")) {
         plot_points <-
           plot_points +
-          geom_text(aes(label=!!sym(text_by_var)), size=text_by_var_size)
-      } else plot_points <- geom_text(aes(label=!!sym(text_by_var)), size=text_by_var_size)
-      file_suffix <- paste("text_by_", text_by_var, ".", file_suffix, sep="")
+          geom_text(aes(label = !!sym(text_by_var)), size = text_by_var_size)
+      } else plot_points <- geom_text(aes(label = !!sym(text_by_var)), size = text_by_var_size)
+      file_suffix <- paste("text_by_", text_by_var, ".", file_suffix, sep = "")
     }
     
     if (!is.null(pvars.labs)) {
-      if (pvars.labs=="PC#") {
+      if (pvars.labs == "PC#") {
         pvars.labs <- paste0("PC", PCs)
       }
     }
     
-    scores_design_pca <- miscHelpers::order_points(scores_design_pca, method=point_order)
+    scores_design_pca <- miscHelpers::order_points(scores_design_pca, method = point_order)
     
     pc_names <- paste("PC", PCs, sep="")
     for (i in 1:(length(PCs)-1)) {
       for (j in (i+1):length(PCs)) {
         pca_plot <-
-          ggplot(scores_design_pca, aes(x=!!sym(pc_names[i]), y=!!sym(pc_names[j]))) +
+          ggplot(scores_design_pca, aes(x = !!sym(pc_names[i]), y = !!sym(pc_names[j]))) +
           labs(x = pvars.labs[PCs[i]], y = pvars.labs[PCs[j]]) +
           color_scale + color_labs +
           pch_scale + pch_labs +
           plot_points
         
-        if (!add_legend) pca_plot <- pca_plot + theme(legend.position="none")
+        if (!add_legend) pca_plot <- pca_plot + theme(legend.position = "none")
         
         if (!is.null(file_prefix)) {
           pdf(
-            file=paste(
-              file_prefix, paste("PC", PCs[i], "_vs_PC", PCs[j], sep=""),
-              file_suffix, sep="."),
-            w=plotdims[1], h=plotdims[2])
+            file = paste(
+              file_prefix, paste("PC", PCs[i], "_vs_PC", PCs[j], sep = ""),
+              file_suffix, sep = "."),
+            width = plotdims[1], height = plotdims[2])
           on.exit(while ("pdf" %in% names(dev.list())) dev.off()) # close plotting device on exit (mostly important for errors that could leave pdf output open)
         }
         print(pca_plot)

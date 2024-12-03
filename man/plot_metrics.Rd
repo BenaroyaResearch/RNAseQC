@@ -46,6 +46,8 @@ plot_metrics(
 
 \item{threshold.median_cv_coverage}{numeric, the threshold for median CV coverage. Libraries with values above this threshold are flagged. Defaults to 1. Set to NULL to remove threshold.}
 
+\item{column.median_cv_coverage}{the name or number of the column in \code{metrics} containing the median_CV_coverage. Defaults to "median_cv_coverage".}
+
 \item{by_var}{(optional) character string or integer identifying the column in design to color points by. If not provided, points are plotted in black.}
 
 \item{by_var_levels}{(optional) character vector defining the order of elements in the variable used for coloring points; this order is used for the plot legend and to match the order of colors (if provided). If not provided, levels of the variable are ordered by order of appearance in the design object.}
@@ -62,11 +64,9 @@ plot_metrics(
 
 \item{plot_outlier_lines}{logical, whether to plot the lines where points would be considered outliers, based on the Q1-1.5*IQR / Q3+1.5*IQR threshold. Defaults to TRUE.}
 
-\item{file_prefix}{a character string. If provided, the function outputs pdfs of the plots, named "{file_prefix}_{plot_name}.pdf". If not provided, the function prints to a plotting window.}
+\item{file_prefix}{a character string. If provided, the function outputs pdfs of the plots, named "\code{file_prefix}_\code{plot_name}.pdf". If not provided, the function prints to a plotting window.}
 
 \item{plotdims}{a numeric vector, the size (in inches) of the plotting object. Either the size of the pdfs, or the size of the plotting windows.}
-
-\item{column.median_cv}{the name or number of the column in \code{metrics} containing the median_CV_coverage. Defaults to "median_cv_coverage".}
 }
 \description{
 This function generates plots of several common metrics (total reads, % reads aligned, median CV

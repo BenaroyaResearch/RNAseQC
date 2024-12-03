@@ -59,7 +59,7 @@ plot_PCAs(
 
 \item{add_legend}{boolean, whether to include legend(s) on the plot for points plotted by variables.}
 
-\item{file_prefix}{a character string. If provided, the function outputs a pdf of the plot, named "{file_prefix}{other_stuff}.pdf", where {other_stuff} includes the PCs being plotted and variables for shape or color plotting. If \code{NULL}, plots are output to the current plotting device. Defaults to NULL.}
+\item{file_prefix}{a character string. If provided, the function outputs a pdf of the plot, named "\code{file_prefix}\code{other_stuff}.pdf", where \code{other_stuff} includes the PCs being plotted and variables for shape or color plotting. If \code{NULL}, plots are output to the current plotting device. Defaults to NULL.}
 
 \item{plotdims}{a numeric vector, the size (in inches) of the plotting object. Applies only if \code{file_prefix} is not NULL.}
 

@@ -16,7 +16,7 @@
 #' @param threshold.total_reads numeric, the threshold for total reads, in millions. Libraries with values below this threshold are flagged. Defaults to 5. Set to NULL to remove threshold.
 #' @param column.total_reads the name or number of the column in \code{metrics} containing the total reads, assumed to be in millions of reads. Defaults to "pf_hq_aligned_reads".
 #' @param threshold.median_cv_coverage numeric, the threshold for median CV coverage. Libraries with values above this threshold are flagged. Defaults to 1. Set to NULL to remove threshold.
-#' @param column.median_cv the name or number of the column in \code{metrics} containing the median_CV_coverage. Defaults to "median_cv_coverage".
+#' @param column.median_cv_coverage the name or number of the column in \code{metrics} containing the median_CV_coverage. Defaults to "median_cv_coverage".
 #' @param by_var (optional) character string or integer identifying the column in design to color points by. If not provided, points are plotted in black.
 #' @param by_var_levels (optional) character vector defining the order of elements in the variable used for coloring points; this order is used for the plot legend and to match the order of colors (if provided). If not provided, levels of the variable are ordered by order of appearance in the design object.
 #' @param by_var_lab (optional) string to be used as the title for the color legend.
@@ -25,22 +25,22 @@
 #' @param point_names the points to label in the plot. Defaults to "thresholded", which selects the points outside the thresholds. Can be a character vector of library IDs to plot. Set to NULL to remove all point labels.
 #' @param point_size numeric, the size of the points to be plotted. Defaults to 1.
 #' @param plot_outlier_lines logical, whether to plot the lines where points would be considered outliers, based on the Q1-1.5*IQR / Q3+1.5*IQR threshold. Defaults to TRUE.
-#' @param file_prefix a character string. If provided, the function outputs pdfs of the plots, named "{file_prefix}_{plot_name}.pdf". If not provided, the function prints to a plotting window.
+#' @param file_prefix a character string. If provided, the function outputs pdfs of the plots, named "\code{file_prefix}_\code{plot_name}.pdf". If not provided, the function prints to a plotting window.
 #' @param plotdims a numeric vector, the size (in inches) of the plotting object. Either the size of the pdfs, or the size of the plotting windows.
 #' @import ggplot2
 #' @importFrom rlang sym
 #' @export
 plot_metrics <-
-  function(metrics, metrics.libID_col="lib.id",
-           design=NULL, design.libID_col="lib.id",
-           threshold.perc_aligned=0.8, column.perc_aligned="mapped_reads_w_dups",
-           threshold.total_reads=5.0, column.total_reads="pf_hq_aligned_reads",
-           threshold.median_cv_coverage=1.0, column.median_cv_coverage="median_cv_coverage",
-           by_var=NULL, by_var_levels=NULL, by_var_lab=NULL,
-           my_cols=c("blue","red"), na_col="grey50",
-           point_names="thresholded",
-           point_size=1, plot_outlier_lines=TRUE,
-           file_prefix=NULL, plotdims=c(9,9)) {
+  function(metrics, metrics.libID_col = "lib.id",
+           design = NULL, design.libID_col = "lib.id",
+           threshold.perc_aligned = 0.8, column.perc_aligned = "mapped_reads_w_dups",
+           threshold.total_reads = 5.0, column.total_reads = "pf_hq_aligned_reads",
+           threshold.median_cv_coverage = 1.0, column.median_cv_coverage = "median_cv_coverage",
+           by_var = NULL, by_var_levels = NULL, by_var_lab = NULL,
+           my_cols = c("blue","red"), na_col = "grey50",
+           point_names = "thresholded",
+           point_size = 1, plot_outlier_lines = TRUE,
+           file_prefix = NULL, plotdims = c(9,9)) {
     if (!((metrics.libID_col %in% colnames(metrics)) |
           (metrics.libID_col %in% (1:ncol(metrics)))))
       stop(paste0("Column '", metrics.libID_col, "' specified by metrics.libID_col not found in metrics object."))
@@ -58,7 +58,7 @@ plot_metrics <-
         stop("Column '", design.libID_col, "' specified by design.libID_col not found in design object.")
     }
     
-    metrics[, column.total_reads] <- metrics[, column.total_reads, drop=TRUE] / 1e6
+    metrics[, column.total_reads] <- metrics[, column.total_reads, drop = TRUE] / 1e6
     
     if (!is.null(by_var)) {
       plot_by_var <- TRUE
@@ -67,43 +67,43 @@ plot_metrics <-
     file_suffix <- "pdf"; color_scale <- NULL; color_labs <- NULL
     if (plot_by_var) {
       metrics[,by_var] <-
-        design[match(metrics[,metrics.libID_col, drop=TRUE], design[,design.libID_col, drop=TRUE]), by_var]
-      if (!is.numeric(metrics[, by_var, drop=TRUE])) {
-        if (is.null(by_var_levels)) by_var_levels <- unique(design[, by_var, drop=TRUE])
+        design[match(metrics[,metrics.libID_col, drop = TRUE], design[,design.libID_col, drop = TRUE]), by_var]
+      if (!is.numeric(metrics[, by_var, drop = TRUE])) {
+        if (is.null(by_var_levels)) by_var_levels <- unique(design[, by_var, drop = TRUE])
         if (length(my_cols) < length(by_var_levels))
-          my_cols <- colorRampPalette(colors=my_cols)(length(by_var_levels))
-        metrics[,by_var] <- factor(metrics[, by_var, drop=TRUE], levels=by_var_levels)
-        color_scale <- scale_color_manual(values=my_cols)
+          my_cols <- colorRampPalette(colors = my_cols)(length(by_var_levels))
+        metrics[,by_var] <- factor(metrics[, by_var, drop = TRUE], levels = by_var_levels)
+        color_scale <- scale_color_manual(values = my_cols)
       } else {
-        color_scale <- scale_color_gradient(low=my_cols[1], high=my_cols[2], na.value=na_col)
+        color_scale <- scale_color_gradient(low = my_cols[1], high = my_cols[2], na.value = na_col)
       }
       file_suffix <- paste0("by_", by_var, ".pdf")
       
       if (!is.null(by_var_lab)) {
-        color_labs <- labs(color=by_var_lab)
+        color_labs <- labs(color = by_var_lab)
       } else if (is.numeric(by_var)) {
-        color_labs <- labs(color=colnames(design)[by_var])
+        color_labs <- labs(color = colnames(design)[by_var])
       } else {
-        color_labs <- labs(color=by_var)
+        color_labs <- labs(color = by_var)
       }
     }
     
     if (plot_outlier_lines) {
       total_reads_quantiles <-
-        c(quantile(metrics[, column.total_reads, drop=TRUE], 0.25) -
-            1.5*IQR(metrics[, column.total_reads, drop=TRUE]),
-          quantile(metrics[, column.total_reads, drop=TRUE], 0.75) +
-            1.5*IQR(metrics[, column.total_reads, drop=TRUE]))
+        c(quantile(metrics[, column.total_reads, drop = TRUE], 0.25) -
+            1.5 * IQR(metrics[, column.total_reads, drop = TRUE]),
+          quantile(metrics[, column.total_reads, drop = TRUE], 0.75) +
+            1.5 * IQR(metrics[, column.total_reads, drop = TRUE]))
       perc_aligned_quantiles <-
-        c(quantile(metrics[, column.perc_aligned, drop=TRUE], 0.25) -
-            1.5*IQR(metrics[, column.perc_aligned, drop=TRUE]),
-          quantile(metrics[, column.perc_aligned, drop=TRUE], 0.75) +
-            1.5*IQR(metrics[, column.perc_aligned, drop=TRUE]))
+        c(quantile(metrics[, column.perc_aligned, drop = TRUE], 0.25) -
+            1.5 * IQR(metrics[, column.perc_aligned, drop = TRUE]),
+          quantile(metrics[, column.perc_aligned, drop = TRUE], 0.75) +
+            1.5 * IQR(metrics[, column.perc_aligned, drop = TRUE]))
       median_cv_coverage_quantiles <-
-        c(quantile(metrics[, column.median_cv_coverage, drop=TRUE], 0.25) -
-            1.5*IQR(metrics[, column.median_cv_coverage, drop=TRUE]),
-          quantile(metrics[, column.median_cv_coverage, drop=TRUE], 0.75) +
-            1.5*IQR(metrics[, column.median_cv_coverage, drop=TRUE]))
+        c(quantile(metrics[, column.median_cv_coverage, drop = TRUE], 0.25) -
+            1.5 * IQR(metrics[, column.median_cv_coverage, drop = TRUE]),
+          quantile(metrics[, column.median_cv_coverage, drop = TRUE], 0.75) +
+            1.5 * IQR(metrics[, column.median_cv_coverage, drop = TRUE]))
     }
     
     ## Plot percent aligned vs total reads
@@ -112,18 +112,18 @@ plot_metrics <-
     if (plot_by_var) {
       total_reads_vs_perc_aligned <- 
         ggplot(metrics,
-               aes(y=!!sym(column.total_reads), x=!!sym(column.perc_aligned),
-                   colour=!!sym(by_var))) +
+               aes(y = !!sym(column.total_reads), x = !!sym(column.perc_aligned),
+                   colour = !!sym(by_var))) +
         scale_x_reverse()
     } else {
       total_reads_vs_perc_aligned <- 
-        ggplot(metrics, aes(y=!!sym(column.total_reads), x=!!sym(column.perc_aligned))) +
+        ggplot(metrics, aes(y = !!sym(column.total_reads), x = !!sym(column.perc_aligned))) +
         scale_x_reverse()
     }
     
     # add points and labels to plot
     total_reads_vs_perc_aligned <- total_reads_vs_perc_aligned +
-      geom_point(size=point_size) +
+      geom_point(size = point_size) +
       labs(y = "total counts (in millions)", x = "percent alignment") +
       color_scale + color_labs
     
@@ -132,23 +132,23 @@ plot_metrics <-
     # add threshold for total reads
     if (!is.null(threshold.total_reads)) {
       total_reads_vs_perc_aligned <- total_reads_vs_perc_aligned +
-        geom_hline(yintercept=threshold.total_reads, colour="red", size=1)
-      if (point_names=="thresholded")
+        geom_hline(yintercept = threshold.total_reads, colour = "red", size = 1)
+      if (point_names == "thresholded")
         names_to_plot <-
           union(names_to_plot,
-                metrics[(metrics[, column.total_reads, drop=TRUE] < threshold.total_reads),
-                        metrics.libID_col, drop=TRUE])
+                metrics[(metrics[, column.total_reads, drop = TRUE] < threshold.total_reads),
+                        metrics.libID_col, drop = TRUE])
     }
     
     # add threshold for percent aligned
     if (!is.null(threshold.perc_aligned)) {
       total_reads_vs_perc_aligned <- total_reads_vs_perc_aligned +
-        geom_vline(xintercept=threshold.perc_aligned, colour="red", size=1)
-      if (point_names=="thresholded")
+        geom_vline(xintercept = threshold.perc_aligned, colour = "red", size = 1)
+      if (point_names == "thresholded")
         names_to_plot <-
           union(names_to_plot,
-                metrics[(metrics[, column.perc_aligned, drop=TRUE] < threshold.perc_aligned),
-                        metrics.libID_col, drop=TRUE])
+                metrics[(metrics[, column.perc_aligned, drop = TRUE] < threshold.perc_aligned),
+                        metrics.libID_col, drop = TRUE])
     } 
     
     # check names to plot
@@ -158,24 +158,24 @@ plot_metrics <-
     # add library names to plot (if specified)
     if (!is.null(names_to_plot)) {
       total_reads_vs_perc_aligned <- total_reads_vs_perc_aligned +
-        geom_text(data=metrics[(metrics[, metrics.libID_col, drop=TRUE] %in% names_to_plot),],
-                  mapping=aes(label=!!sym(metrics.libID_col)),
-                  nudge_y=-0.01, size=4, vjust=1, hjust=0.5, colour="black")
+        geom_text(data = metrics[(metrics[, metrics.libID_col, drop = TRUE] %in% names_to_plot),],
+                  mapping = aes(label = !!sym(metrics.libID_col)),
+                  nudge_y = -0.01, size = 4, vjust = 1, hjust = 0.5, colour = "black")
     }
     
     # add outlier lines (if specified)
     if (plot_outlier_lines) {
       total_reads_vs_perc_aligned <- total_reads_vs_perc_aligned +
-        geom_hline(yintercept=total_reads_quantiles, linetype="dotted") +
-        geom_vline(xintercept=perc_aligned_quantiles, linetype="dotted")
+        geom_hline(yintercept = total_reads_quantiles, linetype = "dotted") +
+        geom_vline(xintercept = perc_aligned_quantiles, linetype = "dotted")
     }
     
     # output plot
     if (!is.null(file_prefix)) {
-      pdf(file=paste(file_prefix, "total_reads_vs_perc_aligned", file_suffix, sep="."),
-          w=plotdims[1], h=plotdims[2])
+      pdf(file = paste(file_prefix, "total_reads_vs_perc_aligned", file_suffix, sep = "."),
+          width = plotdims[1], height = plotdims[2])
       on.exit(while ("pdf" %in% names(dev.list())) dev.off()) # close plotting device on exit (mostly important for errors that could leave pdf output open)
-    } else quartz(w=plotdims[1], h=plotdims[2])
+    } else dev.new(width = plotdims[1], height = plotdims[2])
     print(total_reads_vs_perc_aligned)
     
     
@@ -186,18 +186,18 @@ plot_metrics <-
       total_reads_vs_median_cv_coverage <- 
         ggplot(metrics,
                aes(
-                 x=!!sym(column.median_cv_coverage),
-                 y=!!sym(column.total_reads), 
-                 colour=!!sym(by_var)))
+                 x = !!sym(column.median_cv_coverage),
+                 y = !!sym(column.total_reads), 
+                 colour = !!sym(by_var)))
     } else {
       total_reads_vs_median_cv_coverage <- 
-        ggplot(metrics, aes(x=!!sym(column.median_cv_coverage), y=!!sym(column.total_reads)))
+        ggplot(metrics, aes(x = !!sym(column.median_cv_coverage), y = !!sym(column.total_reads)))
     }
     
     # add points and labels to plot
     total_reads_vs_median_cv_coverage <-
       total_reads_vs_median_cv_coverage +
-      geom_point(size=point_size) +
+      geom_point(size = point_size) +
       labs(y = "total counts (in millions)", x = "median cv coverage") +
       color_scale + color_labs
     
@@ -206,23 +206,23 @@ plot_metrics <-
     # add threshold for total_reads
     if (!is.null(threshold.total_reads)) {
       total_reads_vs_median_cv_coverage <- total_reads_vs_median_cv_coverage +
-        geom_hline(yintercept=threshold.total_reads, colour="red", size=1)
-      if (point_names=="thresholded")
+        geom_hline(yintercept = threshold.total_reads, colour = "red", size = 1)
+      if (point_names == "thresholded")
         names_to_plot <-
           union(names_to_plot,
-                metrics[(metrics[, column.total_reads, drop=TRUE] < threshold.total_reads),
-                        metrics.libID_col, drop=TRUE])
+                metrics[(metrics[, column.total_reads, drop = TRUE] < threshold.total_reads),
+                        metrics.libID_col, drop = TRUE])
     }
     
     # add threshold for median_cv_coverage
     if (!is.null(threshold.median_cv_coverage)) {
       total_reads_vs_median_cv_coverage <- total_reads_vs_median_cv_coverage +
-        geom_vline(xintercept=threshold.median_cv_coverage, colour="red", size=1)
-      if (point_names=="thresholded")
+        geom_vline(xintercept = threshold.median_cv_coverage, colour = "red", size = 1)
+      if (point_names == "thresholded")
         names_to_plot <-
           union(names_to_plot,
-                metrics[(metrics[, column.median_cv_coverage, drop=TRUE] > threshold.median_cv_coverage),
-                        metrics.libID_col, drop=TRUE])
+                metrics[(metrics[, column.median_cv_coverage, drop = TRUE] > threshold.median_cv_coverage),
+                        metrics.libID_col, drop = TRUE])
     } 
     
     # check names to plot
@@ -232,24 +232,24 @@ plot_metrics <-
     # add library names to plot (if specified)
     if (!is.null(names_to_plot)) {
       total_reads_vs_median_cv_coverage <- total_reads_vs_median_cv_coverage +
-        geom_text(data=metrics[(metrics[,metrics.libID_col, drop=TRUE] %in% names_to_plot),],
-                  mapping=aes(label=!!sym(metrics.libID_col)),
-                  nudge_y=-0.01, size=4, vjust=1, hjust=0.5, colour="black")
+        geom_text(data = metrics[(metrics[,metrics.libID_col, drop = TRUE] %in% names_to_plot),],
+                  mapping = aes(label = !!sym(metrics.libID_col)),
+                  nudge_y = -0.01, size = 4, vjust = 1, hjust = 0.5, colour = "black")
     }
     
     # add outlier lines (if specified)
     if (plot_outlier_lines) {
       total_reads_vs_median_cv_coverage <- total_reads_vs_median_cv_coverage +
-        geom_hline(yintercept=total_reads_quantiles, linetype="dotted") +
-        geom_vline(xintercept=median_cv_coverage_quantiles, linetype="dotted")
+        geom_hline(yintercept = total_reads_quantiles, linetype = "dotted") +
+        geom_vline(xintercept = median_cv_coverage_quantiles, linetype = "dotted")
     }
     
     # output plot
     if (!is.null(file_prefix)) {
-      pdf(file=paste(file_prefix, "total_reads_vs_median_cv_coverage", file_suffix, sep="."),
-          w=plotdims[1], h=plotdims[2])
+      pdf(file = paste(file_prefix, "total_reads_vs_median_cv_coverage", file_suffix, sep = "."),
+          width = plotdims[1], height = plotdims[2])
       on.exit(while ("pdf" %in% names(dev.list())) dev.off()) # close plotting device on exit (mostly important for errors that could leave pdf output open)
-    } else quartz(w=plotdims[1], h=plotdims[2])
+    } else dev.new(width = plotdims[1], height = plotdims[2])
     print(total_reads_vs_median_cv_coverage)
     
     
@@ -259,17 +259,17 @@ plot_metrics <-
     if (plot_by_var) {
       perc_aligned_vs_median_cv_coverage <- 
         ggplot(metrics,
-               aes(x=!!sym(column.median_cv_coverage), y=!!sym(column.perc_aligned),
-                          colour=by_var))
+               aes(x = !!sym(column.median_cv_coverage), y = !!sym(column.perc_aligned),
+                          colour = by_var))
     } else {
       perc_aligned_vs_median_cv_coverage <- 
         ggplot(metrics,
-               aes(x=!!sym(column.median_cv_coverage), y=!!sym(column.perc_aligned)))
+               aes(x = !!sym(column.median_cv_coverage), y = !!sym(column.perc_aligned)))
     }
     
     # add points and labels to plot
     perc_aligned_vs_median_cv_coverage <- perc_aligned_vs_median_cv_coverage +
-      geom_point(size=point_size) +
+      geom_point(size = point_size) +
       labs(x = "median cv coverage", y = "percent alignment") +
       color_scale + color_labs
     
@@ -278,23 +278,23 @@ plot_metrics <-
     # add threshold for perc_aligned
     if (!is.null(threshold.perc_aligned)) {
       perc_aligned_vs_median_cv_coverage <- perc_aligned_vs_median_cv_coverage +
-        geom_hline(yintercept=threshold.perc_aligned, colour="red", size=1)
-      if (point_names=="thresholded")
+        geom_hline(yintercept = threshold.perc_aligned, colour = "red", size = 1)
+      if (point_names == "thresholded")
         names_to_plot <-
           union(names_to_plot,
-                metrics[(metrics[, column.perc_aligned, drop=TRUE] < threshold.perc_aligned),
-                        metrics.libID_col, drop=TRUE])
+                metrics[(metrics[, column.perc_aligned, drop = TRUE] < threshold.perc_aligned),
+                        metrics.libID_col, drop = TRUE])
     }
     
     # add threshold for median_cv_coverage
     if (!is.null(threshold.median_cv_coverage)) {
       perc_aligned_vs_median_cv_coverage <- perc_aligned_vs_median_cv_coverage +
-        geom_vline(xintercept=threshold.median_cv_coverage, colour="red", size=1)
-      if (point_names=="thresholded")
+        geom_vline(xintercept = threshold.median_cv_coverage, colour = "red", size = 1)
+      if (point_names == "thresholded")
         names_to_plot <-
           union(names_to_plot,
-                metrics[(metrics[, column.median_cv_coverage, drop=TRUE] > threshold.median_cv_coverage),
-                        metrics.libID_col, drop=TRUE])
+                metrics[(metrics[, column.median_cv_coverage, drop = TRUE] > threshold.median_cv_coverage),
+                        metrics.libID_col, drop = TRUE])
     } 
     
     # check names to plot
@@ -304,23 +304,23 @@ plot_metrics <-
     # add library names to plot (if specified)
     if (!is.null(names_to_plot)) {
       perc_aligned_vs_median_cv_coverage <- perc_aligned_vs_median_cv_coverage +
-        geom_text(data=metrics[(metrics[, metrics.libID_col, drop=TRUE] %in% names_to_plot),],
-                  mapping=aes(label=!!sym(metrics.libID_col)),
-                  nudge_y=-0.01, size=4, vjust=1, hjust=0.5, colour="black")
+        geom_text(data = metrics[(metrics[, metrics.libID_col, drop = TRUE] %in% names_to_plot),],
+                  mapping = aes(label = !!sym(metrics.libID_col)),
+                  nudge_y = -0.01, size = 4, vjust = 1, hjust = 0.5, colour = "black")
     }
     
     # add outlier lines (if specified)
     if (plot_outlier_lines) {
       perc_aligned_vs_median_cv_coverage <- perc_aligned_vs_median_cv_coverage +
-        geom_hline(yintercept=perc_aligned_quantiles, linetype="dotted") +
-        geom_vline(xintercept=median_cv_coverage_quantiles, linetype="dotted")
+        geom_hline(yintercept = perc_aligned_quantiles, linetype = "dotted") +
+        geom_vline(xintercept = median_cv_coverage_quantiles, linetype = "dotted")
     }
     
     # output plot
     if (!is.null(file_prefix)) {
-      pdf(file=paste(file_prefix, "perc_aligned_vs_median_cv_coverage", file_suffix, sep="."),
-          w=plotdims[1], h=plotdims[2])
+      pdf(file = paste(file_prefix, "perc_aligned_vs_median_cv_coverage", file_suffix, sep = "."),
+          width = plotdims[1], height = plotdims[2])
       on.exit(while ("pdf" %in% names(dev.list())) dev.off()) # close plotting device on exit (mostly important for errors that could leave pdf output open)
-    } else quartz(w=plotdims[1], h=plotdims[2])
+    } else dev.new(width = plotdims[1], height = plotdims[2])
     print(perc_aligned_vs_median_cv_coverage)
   }

@@ -22,7 +22,7 @@ plot_read_counts(
 \arguments{
 \item{metrics}{matrix or data frame containing values of metrics. Should have metrics in columns and libraries in rows.}
 
-\item{file_prefix}{a character string. If provided, the function outputs pdfs of the plots, named "{file_prefix}_{plot_name}.pdf". If not provided, the function prints to a plotting window.}
+\item{file_prefix}{a character string. If provided, the function outputs pdfs of the plots, named "\code{file_prefix}_\code{plot_name}.pdf". If not provided, the function prints to a plotting window.}
 
 \item{plotdims}{a numeric vector, the size (in inches) of the plotting object. Either the size of the pdfs, or the size of the plotting windows.}
 
@@ -41,6 +41,8 @@ plot_read_counts(
 \item{na_col}{color to use for NA values of \code{color_by_var}.}
 
 \item{id_col}{numeric or character, the number or name of the column containing the library identifiers. Used to plot identifiers of low-count libraries. Defaults to "lib.id".}
+
+\item{total_reads_col}{numeric or character, the number or name of the column containing the read counts to plot. Defaults to "fastq_total_reads".}
 }
 \description{
 Output plots of read counts by library, at coarse and fine scales. Libraries areordered by the total

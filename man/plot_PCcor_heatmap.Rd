@@ -20,7 +20,7 @@ plot_PCcor_heatmap(
 \arguments{
 \item{PCcor_result}{a numeric matrix or data.frame, generally the result of \code{calc_PCcors}. Should have annotation variables as columns and PCs as rows.}
 
-\item{filename}{a character string. If provided, the function outputs a pdf of the plot, named "{filename}.pdf". If not provided, the function prints to a plotting window.}
+\item{filename}{a character string. If provided, the function outputs a pdf of the plot, named "\code{filename}.pdf". If not provided, the function prints to a plotting window.}
 
 \item{plotdims}{a numeric vector, the size (in inches) of the plotting object (if outputting to a file)}
 

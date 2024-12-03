@@ -30,19 +30,19 @@ plot_saturation_curve(
 
 \item{plot_points}{logical, whether to include points in the plot.}
 
-\item{color_points_by_var, color_lines_by_var, color_terminal_points_by_var, color_smooth_by_var}{variable to use for plotting points, lines, terminal points, and/or smooths by a discrete variable. Must be either the name of a column in \code{saturation}, or a column in \code{design}.}
+\item{color_points_by_var, color_lines_by_var, color_terminal_points_by_var, color_smooths_by_var}{variable to use for plotting points, lines, terminal points, and/or smooths by a discrete variable. Must be either the name of a column in \code{saturation}, or a column in \code{design}.}
 
-\item{plot_lines}{logical, whether to include (unsmoothed) lines in the plot. It is not recommended to include both \code{plot_lines} and \code{plot_smooth}, as this will make plots difficult to read.}
+\item{plot_lines}{logical, whether to include (unsmoothed) lines in the plot. It is not recommended to include both \code{plot_lines} and \code{plot_smooths}, as this will make plots difficult to read.}
 
 \item{plot_terminal_points, }{whether to plot the maximum-depth point for each library. This helps to visualize the actual distribution of observed counts by library.}
+
+\item{plot_smooths}{logical, whether to include lowess curves in the plot. It is not recommended to include both \code{plot_lines} and \code{plot_smooths}, as this will make plots difficult to read.}
 
 \item{log_transform_depth}{logical, whether to plot the read counts on a log10 scale. Defaults to FALSE.}
 
 \item{log_transform_genes}{logical, whether to plot the number of genes detected on a log10 scale. Defaults to FALSE.}
 
 \item{my_cols}{character vector of color names for use in plotting. If not specified, \code{ggthemes::colorblind_pal()} is used. If the number of colors provided is less than the number of colors needed, additional colors are interpolated using \code{colorRampPalette}.}
-
-\item{plot_smooth}{logical, whether to include lowess curves in the plot. It is not recommended to include both \code{plot_lines} and \code{plot_smooth}, as this will make plots difficult to read.}
 }
 \description{
 Plot the saturation of gene detection based on rarefaction of the mapped read counts from a library.
