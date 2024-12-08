@@ -3,6 +3,7 @@
 export(calc_PCAs)
 export(calc_PCcors)
 export(convert_gene_names)
+export(convert_gene_symbols_species)
 export(estimate_saturation)
 export(get_HGNC)
 export(logXYratio)
