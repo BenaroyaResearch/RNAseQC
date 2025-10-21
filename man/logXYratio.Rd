@@ -9,22 +9,25 @@ logXYratio(
   lib_cols = 1:ncol(counts),
   gene_ID = "symbol",
   species = "human",
-  use_annotables = TRUE
+  use_annotables = TRUE,
+  return_df = TRUE
 )
 }
 \arguments{
 \item{counts}{a matrix or data frame containing the gene expression counts. Should have samples in columns and genes in rows. Row names must contain gene names, in the class standard matching \code{gene_ID}. NOTE: The calculated ratios are returned in the order of the counts object (by default), or in the order specified by \code{lib_cols}}
 
-\item{lib_cols}{a numeric vector, the indices of columns containing count data. Defaults to all columns in \code{counts}; can be adjusted if non-count columns are included in the \code{counts} object. Can also be used to specify an ordering of the libraries other than the order of the counts object.}
+\item{lib_cols}{numeric, the indices of columns containing count data. Defaults to all columns in \code{counts}; can be adjusted if non-count columns are included in the \code{counts} object. Can also be used to specify an ordering of the libraries other than the order of the counts object.}
 
 \item{gene_ID}{the gene identifier class of the gene names. Must match a corresponding variable in \code{annotables} or \code{biomaRt}.}
 
 \item{species}{character, the species that the data derive from. Can be "human" or "mouse", or any species abbreviation used in the BioMart ensembl datasets (as long as the species has X and Y chromosomes). For a full list of possible species, use \code{biomaRt::listDatasets(biomaRt::useMart("ensembl"))$dataset)}. For backward compatibility, defaults to human.}
 
-\item{use_annotables}{boolean, whether to use the annotables package. If annotables is not installed, defaults to using \code{biomaRt}.}
+\item{use_annotables}{logical, whether to use the annotables package. If annotables is not installed, defaults to using \code{biomaRt}.}
+
+\item{return_df}{logical, whether to return a data frame object. Setting this argument to \code{FALSE} allows the user to specify the legacy behavior of returning a named vector, to provide easier backward compatibility. However, it is strongly encouraged to use the newer data frame return and perform a merge on the library identifiers.}
 }
 \value{
-a vector of ratios, with one element for each sample.
+a data frame with columns "libid" and "logXYratio", with one row for each sample. Legacy behavior specified by \code{return_df = FALSE} returns named vector of the ratios.
 }
 \description{
 This function calculates the number of reads that map to the X and Y
