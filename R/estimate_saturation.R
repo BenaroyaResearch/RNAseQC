@@ -33,6 +33,19 @@ estimate_saturation <-
     # check inputs
     checkmate::assert_array(counts)
     checkmate::assert_numeric(counts)
+    nonfinite_by_sample <- colSums(!is.finite(counts))
+    if (any(nonfinite_by_sample > 0)) {
+      bad_samples <- which(nonfinite_by_sample > 0)
+      bad_labels <-
+        if (is.null(colnames(counts))) bad_samples else colnames(counts)[bad_samples]
+      stop("The input counts object contains ", sum(nonfinite_by_sample),
+           " non-finite value(s) (NA, NaN, Inf, or -Inf) in ",
+           length(bad_samples), " sample(s): ",
+           paste(bad_labels[seq_len(min(10, length(bad_labels)))], collapse = ", "),
+           if (length(bad_samples) > 10)
+             paste0(" (and ", length(bad_samples) - 10, " more)") else "",
+           ". Remove or replace these values before estimating saturation.")
+    }
     if (nrow(counts) < ncol(counts))
       warning("The input counts object has more columns than rows. ",
               "Are you sure the rows are genes and the columns are samples?")
