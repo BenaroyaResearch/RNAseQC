@@ -12,6 +12,7 @@
 #' @param orientation character, either "horizontal" or "vertical", specifying the direction to plot the correlations. If "horizontal" (the default), PCs are rows and other variables are columns. If "vertical", PCs are columns and other variables are rows. Partial matches are allowed.
 #' @param remove_all_NA_cols logical, whether to remove variables where all the correlation values are NA. Defaults to \code{TRUE}.
 #' @param ... (optional) additional arguments passed to \code{ComplexHeatmap::Heatmap}.
+#' @importFrom grDevices dev.off pdf
 #' @export
 plot_PCcor_heatmap <-
   function(PCcor_result, filename = NULL, plotdims = c(9,9),

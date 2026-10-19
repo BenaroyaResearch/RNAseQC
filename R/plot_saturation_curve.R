@@ -16,6 +16,7 @@
 #' @import ggplot2
 #' @import dplyr
 #' @importFrom rlang sym
+#' @importFrom grDevices colorRampPalette
 #' @export
 plot_saturation_curve <-
   function(saturation,

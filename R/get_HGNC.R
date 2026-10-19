@@ -14,7 +14,7 @@
 #' @export
 #' @return a vector of HGNC gene symbols, of length equivalent to the length of genes.
 get_HGNC <- function(genes, from="ensgene", type=NULL, use_annotables=TRUE) {
-  if (require(annotables) & use_annotables) {
+  if (use_annotables && requireNamespace("annotables", quietly = TRUE)) {
     output_type <- "symbol"
   } else output_type <- "hgnc_symbol"
   genes_HGNC <- convert_gene_names(

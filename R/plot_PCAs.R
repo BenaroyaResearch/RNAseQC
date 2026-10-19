@@ -23,6 +23,7 @@
 #' @param point_order character string, specifying how to order the points. Currently accepted values are "random", which randomizes the order of the points, and "input", which sends the points to ggplot as they are in the input data frame. Defaults to "random".
 #' @import ggplot2
 #' @importFrom rlang sym
+#' @importFrom grDevices colorRampPalette dev.cur dev.list dev.off pdf
 #' @export
 plot_PCAs <-
   function(scores_design_pca, PCs = 1:3, pvars.labs = "PC#",

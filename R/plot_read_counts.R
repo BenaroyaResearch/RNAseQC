@@ -16,6 +16,8 @@
 #' @param na_col color to use for NA values of \code{color_by_var}.
 #' @param total_reads_col numeric or character, the number or name of the column containing the read counts to plot. Defaults to "fastq_total_reads".
 #' @param id_col numeric or character, the number or name of the column containing the library identifiers. Used to plot identifiers of low-count libraries. Defaults to "lib.id".
+#' @importFrom grDevices dev.list dev.new dev.off
+#' @importFrom graphics abline barplot
 #' @export
 plot_read_counts <-
   function(metrics,
