@@ -29,6 +29,8 @@
 #' @param plotdims a numeric vector, the size (in inches) of the plotting object. Either the size of the pdfs, or the size of the plotting windows.
 #' @import ggplot2
 #' @importFrom rlang sym
+#' @importFrom grDevices colorRampPalette dev.list dev.new dev.off pdf
+#' @importFrom stats IQR quantile
 #' @export
 plot_metrics <-
   function(metrics, metrics.libID_col = "lib.id",

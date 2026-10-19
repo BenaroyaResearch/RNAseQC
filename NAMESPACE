@@ -16,5 +16,30 @@ export(plot_saturation_curve)
 import(countSubsetNorm)
 import(dplyr)
 import(ggplot2)
-importFrom(bigtabulate,bigtable)
+importFrom(grDevices,
+  colorRampPalette,
+  dev.cur,
+  dev.list,
+  dev.new,
+  dev.off,
+  pdf
+)
+importFrom(graphics,
+  abline,
+  barplot
+)
+importFrom(methods,is)
 importFrom(rlang,sym)
+importFrom(stats,
+  IQR,
+  cor,
+  na.omit,
+  prcomp,
+  quantile,
+  rmultinom,
+  var
+)
+importFrom(utils,
+  capture.output,
+  read.delim
+)

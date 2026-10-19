@@ -14,7 +14,14 @@ Imports:
     dplyr,
     rlang,
     ICC,
-    bigtabulate,
+    stats,
+    utils,
+    methods,
+    graphics,
+    grDevices,
+    Matrix,
+    circlize,
+    edgeR,
     ggthemes,
 	checkmate,
     countSubsetNorm,
@@ -31,4 +38,4 @@ Suggests:
     annotables
 License: GPL-3
 LazyData: true
-RoxygenNote: 7.3.2
+Config/roxygen2/version: 8.1.1

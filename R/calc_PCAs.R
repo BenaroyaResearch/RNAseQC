@@ -5,6 +5,7 @@
 #' @param cpm logical, whether to transform the counts to counts-per-million (using \code{edgeR::cpm}) before running prcomp.
 #' @param log2_transform logical, whether to transform the counts (using \code{log2(counts+1)}) before running prcomp.
 #' @param ... (optional) additional arguments passed to prcomp, such as \code{center} and \code{scale}.
+#' @importFrom stats prcomp
 #' @export
 #' @return a prcomp object, with additional list elements containing the percent variance and strings for labeling plot axes.
 calc_PCAs <- function(counts, cpm=TRUE, log2_transform=FALSE,

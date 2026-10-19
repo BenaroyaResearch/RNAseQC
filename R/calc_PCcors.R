@@ -13,6 +13,8 @@
 #' @param cont_method character, the name of the correlation coefficient to use for continuous variables. Passed to \code{stats::cor}, and must be one of "pearson", "kendall", or "spearman", or abbreviations thereof. Defaults to "spearman".
 #' @param cat_method character, the name of the correlation coefficient to use for categorical variables. Currently, the only acceptable option is "ICC", which uses the intraclass correlation coefficient as implemented in \code{ICC::ICCbare}.
 #' @param ... (optional) additional arguments passed to \code{cor} or other functions.
+#' @importFrom stats cor na.omit
+#' @importFrom utils capture.output
 #' @export
 #' @return a matrix of correlation coefficients, wih the column and row names reflecting the PC axes and annotation variables for which correlations were calculated.
 calc_PCcors <-

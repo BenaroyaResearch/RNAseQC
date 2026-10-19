@@ -10,6 +10,7 @@
 #' @param species character, the species that the data derive from. Can be "human" or "mouse", or any species abbreviation used in the BioMart ensembl datasets (as long as the species has X and Y chromosomes). For a full list of possible species, use \code{biomaRt::listDatasets(biomaRt::useMart("ensembl"))$dataset)}. For backward compatibility, defaults to human.
 #' @param use_annotables logical, whether to use the annotables package. If annotables is not installed, defaults to using \code{biomaRt}.
 #' @param return_df logical, whether to return a data frame object. Setting this argument to \code{FALSE} allows the user to specify the legacy behavior of returning a named vector, to provide easier backward compatibility. However, it is strongly encouraged to use the newer data frame return and perform a merge on the library identifiers.
+#' @importFrom methods is
 #' @export
 #' @return a data frame with columns "libid" and "logXYratio", with one row for each sample. Legacy behavior specified by \code{return_df = FALSE} returns named vector of the ratios.
 #' @details \code{counts} should be normalized or raw, but not log-transformed.
@@ -33,18 +34,18 @@ logXYratio <-
               "to contain only numeric values, or specify library columns using the",
               "`lib_cols` argument."))
 
-    if (use_annotables && require("annotables", quietly = TRUE)) {
+    if (use_annotables && requireNamespace("annotables", quietly = TRUE)) {
       warning('Package "annotables" detected. Used data from annotables instead of BioMart.\n')
       if (gene_ID == "ensembl") gene_ID <- "ensgene"
       if (species == "human") {
-        geneData <- grch38
+        geneData <- annotables::grch38
       } else if (species == "mouse") {
-        geneData <- grcm38
+        geneData <- annotables::grcm38
       } else stop('Package "annotables" can only be used with human or mouse genes. Please check species name or specify "use_annotables = FALSE".')
       gene_ID_to_chrom_name <-
         data.frame(gene_ID = rownames(counts),
                    chromosome_name = geneData[["chr"]][match(rownames(counts), geneData[[gene_ID]])])
-    } else if (require("biomaRt", quietly = TRUE)) {
+    } else if (requireNamespace("biomaRt", quietly = TRUE)) {
       warning('Used BioMart to retrieve chromosome identity for all gene IDs.\n')
       
       # check parameters for biomaRt based on species
@@ -64,10 +65,10 @@ logXYratio <-
       }
       
       # check that dataset is present in BioMart ensembl
-      if (!ensemblDataset %in% listDatasets(useMart("ensembl"))$dataset)
+      if (!ensemblDataset %in% biomaRt::listDatasets(biomaRt::useMart("ensembl"))$dataset)
         stop(paste0("Species ", species, " not found in BioMart ensembl datasets. Please check name against species abbreviations in listDatasets(useMart('ensembl'))$dataset."))
       
-      ensembl <- useMart('ensembl', ensemblDataset)
+      ensembl <- biomaRt::useMart('ensembl', ensemblDataset)
       gene_ID_to_chrom_name <-
         biomaRt::getBM(
           attributes = c(gene_ID, "chromosome_name"), filters = gene_ID,

@@ -15,8 +15,9 @@
 #' @return a vector of gene symbols, of length equivalent to the length of genes.
 convert_gene_names <-
   function(genes, input_type, output_type, biotype=NULL, use_annotables=TRUE) {
-  if (require(annotables) & use_annotables) {
+  if (use_annotables && requireNamespace("annotables", quietly = TRUE)) {
     warning('Package "annotables" detected. Used data from annotables instead of BioMart.\n')
+    grch38 <- annotables::grch38
     grch38.tmp <- if (is.null(biotype)) {grch38} else {grch38[grch38[["biotype"]] %in% biotype,]}
     if (!(output_type %in% colnames(grch38.tmp))) stop("Specified 'output_type' is not available.")
     genes_out <- grch38.tmp[[output_type]][match(genes, grch38.tmp[[input_type]])] # get the gene names

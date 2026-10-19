@@ -11,6 +11,7 @@
 #' @param species_from character, the species of the input gene identifiers. Must be "mouse" or "human"; partial matches are accepted.
 #' @param species_to character, the species of the output gene identifiers. Must be "mouse" or "human"; partial matches are accepted.
 #' @param return_format character, the format of the output gene identifiers. Must be "orthologs_only" or "orig_and_ortholog"; partial matches are accepted.
+#' @importFrom utils read.delim
 #' @export
 #' @return a vector of gene symbols, of length similar to the input genes, minus any genes that do not have orthologs in `species_to`.
 convert_gene_symbols_species <-
@@ -44,8 +45,8 @@ convert_gene_symbols_species <-
         gene_to = character())
     
     # replace "mouse" with "mouse, laboratory" to match the species name in the dataset
-    species_from <- str_replace(species_from, "mouse", "mouse, laboratory")
-    species_to <- str_replace(species_to, "mouse", "mouse, laboratory")
+    species_from <- sub("mouse", "mouse, laboratory", species_from, fixed = TRUE)
+    species_to <- sub("mouse", "mouse, laboratory", species_to, fixed = TRUE)
     
     for (gene_from in genes) {
       class_key <-
